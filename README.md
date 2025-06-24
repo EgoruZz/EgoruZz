@@ -15,8 +15,6 @@
 ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white)
 
-![Visitors](https://visitor-badge.glitch.me/badge?page_id=EgoruZz.EgoruZz)
-
 ## 🛠️ Development
 
 - `flake8` для проверки стиля кода
