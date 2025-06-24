@@ -1,0 +1,15 @@
+name: Profile Visitor
+
+on:
+  schedule:
+    - cron: "0 * * * *" # Каждый час
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: anmol098/waka-readme-stats@master
+        with:
+          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
