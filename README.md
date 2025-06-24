@@ -42,4 +42,4 @@
 ### 🎨 3D Contributions
 [![3D Profile](https://github-profile-3d-contrib.vercel.app/api?username=EgoruZz&theme=dracula)](https://github.com/yoshi389111/github-profile-3d-contrib)
 
-![Metrics](./github-metrics.svg)
+![Metrics](https://metrics.lecoq.io/EgoruZz?template=classic)
