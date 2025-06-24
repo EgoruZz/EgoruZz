@@ -27,7 +27,7 @@
   <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&theme=radical" />
 </div>
 
-## 🎯 Мои цели на 2024
+## 🎯 Мои цели на 2025
 - [x] Выучить FastAPI
 - [ ] Освоить Kubernetes
 - [ ] Написать техническую статью
