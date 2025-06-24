@@ -1,0 +1,26 @@
+name: Weather Updater
+on:
+  schedule:
+    - cron: "0 * * * *" # Каждый час
+  workflow_dispatch:
+
+jobs:
+  weather:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get Weather
+        id: weather
+        run: |
+          WEATHER=$(curl -s "wttr.in/Moscow?format=%C+%t")
+          echo "weather_data=${WEATHER}" >> $GITHUB_OUTPUT
+      - name: Update README
+        run: |
+          sed -i "s/<!-- WEATHER_START -->.*<!-- WEATHER_END -->/<!-- WEATHER_START -->🌤️ ${{ steps.weather.outputs.weather_data }} in Moscow<!-- WEATHER_END -->/" README.md
+      - name: Commit changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add README.md
+          git commit -m "Update weather" || exit 0
+          git push

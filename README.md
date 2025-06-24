@@ -1,19 +1,16 @@
-<h1 align="center"> 
-  Привет, я EgoruZz! 👋
-  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30px"/>
-</h1>
+<div align="center">
+  
+# ✨ EgoruZz ✨
 
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=22D3F7&center=true&vCenter=true&width=435&lines=Backend+Developer;Open-Source+Enthusiast;Tech+Writer" alt="Typing SVG" />
-</p>
+### Python Backend Developer | Open-Source Contributor
+  
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=22D3F7&width=435&lines=Clean+Code+Enthusiast;FastAPI+%7C+Django+%7C+SQL;Always+Learning+New+Tech)](https://git.io/typing-svg)
 
-## 🛠 Мой стек технологий
+![Visitors](https://visitor-badge.glitch.me/badge?page_id=EgoruZz.EgoruZz)
+  
+</div>
 
-![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white)
-![Django](https://img.shields.io/badge/-Django-092E20?logo=django&logoColor=white)
-![FastAPI](https://img.shields.io/badge/-FastAPI-009688?logo=fastapi&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?logo=postgresql&logoColor=white)
-![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white)
+---
 
 ## 🛠️ Development
 
@@ -32,6 +29,17 @@
 - [ ] Освоить Kubernetes
 - [ ] Написать техническую статью
 
-## 🤝 Свяжись со мной
+### 🌤️ Current Weather
+<!-- WEATHER_START -->
+<!-- WEATHER_END -->
+
+
+### 📫 Connect with Me
 [![Telegram](https://img.shields.io/badge/-Telegram-26A5E4?logo=telegram&logoColor=white)](https://t.me/your_username)
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://linkedin.com/in/your_username)
+[![LeetCode](https://img.shields.io/badge/-LeetCode-FFA116?logo=leetcode&logoColor=black)](https://leetcode.com/your_username)
+
+### 🎨 3D Contributions
+[![3D Profile](https://github-profile-3d-contrib.vercel.app/api?username=EgoruZz&theme=dracula)](https://github.com/yoshi389111/github-profile-3d-contrib)
+
+![Metrics](https://raw.githubusercontent.com/EgoruZz/EgoruZz/main/github-metrics.svg)
