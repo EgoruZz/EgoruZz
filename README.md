@@ -8,8 +8,146 @@
 </p>
 
 ### ⏳ Время кодинга
-<!--START_SECTION:waka-->
-<!--END_SECTION:waka-->
+### ⏳ Время кодинга
+```json
+{
+  "id": "109ff36d-ad1d-43ce-ab44-f7f582fde30c",
+  "user_id": "45cbe68a-4887-4bb5-a12f-3908828b37ed",
+  "range": "last_7_days",
+  "start": "2025-06-17T21:00:00Z",
+  "end": "2025-06-24T20:59:59Z",
+  "timeout": 15,
+  "writes_only": false,
+  "timezone": "Europe/Moscow",
+  "holidays": 0,
+  "status": "ok",
+  "created_at": "2025-06-25T02:10:13Z",
+  "modified_at": "2025-06-25T02:10:14Z",
+  "human_readable_daily_average": "10 mins",
+  "projects": [
+    {
+      "total_seconds": 4407.24831,
+      "name": "repository",
+      "percent": 100.0,
+      "digital": "1:13",
+      "decimal": "1.22",
+      "text": "1 hr 13 mins",
+      "hours": 1,
+      "minutes": 13
+    }
+  ],
+  "human_readable_daily_average_including_other_language": "10 mins",
+  "is_up_to_date_pending_future": false,
+  "dependencies": [],
+  "percent_calculated": 100,
+  "human_readable_total": "1 hr 13 mins",
+  "is_up_to_date": true,
+  "days_including_holidays": 7,
+  "categories": [
+    {
+      "name": "Coding",
+      "total_seconds": 4407.24831,
+      "percent": 100.0,
+      "digital": "1:13",
+      "decimal": "1.22",
+      "text": "1 hr 13 mins",
+      "hours": 1,
+      "minutes": 13
+    }
+  ],
+  "total_seconds": 4407.24831,
+  "best_day": {
+    "date": "2025-06-24",
+    "total_seconds": 4407.24831,
+    "text": "1 hr 13 mins"
+  },
+  "editors": [
+    {
+      "total_seconds": 4407.24831,
+      "name": "VS Code",
+      "percent": 100.0,
+      "digital": "1:13",
+      "decimal": "1.22",
+      "text": "1 hr 13 mins",
+      "hours": 1,
+      "minutes": 13
+    }
+  ],
+  "is_stuck": false,
+  "human_readable_total_including_other_language": "1 hr 13 mins",
+  "languages": [
+    {
+      "name": "YAML",
+      "total_seconds": 2506.495519,
+      "percent": 56.87,
+      "digital": "0:41",
+      "decimal": "0.68",
+      "text": "41 mins",
+      "hours": 0,
+      "minutes": 41
+    },
+    {
+      "name": "Markdown",
+      "total_seconds": 1868.64301,
+      "percent": 42.4,
+      "digital": "0:31",
+      "decimal": "0.52",
+      "text": "31 mins",
+      "hours": 0,
+      "minutes": 31
+    },
+    {
+      "name": "Git Config",
+      "total_seconds": 32.109781,
+      "percent": 0.73,
+      "digital": "0:00",
+      "decimal": "0.00",
+      "text": "0 secs",
+      "hours": 0,
+      "minutes": 0
+    }
+  ],
+  "days_minus_holidays": 7,
+  "total_seconds_including_other_language": 4407.24831,
+  "daily_average": 630.0,
+  "is_already_updating": false,
+  "operating_systems": [
+    {
+      "total_seconds": 4407.24831,
+      "name": "Mac",
+      "percent": 100.0,
+      "digital": "1:13",
+      "decimal": "1.22",
+      "text": "1 hr 13 mins",
+      "hours": 1,
+      "minutes": 13
+    }
+  ],
+  "machines": [
+    {
+      "total_seconds": 4407.24831,
+      "name": "MacBook-Pro-Egor.local",
+      "machine_name_id": "08ea1c68-d927-41a9-98f1-bef2356f0e35",
+      "percent": 100.0,
+      "digital": "1:13",
+      "decimal": "1.22",
+      "text": "1 hr 13 mins",
+      "hours": 1,
+      "minutes": 13
+    }
+  ],
+  "daily_average_including_other_language": 630.0,
+  "is_cached": true,
+  "username": null,
+  "is_including_today": false,
+  "human_readable_range": "last week",
+  "is_coding_activity_visible": false,
+  "is_language_usage_visible": false,
+  "is_editor_usage_visible": false,
+  "is_category_usage_visible": false,
+  "is_os_usage_visible": false
+}
+```
 
 ## 🛠 Мой стек технологий
 
