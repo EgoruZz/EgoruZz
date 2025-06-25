@@ -9,34 +9,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: Install jq
         run: sudo apt-get install -y jq
-
-      - name: Fetch WakaTime stats
+      
+      - name: Fetch and format stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Скачиваем данные через API WakaTime
+          # Получаем данные
           curl -s "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY" > wakatime.json
           
-          # Парсим JSON и формируем Markdown
-          echo '### ⏳ Время кодинга' > stats.md
-          echo '```json' >> stats.md
-          cat wakatime.json | jq '.data' >> stats.md
+          # Формируем Markdown с иконками
+          echo '```text' > stats.md
+          echo '⏳ Статистика кодинга за неделю' >> stats.md
+          echo '┌───────────────────────┬──────────────┐' >> stats.md
+          echo '│ Общее время           │ '$(jq -r '.data.human_readable_total' wakatime.json)' │' >> stats.md
+          echo '├───────────────────────┼──────────────┤' >> stats.md
+          echo '│ Среднее в день        │ '$(jq -r '.data.human_readable_daily_average' wakatime.json)' │' >> stats.md
+          echo '├───────────────────────┼──────────────┤' >> stats.md
+          echo '│ Лучший день           │ '$(jq -r '.data.best_day.text + " (" + .data.best_day.date + ")"' wakatime.json)' │' >> stats.md
+          echo '└───────────────────────┴──────────────┘' >> stats.md
+          echo '' >> stats.md
+          
+          echo '🔧 Основные технологии:' >> stats.md
+          jq -r '.data.languages[] | select(.percent > 5) | "├─ \(.name): \(.text) (\(.percent|floor)%)"' wakatime.json >> stats.md
+          echo '' >> stats.md
+          
+          echo '🔄 Последнее обновление: '$(date +"%Y-%m-%d %H:%M")' (МСК)' >> stats.md
           echo '```' >> stats.md
           
-          # Вставляем в README
+          # Обновляем README
           sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
               /<!--START_SECTION:waka-->/r stats.md
               d
           }' README.md
           
-      - name: Commit and Push
-        run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git pull --rebase origin main  # Добавлено pull с rebase
+          git pull origin main
           git add README.md
-          git commit -m "Update WakaTime stats"
+          git commit -m "📊 Обновление статистики WakaTime"
           git push origin main
