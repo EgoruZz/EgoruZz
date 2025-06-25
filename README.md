@@ -3,9 +3,9 @@
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
 
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&color=22D3F7&center=true&vCenter=true&width=435&lines=Backend+Developer+%7C+Open-Source+Enthusiast+%7C+Tech+Writer&weight=600&size=26" alt="Static Typing SVG" style="animation: pulse 2s infinite;" />
-</p>
+<h2 align="center" style="color:#22D3F7; animation: pulse 2s infinite;">
+  Backend Developer | Open-Source Enthusiast | Tech Writer
+</h2>
 
 ---
 
@@ -68,8 +68,8 @@
 
 <style>
   @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.7; }
-    100% { opacity: 1; }
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
   }
 </style>
