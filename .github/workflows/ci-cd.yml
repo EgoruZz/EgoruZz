@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ main ]
   schedule:
-    - cron: '0 18 * * *'  # Ежедневное обновление в 18:00 UTC (21:00 МСК)
+    - cron: '0 19 * * *'  # Ежедневное обновление в 19:00 UTC (22:00 МСК)
 
 jobs:
   build:
@@ -35,3 +35,8 @@ jobs:
           # Принудительное обновление кэша статистики
           curl -s "https://github-readme-stats.vercel.app/api?username=EgoruZz&random=$RANDOM" > /dev/null
           curl -s "https://github-readme-stats.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&random=$RANDOM" > /dev/null
+
+      - name: Force Refresh
+        run: |
+          # Очистка кэша GitHub
+          curl -s "https://purge.jsdelivr.net/gh/EgoruZz/EgoruZz@main/README.md"

@@ -18,7 +18,7 @@ jobs:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
           # Получаем данные
-          curl -s "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY" > wakatime.json
+          curl -s "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$((RANDOM))" > wakatime.json
           
           # Формируем Markdown с иконками
           echo '```text' > stats.md
