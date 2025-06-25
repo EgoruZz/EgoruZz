@@ -7,6 +7,8 @@
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=22D3F7&center=true&vCenter=true&width=435&lines=Backend+Developer;Open-Source+Enthusiast;Tech+Writer" alt="Typing SVG" />
 </p>
 
+---
+
 ### ⏳ Статистика кодинга
 <!--START_SECTION:waka-->
 ```text
@@ -32,8 +34,11 @@
 ## 📊 GitHub Analytics
 
 <div align="center">
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=EgoruZz&show_icons=true&theme=radical&count_private=true&include_all_commits=true" />
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&theme=radical&hide=html,css&exclude_repo=README-STATS" />
+  <!-- Основная статистика -->
+  <img src="https://github-readme-stats.vercel.app/api?username=EgoruZz&show_icons=true&theme=radical&disable_animations=true&cache_seconds=0" alt="Статистика EgoruZz" height="180em" />
+  
+  <!-- Топ языков -->
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&theme=radical&hide=html,css&exclude_repo=README-STATS&disable_animations=true&cache_seconds=0" alt="Топ языков" height="180em" />
 </div>
 
 ---
