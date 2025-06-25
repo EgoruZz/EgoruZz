@@ -51,3 +51,6 @@ jobs:
           git add README.md
           git commit -m "📊 Обновление статистики WakaTime"
           git push origin main
+      
+      - name: Pull latest changes
+        run: git pull --rebase origin main
