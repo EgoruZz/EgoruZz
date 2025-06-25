@@ -3,9 +3,9 @@
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
 
-<h2 align="center" style="color:#22D3F7; animation: pulse 2s infinite;">
-  Backend Developer | Open-Source Enthusiast | Tech Writer
-</h2>
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&color=22D3F7&center=true&vCenter=true&width=435&lines=Backend+Developer+%E2%97%8F;Open-Source+Enthusiast+%E2%97%8F;Tech+Writer+%E2%97%8F&pause=500&repeat=true" alt="Blinking Cursor" />
+</p>
 
 ---
 
@@ -65,11 +65,3 @@
 [![Telegram](https://img.shields.io/badge/Telegram-@ваш_ник-26A5E4?logo=telegram)](https://t.me/your_username)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Ваше_Имя-0A66C2?logo=linkedin)](https://linkedin.com/in/your_username)
 [![Email](https://img.shields.io/badge/Email-ваш@email.com-EA4335?logo=gmail)](mailto:ваш@email.com)
-
-<style>
-  @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.9; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-</style>
