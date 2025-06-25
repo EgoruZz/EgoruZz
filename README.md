@@ -4,10 +4,7 @@
 </h1>
 
 <p align="center">
-  ▸ Backend Developer<br>
-  ▸ Open-Source Enthusiast<br>
-  ▸ Tech Writer<br>
-  <img src="https://github.com/EgoruZz/EgoruZz/raw/main/assets/typing.gif" width="40">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=12&duration=4000&color=22D3F7&center=true&vCenter=true&width=700&lines=Backend+Developer+%E2%80%A2+Open-Source+Enthusiast+%E2%80%A2+Tech+Writer&pause=100000000" alt="Typing Animation" />
 </p>
 
 ---
