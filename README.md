@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&color=22D3F7&center=true&vCenter=true&width=435&lines=Backend+Developer+%E2%97%8F;Open-Source+Enthusiast+%E2%97%8F;Tech+Writer+%E2%97%8F&pause=500&repeat=true" alt="Blinking Cursor" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&color=22D3F7&center=true&vCenter=true&width=435&lines=>>>+Backend+Developer+<<<;>>>+Open-Source+Enthusiast+<<<;>>>+Tech+Writer+<<<&pause=800&repeat=true" alt="Animated Text" />
 </p>
 
 ---
