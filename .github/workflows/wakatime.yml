@@ -1,7 +1,7 @@
 name: WakaTime Weekly Report
 on:
   schedule:
-    - cron: "0 18 * * 1"  # Каждый понедельник в 21:00 МСК
+    - cron: "0 0 * * 1"  # Каждый понедельник в 21:00 МСК
   workflow_dispatch:
 
 jobs:
@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Важно для полной истории git
       
       - name: Install dependencies
         run: |
@@ -19,15 +21,13 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Получаем данные за последнюю неделю (с понедельника по воскресенье)
+          # Получаем данные
           curl -s "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY" > wakatime.json
           
-          # Рассчитываем процент продуктивности
+          # Рассчитываем показатели
           total_seconds=$(jq -r '.data.total_seconds' wakatime.json)
           best_day_seconds=$(jq -r '.data.best_day.total_seconds' wakatime.json)
           productivity=$(echo "scale=1; $best_day_seconds / $total_seconds * 100" | bc)
-          
-          # Получаем даты начала и конца периода (для заголовка)
           start_date=$(date -d "last monday" +"%Y-%m-%d")
           end_date=$(date -d "last sunday" +"%Y-%m-%d")
           
@@ -60,9 +60,13 @@ jobs:
               d
           }' README.md
           
+          # Удаляем временные файлы
+          rm -f stats.md wakatime.json
+      
+      - name: Commit and push changes
+        run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git pull origin main
           git add README.md
-          git commit -m "📈 Weekly WakaTime Report Update"
-          git push origin main
+          git diff --quiet && git diff --staged --quiet || git commit -m "📈 Weekly WakaTime Report Update"
+          git push
