@@ -4,10 +4,8 @@
 </h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&duration=3000&color=22D3F7&center=true&vCenter=true&width=435&lines=Backend+Developer;Open-Source+Enthusiast;Tech+Writer&pause=999999&multiline=true" alt="Typing Animation" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&duration=3000&color=22D3F7&center=true&vCenter=true&width=700&lines=Backend+Developer;Open-Source+Enthusiast;Tech+Writer&finalPause=999999&multiline=true" alt="Typing Animation" />
 </p>
-
-
 
 ---
 
