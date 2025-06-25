@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&duration=4000&color=22D3F7&center=true&vCenter=true&width=700&lines=Frontend+Developer+%E2%80%A2+Open-Source+Enthusiast+%E2%80%A2+Tech+Writer&pause=100000000" alt="Typing Animation" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=25&duration=4000&color=22D3F7&center=true&vCenter=true&width=700&lines=Frontend+Developer+%E2%80%A2+Tech+Writer&pause=100000000" alt="Typing Animation" />
 </p>
 
 ### ⏳ Статистика кодинга
