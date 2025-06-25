@@ -1,0 +1,16 @@
+name: WakaTime Stats
+on:
+  schedule:
+    - cron: "0 0 * * *" # Ежедневно в полночь
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: anmol098/waka-readme-stats@master
+        with:
+          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
+          SHOW_OS: "false"
+          SHOW_PROJECTS: "true"

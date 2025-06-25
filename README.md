@@ -7,6 +7,10 @@
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=22D3F7&center=true&vCenter=true&width=435&lines=Backend+Developer;Open-Source+Enthusiast;Tech+Writer" alt="Typing SVG" />
 </p>
 
+### ⏳ Время кодинга
+<!--START_SECTION:waka-->
+<!--END_SECTION:waka-->
+
 ## 🛠 Мой стек технологий
 
 ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white)
