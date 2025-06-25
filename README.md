@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&color=22D3F7&center=true&vCenter=true&width=435&lines=✨+Backend+Developer+✨;✨+Open-Source+Enthusiast+✨;✨+Tech+Writer+✨&pause=1000&repeat=true" alt="Sparkle Text" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&color=22D3F7&center=true&vCenter=true&width=435&lines=++++++++Backend+Developer++++++++;++++++Open-Source+Enthusiast++++++;++++++++++Tech+Writer++++++++++&size=26&pause=1000&repeat=true" alt="Pulsing Text" />
 </p>
 
 ---
