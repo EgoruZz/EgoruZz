@@ -40,3 +40,11 @@ jobs:
         run: |
           # Очистка кэша GitHub
           curl -s "https://purge.jsdelivr.net/gh/EgoruZz/EgoruZz@main/README.md"
+      
+      - name: Sync repository
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git config --global pull.rebase true
+          git pull origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
