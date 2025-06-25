@@ -1,7 +1,7 @@
-name: WakaTime Stats
+name: WakaTime Weekly Report
 on:
   schedule:
-    - cron: "0 18 * * *"  # Ежедневно в 21:00 МСК
+    - cron: "0 18 * * 1"  # Каждый понедельник в 21:00 МСК
   workflow_dispatch:
 
 jobs:
@@ -10,33 +10,48 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Install jq
-        run: sudo apt-get install -y jq
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq bc
       
-      - name: Fetch and format stats
+      - name: Fetch weekly stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Получаем данные
-          curl -s "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$((RANDOM))" > wakatime.json
+          # Получаем данные за последнюю неделю (с понедельника по воскресенье)
+          curl -s "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY" > wakatime.json
           
-          # Формируем Markdown с иконками
+          # Рассчитываем процент продуктивности
+          total_seconds=$(jq -r '.data.total_seconds' wakatime.json)
+          best_day_seconds=$(jq -r '.data.best_day.total_seconds' wakatime.json)
+          productivity=$(echo "scale=1; $best_day_seconds / $total_seconds * 100" | bc)
+          
+          # Получаем даты начала и конца периода (для заголовка)
+          start_date=$(date -d "last monday" +"%Y-%m-%d")
+          end_date=$(date -d "last sunday" +"%Y-%m-%d")
+          
+          # Формируем Markdown
           echo '```text' > stats.md
-          echo '⏳ Статистика кодинга за неделю' >> stats.md
-          echo '┌───────────────────────┬──────────────┐' >> stats.md
-          echo '│ Общее время           │ '$(jq -r '.data.human_readable_total' wakatime.json)' │' >> stats.md
+          echo '⏳ WEEKLY REPORT ('$start_date' → '$end_date')' >> stats.md
+          echo '┌───────────────────────────────────────┐' >> stats.md
+          echo '│            📊 CODING ANALYTICS        │' >> stats.md
+          echo '├───────────────────────┬──────────────┤' >> stats.md
+          echo '│ Total Time            │ '$(jq -r '.data.human_readable_total' wakatime.json)' │' >> stats.md
           echo '├───────────────────────┼──────────────┤' >> stats.md
-          echo '│ Среднее в день        │ '$(jq -r '.data.human_readable_daily_average' wakatime.json)' │' >> stats.md
+          echo '│ Daily Avg             │ '$(jq -r '.data.human_readable_daily_average' wakatime.json)' │' >> stats.md
           echo '├───────────────────────┼──────────────┤' >> stats.md
-          echo '│ Лучший день           │ '$(jq -r '.data.best_day.text + " (" + .data.best_day.date + ")"' wakatime.json)' │' >> stats.md
+          echo '│ Best Day              │ '$(jq -r '.data.best_day.text + " (" + .data.best_day.date + ")"' wakatime.json)' │' >> stats.md
+          echo '├───────────────────────┼──────────────┤' >> stats.md
+          echo '│ Productivity Peak     │ '$productivity'% │' >> stats.md
           echo '└───────────────────────┴──────────────┘' >> stats.md
           echo '' >> stats.md
           
-          echo '🔧 Основные технологии:' >> stats.md
-          jq -r '.data.languages[] | select(.percent > 5) | "├─ \(.name): \(.text) (\(.percent|floor)%)"' wakatime.json >> stats.md
+          echo '🔝 TOP 5 TECHNOLOGIES' >> stats.md
+          jq -r '.data.languages[0:5] | .[] | "│ \(.name): \(.text) (\(.percent|floor)%)"' wakatime.json >> stats.md
           echo '' >> stats.md
           
-          echo '🔄 Последнее обновление: '$(date +"%Y-%m-%d %H:%M")' (МСК)' >> stats.md
+          echo '📅 Report generated: '$(date +"%Y-%m-%d %H:%M")' (MSK)' >> stats.md
           echo '```' >> stats.md
           
           # Обновляем README
@@ -49,11 +64,5 @@ jobs:
           git config --global user.email "actions@github.com"
           git pull origin main
           git add README.md
-          git commit -m "📊 Обновление статистики WakaTime"
+          git commit -m "📈 Weekly WakaTime Report Update"
           git push origin main
-      
-      - name: Sync with remote
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git pull origin main --rebase --autostash
