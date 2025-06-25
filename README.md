@@ -35,10 +35,10 @@
 
 <div align="center">
   <!-- Основная статистика -->
-  <img src="https://github-readme-stats.vercel.app/api?username=EgoruZz&show_icons=true&theme=highcontrast&disable_animations=true&cache_seconds=0" alt="Статистика EgoruZz" height="180em" />
+  <img src="https://github-readme-stats-git-masterrstaa-rickstaa.vercel.app/api?username=EgoruZz&show_icons=true&theme=highcontrast&disable_animations=true&cache_seconds=0" alt="Статистика EgoruZz" height="180em" />
   
   <!-- Топ языков -->
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&theme=highcontrast&exclude_repo=README-STATS&disable_animations=true&cache_seconds=0" alt="Топ языков" height="180em" />
+  <img src="https://github-readme-stats-git-masterrstaa-rickstaa.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&theme=highcontrast&exclude_repo=README-STATS&disable_animations=true&cache_seconds=0" alt="Топ языков" height="180em" />
 </div>
 
 ---
@@ -49,7 +49,7 @@
 - [ ] Написать техническую статью
 
 ---
-![Activity](https://github-readme-stats.vercel.app/api/wakatime?username=EgoruZz&layout=compact)
+![Activity](https://github-readme-stats-git-masterrstaa-rickstaa.vercel.app/api/wakatime?username=EgoruZz&layout=compact)
 
 ## 🤝 Свяжитесь со мной
 [![Telegram](https://img.shields.io/badge/Telegram-@ваш_ник-26A5E4?logo=telegram)](https://t.me/your_username)
