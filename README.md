@@ -1,10 +1,10 @@
 <h1 align="center"> 
   Привет, я EgoruZz!
-  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="40px"/>
+  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000000&color=22D3F7&center=true&vCenter=true&width=435&lines=Backend+Developer+%7C+Open-Source+%7C+Tech+Writer&weight=600&size=26&repeat=true" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=22D3F7&center=true&vCenter=true&width=435&lines=Backend+Developer++++++++++++;Open-Source+Enthusiast++++;Tech+Writer++++++++++++++&repeat=true" alt="Typing SVG" />
 </p>
 
 ---
