@@ -55,10 +55,14 @@
 
   <!-- Streak stats с альтернативным сервисом -->
   <img
-    src="https://github-readme-activity-graph.vercel.app/graph?username=EgoruZz&theme=react-dark&hide_border=true&bg_color=ffffff&color=000000&title_color=0066ff&line=00aaff&point=000000&area=true&area_color=00aaff&days=7&height=500&size=50"
+    src="https://github-readme-activity-graph.vercel.app/graph?username=EgoruZz&theme=react-dark&hide_border=true&bg_color=ffffff&color=000000&title_color=0066ff&line=00aaff&point=000000&area=true&area_color=00aaff&days=7&height=500"
     height="180em"
     alt="GitHub Activity Graph"
   />
+</div>
+
+<div style="transform: scale(1.2);">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=EgoruZz&theme=react-dark&hide_border=true&bg_color=ffffff&color=000000&title_color=0066ff&line=00aaff&point=000000&area=true&area_color=00aaff&days=7&height=500" alt="Graph" />
 </div>
 
 ---
