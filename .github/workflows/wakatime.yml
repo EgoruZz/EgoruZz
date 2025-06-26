@@ -1,7 +1,8 @@
-name: WakaTime Weekly Report
+name: WakaTime Sync
 on:
   schedule:
-    - cron: "0 0 * * 1"  # Каждый понедельник в 21:00 МСК
+    - cron: "0 0 * * 1"  # Основной сброс в 00:00 UTC (03:00 МСК) каждый понедельник
+    - cron: "0 */3 * * *"  # Дополнительные обновления каждые 3 часа
   workflow_dispatch:
 
 jobs:
@@ -10,19 +11,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Важно для полной истории git
+          fetch-depth: 0
       
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y jq bc
       
-      - name: Fetch weekly stats
+      - name: Fetch and process stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
+          # Определяем тип запроса (полный или кешированный)
+          if [ "$(date +%u)" -eq 1 ] && [ "$(date +%H)" -eq 0 ]; then
+            CACHE_BUSTER=$(date +%Y%m%d)
+            REPORT_TYPE="WEEKLY REPORT"
+          else
+            CACHE_BUSTER="cache"
+            REPORT_TYPE="AUTO UPDATE"
+          fi
+
           # Получаем данные
-          curl -s "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY" > wakatime.json
+          curl -s "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER" > wakatime.json
           
           # Рассчитываем показатели
           total_seconds=$(jq -r '.data.total_seconds' wakatime.json)
@@ -33,7 +43,7 @@ jobs:
           
           # Формируем Markdown
           echo '```text' > stats.md
-          echo '⏳ WEEKLY REPORT ('$start_date' → '$end_date')' >> stats.md
+          echo "⏳ $REPORT_TYPE ($start_date → $end_date)" >> stats.md
           echo '┌───────────────────────────────────────┐' >> stats.md
           echo '│            📊 CODING ANALYTICS        │' >> stats.md
           echo '├───────────────────────┬──────────────┤' >> stats.md
@@ -51,7 +61,7 @@ jobs:
           jq -r '.data.languages[0:5] | .[] | "│ \(.name): \(.text) (\(.percent|floor)%)"' wakatime.json >> stats.md
           echo '' >> stats.md
           
-          echo '📅 Report generated: '$(date +"%Y-%m-%d %H:%M")' (MSK)' >> stats.md
+          echo '🔄 Last sync: '$(date +"%Y-%m-%d %H:%M")' (MSK)' >> stats.md
           echo '```' >> stats.md
           
           # Обновляем README
@@ -60,7 +70,6 @@ jobs:
               d
           }' README.md
           
-          # Удаляем временные файлы
           rm -f stats.md wakatime.json
       
       - name: Commit and push changes
@@ -68,5 +77,12 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add README.md
-          git diff --quiet && git diff --staged --quiet || git commit -m "📈 Weekly WakaTime Report Update"
+          
+          # Разные сообщения коммита для разных типов обновлений
+          if [ "$(date +%u)" -eq 1 ] && [ "$(date +%H)" -eq 0 ]; then
+            git commit -m "🔄 Weekly stats reset ($(date +'%Y-%m-%d'))"
+          else
+            git commit -m "📈 Stats auto-update ($(date +'%H:%M'))" || echo "No changes to commit"
+          fi
+          
           git push

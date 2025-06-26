@@ -4,25 +4,12 @@
 </h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&duration=4000&color=62E200&center=true&vCenter=true&width=700&lines=Frontend+Developer+%E2%80%A2+Tech+Writer&pause=100000000" alt="Typing Animation" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&duration=4000&color=62E200&center=true&vCenter=true&width=700&lines=Frontend+Developer+%E2%80%A2+Tech+Writer&pause=0" alt="Typing Animation" />
 </p>
 
 ### ⏳ Статистика кодинга
 ```text
-⏳ Статистика кодинга за неделю
-┌───────────────────────┬──────────────┐
-│ Общее время           │ 1 hr 13 mins │
-├───────────────────────┼──────────────┤
-│ Среднее в день        │ 10 mins │
-├───────────────────────┼──────────────┤
-│ Лучший день           │ 1 hr 13 mins (2025-06-24) │
-└───────────────────────┴──────────────┘
-
-🔧 Основные технологии:
-├─ YAML: 41 mins (56%)
-├─ Markdown: 31 mins (42%)
-
-🔄 Последнее обновление: 2025-06-25 18:35 (МСК)
+⏳ Ожидание статистики
 ```
 
 ---
@@ -43,11 +30,11 @@
 ## 📊 GitHub Analytics
 
 <div align="center">
-  <!-- Основная статистика -->
-  <img src="https://github-readme-stats.vercel.app/api?username=EgoruZz&random=$RANDOM&show_icons=true&theme=highcontrast&disable_animations=true&cache_seconds=0" alt="Статистика EgoruZz" height="180em" />
+  <!-- Основная статистика с принудительным обновлением -->
+  <img src="https://github-readme-stats.vercel.app/api?username=EgoruZz&show_icons=true&theme=highcontrast&disable_animations=true&include_all_commits=true&count_private=true&force_update=true&random=$(date +%s)" alt="Статистика" height="180em" />
   
-  <!-- Топ языков -->
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=EgoruZz&random=$RANDOM&layout=compact&theme=highcontrast&exclude_repo=README-STATS&disable_animations=true&cache_seconds=0" alt="Топ языков" height="180em" />
+  <!-- Топ языков с актуальными данными -->
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&theme=highcontrast&hide=html,css&exclude_repo=README-STATS&force_update=true&random=$(date +%s)" alt="Топ языков" height="180em" />
 </div>
 
 ---
