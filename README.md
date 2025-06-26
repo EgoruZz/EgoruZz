@@ -33,10 +33,6 @@
 <div align="center">
   <!-- Основная статистика с улучшенной обработкой ошибок -->
   <picture>
-    <source 
-      srcset="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&theme=highcontrast&count_private=true&disable_animations=true&include_all_commits=false" 
-      media="(prefers-color-scheme: dark)"
-    />
     <source
       srcset="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true&include_all_commits=false"
       media="(prefers-color-scheme: light)"
@@ -45,21 +41,21 @@
       src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" 
       height="180em"
       alt="GitHub Stats"
-      onerror="this.onerror=null;this.src='https://github-profile-summary-cards.vercel.app/api/cards/stats?username=EgoruZz&theme=github_dark'"
+      onerror="this.onerror=null;this.src='https://github-profile-summary-cards.vercel.app/api/cards/stats?username=EgoruZz&theme=github'"
     />
   </picture>
 
   <!-- Топ языков с улучшенной фильтрацией -->
   <img
-    src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&theme=highcontrast&hide=html,css,scss,jupyter%20notebook,shell,dockerfile&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true"
+    src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true"
     height="180em"
     alt="Top Languages"
-    onerror="this.onerror=null;this.src='https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=EgoruZz&theme=github_dark&hide=html,css,scss'"
+    onerror="this.onerror=null;this.src='https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=EgoruZz&theme=github'"
   />
 
   <!-- Streak stats с альтернативным сервисом -->
   <img
-    src="https://streak-stats.demolab.com?user=EgoruZz&theme=highcontrast&background=0D1117&hide_border=true&mode=weekly&card_width=400"
+    src="https://github-readme-activity-graph.vercel.app/graph?username=EgoruZz&theme=github&hide_border=true&area=true"
     height="180em"
     alt="GitHub Streak"
     onerror="this.onerror=null;this.src='https://github-readme-activity-graph.vercel.app/graph?username=EgoruZz&theme=github&hide_border=true&area=true'"
