@@ -55,10 +55,9 @@
 
   <!-- Streak stats с альтернативным сервисом -->
   <img
-    src="https://github-readme-activity-graph.vercel.app/graph?username=EgoruZz&theme=github&hide_border=true&area=true"
+    src="https://github-readme-activity-graph.vercel.app/graph?username=EgoruZz&theme=github&hide_border=true&area=true&range=7d&random=$(date +%s)"
     height="180em"
-    alt="GitHub Streak"
-    onerror="this.onerror=null;this.src='https://github-readme-activity-graph.vercel.app/graph?username=EgoruZz&theme=github&hide_border=true&area=true'"
+    alt="GitHub Activity Graph"
   />
 </div>
 
