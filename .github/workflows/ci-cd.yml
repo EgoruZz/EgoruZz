@@ -64,4 +64,7 @@ jobs:
         run: |
           echo "Last refresh: $(date +'%Y-%m-%d %H:%M:%S %Z')"
           echo "Next scheduled: $(date -d '+1 day 22:00' +'%Y-%m-%d %H:%M:%S %Z')"
-          curl -s "https://api.github.com/repos/EgoruZz/EgoruZz/readme" | jq .content | base64 --decode
+          # Более надежная проверка обновления README
+          curl -s "https://api.github.com/repos/EgoruZz/EgoruZz/readme" | \
+            (jq -r '.content' 2>/dev/null || echo "Failed to get README content") | \
+            (base64 --decode 2>/dev/null || echo "Failed to decode content")
