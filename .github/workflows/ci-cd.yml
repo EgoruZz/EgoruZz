@@ -53,12 +53,19 @@ jobs:
 
       - name: Force Readme Update
         run: |
-          # Trigger fake update
+          # Устанавливаем настройки git
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          
+          # Получаем последние изменения с удалённого репозитория
+          git pull origin main --rebase
+          
+          # Создаём пустой коммит (если нужно)
           git add README.md || true
           git commit --allow-empty -m "♻️ Force stats refresh [skip ci]" || true
-          git push origin main
+          
+          # Принудительно отправляем изменения (используем force, так как это только обновление статистики)
+          git push origin main --force
 
       - name: Verify Updates
         run: |
