@@ -30,11 +30,34 @@
 ## 📊 GitHub Analytics
 
 <div align="center">
-  <!-- Основная статистика с принудительным обновлением -->
-  <img src="https://github-readme-stats.vercel.app/api?username=EgoruZz&show_icons=true&theme=highcontrast&disable_animations=true&include_all_commits=true&count_private=true&force_update=true&random=$(date +%s)" alt="Статистика" height="180em" />
-  
-  <!-- Топ языков с актуальными данными -->
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&theme=highcontrast&hide=html,css&exclude_repo=README-STATS&force_update=true&random=$(date +%s)" alt="Топ языков" height="180em" />
+  <!-- Основная статистика с резервными вариантами -->
+  <picture>
+    <source
+      srcset="https://github-readme-stats.vercel.app/api?username=EgoruZz&show_icons=true&theme=highcontrast&random=$(date +%s)"
+      media="(prefers-color-scheme: dark)"
+    />
+    <source
+      srcset="https://github-readme-stats.vercel.app/api?username=EgoruZz&show_icons=true&random=$(date +%s)"
+      media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+    />
+    <img src="https://github-readme-stats.vercel.app/api?username=EgoruZz&show_icons=true&random=$(date +%s)" alt="GitHub Stats" height="180em" />
+  </picture>
+
+  <!-- Топ языков с fallback -->
+  <img 
+    src="https://github-readme-stats.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&theme=highcontrast&hide=html,css&random=$(date +%s)" 
+    onerror="this.onerror=null;this.src='https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=EgoruZz&theme=github_dark&random=$(date +%s)';" 
+    height="180em" 
+    alt="Top Languages"
+  />
+
+  <!-- Streak stats -->
+  <img
+    src="https://streak-stats.demolab.com?user=EgoruZz&theme=highcontrast&random=$(date +%s)"
+    onerror="this.onerror=null;this.src='https://github-readme-activity-graph.vercel.app/graph?username=EgoruZz&theme=github';"
+    height="180em"
+    alt="GitHub Streak"
+  />
 </div>
 
 ---
