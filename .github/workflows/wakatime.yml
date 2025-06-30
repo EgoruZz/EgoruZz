@@ -37,7 +37,7 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Улучшенная функция для графиков
+          # Функция для генерации графиков (исправленная версия)
           generate_progress_bar() {
             local value=${1:-0}
             local max=${2:-100}
@@ -51,19 +51,19 @@ jobs:
           }
 
           # Определение типа отчета
-          if [[ "${{ github.event_name }}" == "schedule" && "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
+          if [[ "${{ github.event_name }}" == "schedule" ]] && [[ "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
              [[ "${{ inputs.force-refresh }}" == "true" ]]; then
             CACHE_BUSTER=$(date +%s)
             REPORT_TYPE="🚀 WEEKLY RESET"
-            HEADER_STYLE=$(toilet -f future --filter border:metal "DEV STATS" 2>/dev/null || 
+            HEADER_STYLE=$( (toilet -f future --filter border:metal "DEV STATS" 2>/dev/null || 
                           figlet -f slant "CODE PULSE" | lolcat 2>/dev/null ||
-                          echo "WEEKLY CODING REPORT")
+                          echo "WEEKLY CODING REPORT") )
             DATE_RANGE="$(date -d 'last monday' +'%Y-%m-%d') → $(date -d 'last sunday' +'%Y-%m-%d')"
             echo "::notice::Full refresh mode activated"
           else
             CACHE_BUSTER="cache"
             REPORT_TYPE="📈 AUTO UPDATE"
-            HEADER_STYLE=$(figlet -f mini "Live Stats" | lolcat 2>/dev/null || echo "CODING STATS")
+            HEADER_STYLE=$( (figlet -f mini "Live Stats" | lolcat 2>/dev/null || echo "CODING STATS") )
             DATE_RANGE="$(date -d '7 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')"
           fi
 
@@ -102,7 +102,7 @@ jobs:
             
             # Формирование отчета
             echo '```text' > stats.md
-            echo "$HEADER_STYLE" | boxes -d parchment 2>/dev/null >> stats.md || echo "$HEADER_STYLE" >> stats.md
+            echo "$HEADER_STYLE" | (boxes -d parchment 2>/dev/null || cat) >> stats.md
             echo "⏳ $REPORT_TYPE » $DATE_RANGE" >> stats.md
             echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
             echo "" >> stats.md
@@ -141,8 +141,9 @@ jobs:
             
             # Интересные факты
             echo "💡 DEV TIP" >> stats.md
-            fortune -s computers programming science education | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n 1) | lolcat 2>/dev/null >> stats.md || 
-            echo "Today is $(date +'%A'). Keep coding and learning!" >> stats.md
+            (fortune -s computers programming science education 2>/dev/null || echo "Keep coding!") | 
+            (cowsay -f $(ls /usr/share/cowsay/cows/ 2>/dev/null | shuf -n 1) 2>/dev/null || cat) | 
+            (lolcat 2>/dev/null || cat) >> stats.md
             echo '```' >> stats.md
           fi
 
@@ -188,7 +189,7 @@ jobs:
           git config --global user.email "actions@github.com"
           git add README.md
           
-          if [[ "${{ github.event_name }}" == "schedule" && "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
+          if [[ "${{ github.event_name }}" == "schedule" ]] && [[ "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
              [[ "${{ inputs.force-refresh }}" == "true" ]]; then
             git commit -m "🚀 Weekly stats reset [$(date +'%Y-%m-%d')]" \
                        -m "Fresh week start | Cache buster: $(date +%s)"
