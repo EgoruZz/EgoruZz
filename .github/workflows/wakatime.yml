@@ -33,7 +33,7 @@ jobs:
           command -v lolcat >/dev/null 2>&1 || sudo gem install lolcat || echo "Lolcat not available"
 
       - name: Fetch and process stats
-        id: stats
+        id: process-stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
@@ -152,40 +152,32 @@ jobs:
               d
           }' README.md
           
-          # Генерация carbon-изображения
-          if command -v carbon-now &>/dev/null; then
-            carbon-now <(grep -v '```' stats.md) -t one-dark -l /tmp/carbon.png
-            echo "CARBON_IMAGE=$(base64 -w0 /tmp/carbon.png)" >> $GITHUB_ENV
-          fi
-          
-          rm -f stats.md wakatime.json /tmp/carbon.png
+          # После успешной генерации stats.md
           echo "stats-generated=true" >> $GITHUB_OUTPUT
 
-      - name: Generate Carbon Image
-        id: carbon
-        if: steps.stats.outputs.stats-generated == 'true'
-        run: |
+          # Генерация carbon-изображения
           if command -v carbon-now &>/dev/null && [ -f stats.md ]; then
             echo "Generating Carbon image..."
             grep -v '```' stats.md > /tmp/stats_for_carbon.md
             carbon-now /tmp/stats_for_carbon.md -t one-dark -l /tmp/carbon.png -h
-            
-            # Используем outputs вместо env
-            echo "image-generated=true" >> $GITHUB_OUTPUT
-            base64 /tmp/carbon.png > /tmp/carbon.txt
+            echo "carbon-image-generated=true" >> $GITHUB_OUTPUT
           else
-            echo "Carbon image generation skipped"
-            echo "image-generated=false" >> $GITHUB_OUTPUT
+            echo "carbon-image-generated=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Upload Artifact
-        if: steps.carbon.outputs.image-generated == 'true'
-        uses: actions/upload-artifact@v3
+          # Очистка временных файлов
+          rm -f stats.md wakatime.json /tmp/stats_for_carbon.md
+
+      - name: Upload Carbon Image Artifact
+        if: steps.process-stats.outputs.carbon-image-generated == 'true'
+        uses: actions/upload-artifact@v4
         with:
           name: wakatime-stats
           path: /tmp/carbon.png
+          retention-days: 7  # Хранить артефакт 7 дней
 
       - name: Commit and push changes
+        if: steps.process-stats.outputs.stats-generated == 'true'
         run: |
           if git diff --quiet --exit-code README.md; then
             echo "::notice::No changes detected in README.md"
