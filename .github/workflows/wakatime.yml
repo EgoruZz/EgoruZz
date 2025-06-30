@@ -104,10 +104,11 @@ jobs:
           
           # Top technologies with colors
           echo "🌈 TOP 5 TECHNOLOGIES" >> stats.md
-          jq -r '.data.languages[0:5] | .[]? | "▌ \(.name): \(.text) \((.percent|floor)*100/100)%\n  \((generate_progress_bar (.percent|floor) 100 20))"' wakatime.json | 
+          jq -r '.data.languages[0:5] | .[]? | "\(.name): \(.text) (\((.percent|floor)*100/100)%)"' wakatime.json | 
           while IFS= read -r line; do
+            progress=$(jq -r --arg name "${line%%:*}" '.data.languages[] | select(.name == $name) | .percent | floor' wakatime.json)
             color=$(( 160 + (RANDOM % 40) ))
-            printf "\033[38;5;%sm%s\033[0m\n" "$color" "$line"
+            printf "\033[38;5;%sm▌ %s\n  %s\033[0m\n" "$color" "$line" "$(generate_progress_bar $progress 100 20)"
           done >> stats.md
           echo "" >> stats.md
           
@@ -116,7 +117,10 @@ jobs:
           echo "┌───────┬────────────────┬──────────────────────┐" >> stats.md
           echo "│ Day   │ Coding Time    │ Activity Progress    │" >> stats.md
           echo "├───────┼────────────────┼──────────────────────┤" >> stats.md
-          jq -r '.data.days | to_entries? | .[]? | "│ \(.key[:3])   │ \(.value.text) │ \(generate_progress_bar (.value.percent|floor) 100 20) │"' wakatime.json >> stats.md
+          jq -r '.data.days | to_entries? | .[]? | "\(.key[:3])|\(.value.text)|\(.value.percent|floor)"' wakatime.json | 
+          while IFS='|' read -r day text percent; do
+            printf "│ %-5s │ %-14s │ %-20s │\n" "$day" "$text" "$(generate_progress_bar $percent 100 20)"
+          done >> stats.md
           echo "└───────┴────────────────┴──────────────────────┘" >> stats.md
           echo "" >> stats.md
           
