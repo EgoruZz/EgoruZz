@@ -123,12 +123,10 @@ jobs:
             echo "╚══════════════════════╩═══════════════════════╝" >> stats.md
             echo "" >> stats.md
             
-            # Топ технологии с цветами
             echo "🌈 TOP 5 TECHNOLOGIES" >> stats.md
             jq -r '.data.languages[0:5] | .[]? | "▌ \(.name): \(.text) \((.percent|floor)*100/100)%\n  \((generate_progress_bar (.percent|floor) 100 20))"' wakatime.json | 
             awk '{print "\033[38;5;" (NR+160) "m" $0 "\033[0m"}' | 
             ansi2txt >> stats.md
-            echo "" >> stats.md
             
             # Еженедельная активность
             echo "📅 WEEKLY ACTIVITY" >> stats.md
