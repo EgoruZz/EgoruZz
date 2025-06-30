@@ -28,6 +28,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq bc figlet toilet boxes
           sudo npm install -g carbon-now-cli || echo "Carbon-now-cli installation failed"
+          # Install Playwright browsers
+          npx playwright install chromium
           command -v cowsay >/dev/null 2>&1 || sudo apt-get install -y cowsay
           command -v fortune >/dev/null 2>&1 || sudo apt-get install -y fortune-mod
           command -v lolcat >/dev/null 2>&1 || sudo gem install lolcat || echo "Lolcat not available"
@@ -140,18 +142,21 @@ jobs:
           # Set outputs
           echo "stats-generated=true" >> $GITHUB_OUTPUT
 
-          # Generate carbon image
+          # Cleanup
+          rm -f stats.md wakatime.json /tmp/stats_for_carbon.md
+      
+      - name: Generate Carbon image
+        if: steps.process-stats.outputs.stats-generated == 'true'
+        run: |
           if command -v carbon-now &>/dev/null && [ -f stats.md ]; then
             echo "Generating Carbon image..."
             grep -v '```' stats.md > /tmp/stats_for_carbon.md
-            carbon-now /tmp/stats_for_carbon.md -t one-dark -l /tmp/carbon.png -h
+            # Use --headless flag and disable browser opening
+            carbon-now /tmp/stats_for_carbon.md -t one-dark -l /tmp/carbon.png -h --headless
             echo "carbon-image-generated=true" >> $GITHUB_OUTPUT
           else
             echo "carbon-image-generated=false" >> $GITHUB_OUTPUT
           fi
-
-          # Cleanup
-          rm -f stats.md wakatime.json /tmp/stats_for_carbon.md
 
       - name: Upload Carbon Image Artifact
         if: steps.process-stats.outputs.carbon-image-generated == 'true'
