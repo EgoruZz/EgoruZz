@@ -1,9 +1,18 @@
 name: WakaTime Sync
+concurrency:
+  group: wakatime-sync-${{ github.ref }}
+  cancel-in-progress: false
+
 on:
   schedule:
-    - cron: "0 0 * * 1"  # Основной сброс в 00:00 UTC (03:00 МСК) каждый понедельник
-    - cron: "0 */3 * * *"  # Дополнительные обновления каждые 3 часа
+    - cron: "10 0 * * 1"  # Понедельник в 00:10 UTC (03:10 МСК)
+    - cron: "0 */3 * * *" # Каждые 3 часа в :00
   workflow_dispatch:
+    inputs:
+      force-refresh:
+        description: 'Force full refresh (ignore cache)'
+        required: false
+        default: 'false'
 
 jobs:
   update-stats:
@@ -12,77 +21,189 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
-      - name: Install dependencies
+          persist-credentials: false
+
+      - name: Setup environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq bc
-      
+          sudo apt-get install -y jq bc figlet toilet boxes
+          sudo npm install -g carbon-now-cli || echo "Carbon-now-cli installation failed"
+          command -v cowsay >/dev/null 2>&1 || sudo apt-get install -y cowsay
+          command -v fortune >/dev/null 2>&1 || sudo apt-get install -y fortune-mod
+          command -v lolcat >/dev/null 2>&1 || sudo gem install lolcat || echo "Lolcat not available"
+
       - name: Fetch and process stats
+        id: stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Определяем тип запроса (полный или кешированный)
-          if [ "$(date +%u)" -eq 1 ] && [ "$(date +%H)" -eq 0 ]; then
-            CACHE_BUSTER=$(date +%Y%m%d)
-            REPORT_TYPE="WEEKLY REPORT"
+          # Улучшенная функция для графиков
+          generate_progress_bar() {
+            local value=${1:-0}
+            local max=${2:-100}
+            local size=${3:-20}
+            local percentage=$(( value * 100 / max ))
+            local progress=$(( percentage * size / 100 ))
+            local remainder=$(( size - progress ))
+            printf -v bar "%${progress}s" ""
+            printf -v remainder "%${remainder}s" ""
+            echo "${bar// /▇}${remainder// /░} ${percentage}%"
+          }
+
+          # Определение типа отчета
+          if [[ "${{ github.event_name }}" == "schedule" && "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
+             [[ "${{ inputs.force-refresh }}" == "true" ]]; then
+            CACHE_BUSTER=$(date +%s)
+            REPORT_TYPE="🚀 WEEKLY RESET"
+            HEADER_STYLE=$(toilet -f future --filter border:metal "DEV STATS" 2>/dev/null || 
+                          figlet -f slant "CODE PULSE" | lolcat 2>/dev/null ||
+                          echo "WEEKLY CODING REPORT")
+            DATE_RANGE="$(date -d 'last monday' +'%Y-%m-%d') → $(date -d 'last sunday' +'%Y-%m-%d')"
+            echo "::notice::Full refresh mode activated"
           else
             CACHE_BUSTER="cache"
-            REPORT_TYPE="AUTO UPDATE"
+            REPORT_TYPE="📈 AUTO UPDATE"
+            HEADER_STYLE=$(figlet -f mini "Live Stats" | lolcat 2>/dev/null || echo "CODING STATS")
+            DATE_RANGE="$(date -d '7 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')"
           fi
 
-          # Получаем данные
-          curl -s "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER" > wakatime.json
-          
-          # Рассчитываем показатели
-          total_seconds=$(jq -r '.data.total_seconds' wakatime.json)
-          best_day_seconds=$(jq -r '.data.best_day.total_seconds' wakatime.json)
-          productivity=$(echo "scale=1; $best_day_seconds / $total_seconds * 100" | bc)
-          start_date=$(date -d "last monday" +"%Y-%m-%d")
-          end_date=$(date -d "last sunday" +"%Y-%m-%d")
-          
-          # Формируем Markdown
-          echo '```text' > stats.md
-          echo "⏳ $REPORT_TYPE ($start_date → $end_date)" >> stats.md
-          echo '┌───────────────────────────────────────┐' >> stats.md
-          echo '│            📊 CODING ANALYTICS        │' >> stats.md
-          echo '├───────────────────────┬──────────────┤' >> stats.md
-          echo '│ Total Time            │ '$(jq -r '.data.human_readable_total' wakatime.json)' │' >> stats.md
-          echo '├───────────────────────┼──────────────┤' >> stats.md
-          echo '│ Daily Avg             │ '$(jq -r '.data.human_readable_daily_average' wakatime.json)' │' >> stats.md
-          echo '├───────────────────────┼──────────────┤' >> stats.md
-          echo '│ Best Day              │ '$(jq -r '.data.best_day.text + " (" + .data.best_day.date + ")"' wakatime.json)' │' >> stats.md
-          echo '├───────────────────────┼──────────────┤' >> stats.md
-          echo '│ Productivity Peak     │ '$productivity'% │' >> stats.md
-          echo '└───────────────────────┴──────────────┘' >> stats.md
-          echo '' >> stats.md
-          
-          echo '🔝 TOP 5 TECHNOLOGIES' >> stats.md
-          jq -r '.data.languages[0:5] | .[] | "│ \(.name): \(.text) (\(.percent|floor)%)"' wakatime.json >> stats.md
-          echo '' >> stats.md
-          
-          echo '🔄 Last sync: '$(date +"%Y-%m-%d %H:%M")' (MSK)' >> stats.md
-          echo '```' >> stats.md
-          
-          # Обновляем README
+          # Получение данных с улучшенной обработкой ошибок
+          API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER"
+          echo "::group::Fetching WakaTime data"
+          curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
+          HTTP_CODE=$(curl -s -o /dev/null -w '%{http_code}' "$API_URL")
+          echo "HTTP Status: $HTTP_CODE"
+          echo "::endgroup::"
+
+          # Проверка данных
+          if ! jq -e '.data' wakatime.json >/dev/null 2>&1; then
+            echo "::error::Invalid WakaTime API response"
+            ERROR_MSG=$(jq -r '.message // empty' wakatime.json 2>/dev/null || echo "Unknown error")
+            
+            echo '```text' > stats.md
+            echo "╔════════════════════════════════╗" >> stats.md
+            echo "║        ⚠️ API ERROR           ║" >> stats.md
+            echo "╠════════════════════════════════╣" >> stats.md
+            echo "║ $REPORT_TYPE » $DATE_RANGE    ║" >> stats.md
+            echo "║                                ║" >> stats.md
+            echo "║ HTTP: $HTTP_CODE               ║" >> stats.md
+            echo "║ Error: $ERROR_MSG              ║" >> stats.md
+            echo "║                                ║" >> stats.md
+            echo "║ Last sync attempt:             ║" >> stats.md
+            echo "║ $(date +'%Y-%m-%d %H:%M MSK') ║" >> stats.md
+            echo "╚════════════════════════════════╝" >> stats.md
+            echo '```' >> stats.md
+          else
+            # Обработка данных
+            total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
+            best_day_seconds=$(jq -r '.data.best_day.total_seconds // 0' wakatime.json)
+            productivity=$(echo "scale=1; $best_day_seconds * 100 / ($total_seconds + 1)" | bc)
+            week_days=$(jq -r '.data.days | length' wakatime.json)
+            
+            # Формирование отчета
+            echo '```text' > stats.md
+            echo "$HEADER_STYLE" | boxes -d parchment 2>/dev/null >> stats.md || echo "$HEADER_STYLE" >> stats.md
+            echo "⏳ $REPORT_TYPE » $DATE_RANGE" >> stats.md
+            echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
+            echo "" >> stats.md
+            
+            # Основная статистика
+            echo "╔══════════════════════════════════════════════╗" >> stats.md
+            echo "║            📊 CODING ANALYTICS              ║" >> stats.md
+            echo "╠══════════════════════╦═══════════════════════╣" >> stats.md
+            printf "║ Total Time          ║ %21s ║\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" >> stats.md
+            echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
+            printf "║ Daily Avg           ║ %21s ║\n" "$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)" >> stats.md
+            echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
+            printf "║ Best Day            ║ %21s ║\n" "$(jq -r '(.data.best_day.text // "0 secs") + " (" + (.data.best_day.date // "N/A") + ")"" wakatime.json)" >> stats.md
+            echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
+            printf "║ Productivity        ║ %21s ║\n" "$(generate_progress_bar ${productivity%.*} 100 20)" >> stats.md
+            echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
+            printf "║ Active Days         ║ %21s ║\n" "$week_days/7 days" >> stats.md
+            echo "╚══════════════════════╩═══════════════════════╝" >> stats.md
+            echo "" >> stats.md
+            
+            # Топ технологии с цветами
+            echo "🌈 TOP 5 TECHNOLOGIES" >> stats.md
+            jq -r '.data.languages[0:5] | .[]? | "▌ \(.name): \(.text) \((.percent|floor)*100/100)%\n  \((generate_progress_bar (.percent|floor) 100 20))"' wakatime.json | 
+            awk '{print "\033[38;5;" (NR+160) "m" $0 "\033[0m"}' | 
+            ansi2txt >> stats.md
+            echo "" >> stats.md
+            
+            # Еженедельная активность
+            echo "📅 WEEKLY ACTIVITY" >> stats.md
+            echo "┌───────┬────────────────┬──────────────────────┐" >> stats.md
+            echo "│ Day   │ Coding Time    │ Activity Progress    │" >> stats.md
+            echo "├───────┼────────────────┼──────────────────────┤" >> stats.md
+            jq -r '.data.days | to_entries? | .[]? | "│ \(.key[:3])   │ \(.value.text) │ \(generate_progress_bar (.value.percent|floor) 100 20) │"' wakatime.json >> stats.md
+            echo "└───────┴────────────────┴──────────────────────┘" >> stats.md
+            echo "" >> stats.md
+            
+            # Интересные факты
+            echo "💡 DEV TIP" >> stats.md
+            fortune -s computers programming science education | cowsay -f $(ls /usr/share/cowsay/cows/ | shuf -n 1) | lolcat 2>/dev/null >> stats.md || 
+            echo "Today is $(date +'%A'). Keep coding and learning!" >> stats.md
+            echo '```' >> stats.md
+          fi
+
+          # Обновление README
           sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
               /<!--START_SECTION:waka-->/r stats.md
               d
           }' README.md
           
-          rm -f stats.md wakatime.json
-      
+          # Генерация carbon-изображения
+          if command -v carbon-now &>/dev/null; then
+            carbon-now <(grep -v '```' stats.md) -t one-dark -l /tmp/carbon.png
+            echo "CARBON_IMAGE=$(base64 -w0 /tmp/carbon.png)" >> $GITHUB_ENV
+          fi
+          
+          rm -f stats.md wakatime.json /tmp/carbon.png
+          echo "stats-generated=true" >> $GITHUB_OUTPUT
+
+      - name: Generate Carbon Image
+        id: carbon
+        if: steps.stats.outputs.stats-generated == 'true'
+        run: |
+          if command -v carbon-now &>/dev/null && [ -f stats.md ]; then
+            echo "Generating Carbon image..."
+            grep -v '```' stats.md > /tmp/stats_for_carbon.md
+            carbon-now /tmp/stats_for_carbon.md -t one-dark -l /tmp/carbon.png -h
+            
+            # Используем outputs вместо env
+            echo "image-generated=true" >> $GITHUB_OUTPUT
+            base64 /tmp/carbon.png > /tmp/carbon.txt
+          else
+            echo "Carbon image generation skipped"
+            echo "image-generated=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload Artifact
+        if: steps.carbon.outputs.image-generated == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: wakatime-stats
+          path: /tmp/carbon.png
+
       - name: Commit and push changes
         run: |
+          if git diff --quiet --exit-code README.md; then
+            echo "::notice::No changes detected in README.md"
+            exit 0
+          fi
+
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add README.md
           
-          # Разные сообщения коммита для разных типов обновлений
-          if [ "$(date +%u)" -eq 1 ] && [ "$(date +%H)" -eq 0 ]; then
-            git commit -m "🔄 Weekly stats reset ($(date +'%Y-%m-%d'))"
+          if [[ "${{ github.event_name }}" == "schedule" && "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
+             [[ "${{ inputs.force-refresh }}" == "true" ]]; then
+            git commit -m "🚀 Weekly stats reset [$(date +'%Y-%m-%d')]" \
+                       -m "Fresh week start | Cache buster: $(date +%s)"
           else
-            git commit -m "📈 Stats auto-update ($(date +'%H:%M'))" || echo "No changes to commit"
+            git commit -m "📈 Stats auto-update [$(date +'%H:%M MSK')]" \
+                       -m "Incremental refresh | Trigger: ${{ github.event_name }}"
           fi
           
+          git pull --rebase
           git push
