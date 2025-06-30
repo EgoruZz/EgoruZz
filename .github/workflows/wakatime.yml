@@ -5,8 +5,8 @@ concurrency:
 
 on:
   schedule:
-    - cron: "10 0 * * 1"  # Monday at 00:10 UTC (03:10 MSK)
-    - cron: "0 */3 * * *" # Every 3 hours at :00
+    - cron: "10 0 * * 1"  # Понедельник в 00:10 UTC (03:10 МСК)
+    - cron: "0 */3 * * *" # Каждые 3 часа в :00 (для минимизации коллизий)
   workflow_dispatch:
 
 jobs:
@@ -16,6 +16,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Log trigger info
+        run: |
+          echo "::group::Trigger details"
+          echo "Event: ${{ github.event_name }}"
+          echo "Schedule: ${{ github.event.schedule || 'Manual' }}"
+          echo "UTC Time: $(date -u)"
+          echo "::endgroup::"
 
       - name: Install dependencies
         run: |
@@ -28,25 +36,24 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Improved bar chart function
+          # Функция для генерации барчартов
           generate_bar() {
             local percent=${1:-0}
-            percent=$(( percent < 0 ? 0 : (percent > 100 ? 100 : percent) ))
-            local filled=$((percent/10))
-            local empty=$((10-filled))
-            printf -v bar '%*s' "$filled"
-            bar=${bar// /▓}
-            printf -v empty_bar '%*s' "$empty"
-            empty_bar=${empty_bar// /░}
-            echo "${bar}${empty_bar} $percent%"
+            percent=$(( percent < 0 ? 0 : (percent > 100 ? 100 : percent ) ))
+            local bar=""
+            for ((i=0; i<10; i++)); do
+              [ $i -lt $((percent/10)) ] && bar+="▓" || bar+="░"
+            done
+            echo "$bar $percent%"
           }
 
-          # Determine report type
+          # Определяем тип отчета
           if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "10 0 * * 1" ]; then
             CACHE_BUSTER=$(date +%s)
             REPORT_TYPE="🚀 WEEKLY RESET"
             HEADER_STYLE=$(toilet -f term -F border --gay 'WEEKLY RESET' 2>/dev/null || echo 'WEEKLY CODING REPORT')
             DATE_RANGE="$(date -d 'last monday' +'%Y-%m-%d') → $(date -d 'last sunday' +'%Y-%m-%d')"
+            echo "::notice::Weekly reset mode activated"
           else
             CACHE_BUSTER="cache"
             REPORT_TYPE="📈 AUTO UPDATE"
@@ -54,10 +61,11 @@ jobs:
             DATE_RANGE="$(date -d '7 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')"
           fi
 
-          # API request
+          # Получаем данные с проверкой ошибок
           API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER"
           echo "::group::Fetching WakaTime data"
           curl -s "$API_URL" > wakatime.json
+          cat wakatime.json | jq .
           echo "::endgroup::"
 
           if ! jq -e '.data' wakatime.json >/dev/null; then
@@ -69,12 +77,12 @@ jobs:
             echo "🔗 Response Code: $(curl -s -o /dev/null -w '%{http_code}' "$API_URL")" >> stats.md
             echo '```' >> stats.md
           else
-            # Process data
+            # Обработка данных
             total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
             best_day_seconds=$(jq -r '.data.best_day.total_seconds // 0' wakatime.json)
             productivity=$(echo "scale=1; $best_day_seconds * 100 / ($total_seconds + 1)" | bc)
 
-            # Generate markdown report
+            # Формируем Markdown отчет
             echo '```text' > stats.md
             echo "$HEADER_STYLE" >> stats.md
             echo "⏳ $REPORT_TYPE » $DATE_RANGE" >> stats.md
@@ -95,35 +103,27 @@ jobs:
             echo "" >> stats.md
             
             echo "🔥 TOP 5 TECHNOLOGIES" >> stats.md
-            jq -r '.data.languages[0:5] | .[] | "▌ \(.name): \(.text) \((.percent|floor)*100/100)%\n  \(.percent | floor | @sh)"' wakatime.json | while read -r line; do
-              percent=$(echo "$line" | awk '{print $NF}' | tr -d "'")
-              echo "${line%\'*}'" | sed "s/@sh/$(generate_bar $percent)/" >> stats.md
-            done
+            jq -r '.data.languages[0:5] | .[]? | "▌ \(.name): \(.text) \((.percent|floor)*100/100)%\n  \((generate_bar (.percent|floor)))"' wakatime.json >> stats.md
             echo "" >> stats.md
             
             echo "📅 WEEKLY ACTIVITY" >> stats.md
             echo "┌───────┬──────────────┬──────────────────┐" >> stats.md
             echo "│ Day   │ Coding Time  │ Activity Graph   │" >> stats.md
             echo "├───────┼──────────────┼──────────────────┤" >> stats.md
-            jq -r '.data.days | to_entries | .[] | "│ \(.key[:3])   │ \(.value.text) │ \(.value.percent | floor | @sh) │"' wakatime.json | while read -r line; do
-              percent=$(echo "$line" | awk '{print $(NF-1)}' | tr -d "'")
-              echo "${line%\'*}'" | sed "s/@sh/$(generate_bar $percent)/" >> stats.md
-            done
+            jq -r '.data.days | to_entries? | .[]? | "│ \(.key[:3])   │ \(.value.text) │ \(generate_bar (.value.percent|floor)) │"' wakatime.json >> stats.md
             echo "└───────┴──────────────┴──────────────────┘" >> stats.md
             echo "" >> stats.md
             
-            # Random ASCII art
-            if command -v cowsay &> /dev/null && command -v fortune &> /dev/null; then
-              cowsay -f $(ls /usr/share/cowsay/cows | shuf -n 1) "$(fortune -s 2>/dev/null || echo "Keep coding!")" >> stats.md
-            else
-              echo "┌─────────────────────────────────────────┐" >> stats.md
-              echo "│ Today is $(date +'%A') - perfect day to code! │" >> stats.md
-              echo "└─────────────────────────────────────────┘" >> stats.md
-            fi
+            # Случайный ASCII-арт
+            ascii_art=(
+              "$(cowsay -f $(ls /usr/share/cowsay/cows | shuf -n 1) '$(fortune -s 2>/dev/null || echo "Keep coding!")' 2>/dev/null)"
+              "┌─────────────────────────────────────────┐\n│ Today is $(date +'%A') - perfect day to code! │\n└─────────────────────────────────────────┘"
+            )
+            echo "${ascii_art[$RANDOM % ${#ascii_art[@]}]}" >> stats.md
             echo '```' >> stats.md
           fi
 
-          # Update README
+          # Обновляем README
           sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
               /<!--START_SECTION:waka-->/r stats.md
               d
