@@ -39,12 +39,16 @@ jobs:
           # Функция для генерации барчартов
           generate_bar() {
             local percent=${1:-0}
-            percent=$(( percent < 0 ? 0 : (percent > 100 ? 100 : percent ))  # ← Добавлена закрывающая скобка
+            percent=$(( percent < 0 ? 0 : (percent > 100 ? 100 : percent) ))  # Фикс скобок
             local bar=""
             for ((i=0; i<10; i++)); do
-              [ $i -lt $((percent/10)) ] && bar+="▓" || bar+="░"
+              if [ "$i" -lt "$((percent/10))" ]; then
+                bar+="▓"
+              else
+                bar+="░"
+              fi
             done
-            echo "$bar $percent%"
+            echo "${bar} ${percent}%"
           }
 
           # Определяем тип отчета
