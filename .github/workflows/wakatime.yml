@@ -17,14 +17,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Log trigger info
-        run: |
-          echo "::group::Trigger details"
-          echo "Event: ${{ github.event_name }}"
-          echo "Schedule: ${{ github.event.schedule || 'Manual' }}"
-          echo "UTC Time: $(date -u)"
-          echo "::endgroup::"
-
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -62,21 +54,19 @@ jobs:
             DATE_RANGE="$(date -d '7 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')"
           fi
 
-          # API request with error handling
+          # API request
           API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER"
           echo "::group::Fetching WakaTime data"
-          response=$(curl -s -w "%{http_code}" "$API_URL")
-          http_code=${response: -3}
-          json_content=${response%???}
-          echo "$json_content" > wakatime.json
-          
-          if [ "$http_code" != "200" ] || ! jq -e '.data' wakatime.json >/dev/null; then
-            echo "::error::WakaTime API request failed (HTTP $http_code)"
+          curl -s "$API_URL" > wakatime.json
+          echo "::endgroup::"
+
+          if ! jq -e '.data' wakatime.json >/dev/null; then
+            echo "::error::WakaTime API request failed"
             echo '```text' > stats.md
             echo "⚠️ WAKATIME API ERROR" >> stats.md
             echo "⏳ $REPORT_TYPE » $DATE_RANGE" >> stats.md
             echo "🔄 Last sync attempt: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
-            echo "🔗 Response Code: $http_code" >> stats.md
+            echo "🔗 Response Code: $(curl -s -o /dev/null -w '%{http_code}' "$API_URL")" >> stats.md
             echo '```' >> stats.md
           else
             # Process data
@@ -105,14 +95,20 @@ jobs:
             echo "" >> stats.md
             
             echo "🔥 TOP 5 TECHNOLOGIES" >> stats.md
-            jq -r '.data.languages[0:5] | .[] | "▌ \(.name): \(.text) \((.percent|floor)*100/100)%\n  \(.percent | floor | generate_bar)"' wakatime.json >> stats.md
+            jq -r '.data.languages[0:5] | .[] | "▌ \(.name): \(.text) \((.percent|floor)*100/100)%\n  \(.percent | floor | @sh)"' wakatime.json | while read -r line; do
+              percent=$(echo "$line" | awk '{print $NF}' | tr -d "'")
+              echo "${line%\'*}'" | sed "s/@sh/$(generate_bar $percent)/" >> stats.md
+            done
             echo "" >> stats.md
             
             echo "📅 WEEKLY ACTIVITY" >> stats.md
             echo "┌───────┬──────────────┬──────────────────┐" >> stats.md
             echo "│ Day   │ Coding Time  │ Activity Graph   │" >> stats.md
             echo "├───────┼──────────────┼──────────────────┤" >> stats.md
-            jq -r '.data.days | to_entries | .[] | "│ \(.key[:3])   │ \(.value.text) │ \(.value.percent | floor | generate_bar) │"' wakatime.json >> stats.md
+            jq -r '.data.days | to_entries | .[] | "│ \(.key[:3])   │ \(.value.text) │ \(.value.percent | floor | @sh) │"' wakatime.json | while read -r line; do
+              percent=$(echo "$line" | awk '{print $(NF-1)}' | tr -d "'")
+              echo "${line%\'*}'" | sed "s/@sh/$(generate_bar $percent)/" >> stats.md
+            done
             echo "└───────┴──────────────┴──────────────────┘" >> stats.md
             echo "" >> stats.md
             
