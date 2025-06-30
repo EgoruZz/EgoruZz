@@ -36,15 +36,16 @@ jobs:
         env:
           WAKATIME_API_KEY: "${{ secrets.WAKATIME_API_KEY }}"
         run: |
-          # Функция для генерации барчартов
+          # Улучшенная функция для генерации барчартов
           generate_bar() {
-            local percent=${1:-0}
-            percent=$(( percent < 0 ? 0 : (percent > 100 ? 100 : percent ) ))
-            local bar=""
-            for ((i=0; i<10; i++)); do
-              [ $i -lt $((percent/10)) ] && bar+="▓" || bar+="░"
-            done
-            echo "$bar $percent%"
+            local percent=$(( $1 < 0 ? 0 : ($1 > 100 ? 100 : $1 )))
+            local filled=$((percent/10))
+            local empty=$((10-filled))
+            printf -v bar '%*s' "$filled" ''
+            bar=${bar// /▓}
+            printf -v empty_bar '%*s' "$empty" ''
+            empty_bar=${empty_bar// /░}
+            echo "${bar}${empty_bar} $percent%"
           }
 
           # Определяем тип отчета
