@@ -149,10 +149,10 @@ jobs:
           fi
 
           # Обновление README
-          sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
+          sed -i "/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
               /<!--START_SECTION:waka-->/r stats.md
               d
-          }' README.md
+          }" README.md
           
           # После успешной генерации stats.md
           echo "stats-generated=true" >> $GITHUB_OUTPUT
