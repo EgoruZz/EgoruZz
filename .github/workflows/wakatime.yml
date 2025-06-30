@@ -16,19 +16,22 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq bc
+          sudo apt-get install -y jq bc figlet toilet
+          sudo npm install -g cowsay
       
       - name: Fetch and process stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Определяем тип запроса (полный или кешированный)
+          # Определяем тип запроса
           if [ "$(date +%u)" -eq 1 ] && [ "$(date +%H)" -eq 0 ]; then
             CACHE_BUSTER=$(date +%Y%m%d)
             REPORT_TYPE="WEEKLY REPORT"
+            HEADER_STYLE="$(toilet -f term -F border --gay 'DEV STATS')"
           else
             CACHE_BUSTER="cache"
             REPORT_TYPE="AUTO UPDATE"
+            HEADER_STYLE="$(figlet -f slant 'Code Pulse')"
           fi
 
           # Получаем данные
@@ -41,27 +44,55 @@ jobs:
           start_date=$(date -d "last monday" +"%Y-%m-%d")
           end_date=$(date -d "last sunday" +"%Y-%m-%d")
           
+          # Генерация ASCII-графиков
+          generate_bar() {
+            local percent=$1
+            local bar=""
+            for ((i=0; i<10; i++)); do
+              if [ $i -lt $(($percent/10)) ]; then
+                bar+="▓"
+              else
+                bar+="░"
+              fi
+            done
+            echo "$bar $percent%"
+          }
+
           # Формируем Markdown
           echo '```text' > stats.md
-          echo "⏳ $REPORT_TYPE ($start_date → $end_date)" >> stats.md
-          echo '┌───────────────────────────────────────┐' >> stats.md
-          echo '│            📊 CODING ANALYTICS        │' >> stats.md
-          echo '├───────────────────────┬──────────────┤' >> stats.md
-          echo '│ Total Time            │ '$(jq -r '.data.human_readable_total' wakatime.json)' │' >> stats.md
-          echo '├───────────────────────┼──────────────┤' >> stats.md
-          echo '│ Daily Avg             │ '$(jq -r '.data.human_readable_daily_average' wakatime.json)' │' >> stats.md
-          echo '├───────────────────────┼──────────────┤' >> stats.md
-          echo '│ Best Day              │ '$(jq -r '.data.best_day.text + " (" + .data.best_day.date + ")"' wakatime.json)' │' >> stats.md
-          echo '├───────────────────────┼──────────────┤' >> stats.md
-          echo '│ Productivity Peak     │ '$productivity'% │' >> stats.md
-          echo '└───────────────────────┴──────────────┘' >> stats.md
-          echo '' >> stats.md
+          echo "$HEADER_STYLE" >> stats.md
+          echo "⏳ $REPORT_TYPE » $start_date → $end_date" >> stats.md
+          echo "🔄 Last sync: $(date +"%Y-%m-%d %H:%M") (MSK)" >> stats.md
+          echo "" >> stats.md
           
-          echo '🔝 TOP 5 TECHNOLOGIES' >> stats.md
-          jq -r '.data.languages[0:5] | .[] | "│ \(.name): \(.text) (\(.percent|floor)%)"' wakatime.json >> stats.md
-          echo '' >> stats.md
+          echo "╔══════════════════════════════════════════╗" >> stats.md
+          echo "║          🚀 WEEKLY CODING REPORT         ║" >> stats.md
+          echo "╠════════════════════╦═════════════════════╣" >> stats.md
+          printf "║ Total Time        ║ %19s ║\n" "$(jq -r '.data.human_readable_total' wakatime.json)" >> stats.md
+          echo "╠════════════════════╬═════════════════════╣" >> stats.md
+          printf "║ Daily Avg         ║ %19s ║\n" "$(jq -r '.data.human_readable_daily_average' wakatime.json)" >> stats.md
+          echo "╠════════════════════╬═════════════════════╣" >> stats.md
+          printf "║ Best Day          ║ %19s ║\n" "$(jq -r '.data.best_day.text' wakatime.json)" >> stats.md
+          echo "╠════════════════════╬═════════════════════╣" >> stats.md
+          printf "║ Productivity Peak ║ %19s ║\n" "$(generate_bar ${productivity%.*})" >> stats.md
+          echo "╚════════════════════╩═════════════════════╝" >> stats.md
+          echo "" >> stats.md
           
-          echo '🔄 Last sync: '$(date +"%Y-%m-%d %H:%M")' (MSK)' >> stats.md
+          echo "🔥 TOP 5 TECHNOLOGIES" >> stats.md
+          jq -r '.data.languages[0:5] | .[] | "▌ \(.name): \(.text) \((.percent|floor)*100/100)%\n  \((generate_bar (.percent|floor)))"' wakatime.json >> stats.md
+          echo "" >> stats.md
+          
+          echo "📅 WEEKLY ACTIVITY" >> stats.md
+          echo "┌───────┬──────────────┬──────────────────┐" >> stats.md
+          echo "│ Day   │ Coding Time  │ Activity Graph   │" >> stats.md
+          echo "├───────┼──────────────┼──────────────────┤" >> stats.md
+          jq -r '.data.days | to_entries | .[] | "│ \(.key[:3])   │ \(.value.text) │ \(generate_bar (.value.percent|floor)) │"' wakatime.json >> stats.md
+          echo "└───────┴──────────────┴──────────────────┘" >> stats.md
+          echo "" >> stats.md
+          
+          # Добавляем случайный ASCII-арт
+          ascii_art=("$(cowsay 'Keep coding!' 2>/dev/null)" "$(fortune | cowsay 2>/dev/null)")
+          echo "${ascii_art[$RANDOM % ${#ascii_art[@]}]}" >> stats.md
           echo '```' >> stats.md
           
           # Обновляем README
@@ -78,11 +109,10 @@ jobs:
           git config --global user.email "actions@github.com"
           git add README.md
           
-          # Разные сообщения коммита для разных типов обновлений
           if [ "$(date +%u)" -eq 1 ] && [ "$(date +%H)" -eq 0 ]; then
-            git commit -m "🔄 Weekly stats reset ($(date +'%Y-%m-%d'))"
+            git commit -m "🚀 Weekly stats refresh ($(date +'%Y-%m-%d'))"
           else
-            git commit -m "📈 Stats auto-update ($(date +'%H:%M'))" || echo "No changes to commit"
+            git commit -m "📊 Stats auto-update ($(date +'%H:%M'))" || echo "No changes to commit"
           fi
           
           git push
