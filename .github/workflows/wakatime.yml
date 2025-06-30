@@ -41,9 +41,9 @@ jobs:
             local percent=$(( $1 < 0 ? 0 : ($1 > 100 ? 100 : $1 )))
             local filled=$((percent/10))
             local empty=$((10-filled))
-            printf -v bar '%*s' "$filled" ''
+            printf -v bar '%*s' "$filled"
             bar=${bar// /▓}
-            printf -v empty_bar '%*s' "$empty" ''
+            printf -v empty_bar '%*s' "$empty"
             empty_bar=${empty_bar// /░}
             echo "${bar}${empty_bar} $percent%"
           }
