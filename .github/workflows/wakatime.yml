@@ -32,7 +32,7 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Function for progress bars
+          # Function for centered progress bars
           generate_progress_bar() {
             local value=${1:-0}
             local max=${2:-100}
@@ -42,7 +42,19 @@ jobs:
             local remainder=$(( size - progress ))
             printf -v bar "%${progress}s" ""
             printf -v remainder "%${remainder}s" ""
-            echo "${bar// /█}${remainder// /░} ${percentage}%"
+            # Center the progress bar in its column
+            local full_bar="${bar// /█}${remainder// /░} ${percentage}%"
+            local bar_len=${#full_bar}
+            local padding=$(( (40 - bar_len) / 2 ))
+            printf "%*s%s%*s" $padding "" "$full_bar" $padding ""
+          }
+
+          # Center-align text in a fixed-width field
+          center_text() {
+            local width=$1
+            local text=$2
+            local padding=$(( (width - ${#text}) / 2 ))
+            printf "%*s%s%*s" $padding "" "$text" $padding ""
           }
 
           # Generate dates for last 7 days
@@ -76,22 +88,22 @@ jobs:
           # Coding statistics table
           echo "📊 CODING STATISTICS" >> stats.md
           echo "┌──────────────────────┬──────────────────────────────────────────┐" >> stats.md
-          echo "│ Metric               │ Value                                  │" >> stats.md
+          echo "│$(center_text 22 "Metric")│$(center_text 40 "Value")│" >> stats.md
           echo "├──────────────────────┼──────────────────────────────────────────┤" >> stats.md
-          printf "│ Total Coding Time    │ %-38s │\n" "$total_time" >> stats.md
-          printf "│ Daily Average        │ %-38s │\n" "$daily_avg" >> stats.md
-          printf "│ Best Day             │ %-38s │\n" "$best_day ($(date -d "$best_day_date" +'%A'))" >> stats.md
-          printf "│ Top Language         │ %-38s │\n" "$languages" >> stats.md
-          printf "│ Primary Editor       │ %-38s │\n" "$editors" >> stats.md
-          printf "│ Current Day          │ %-38s │\n" "$(date +'%A')" >> stats.md
+          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Total Coding Time")" "$(center_text 40 "$total_time")" >> stats.md
+          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Daily Average")" "$(center_text 40 "$daily_avg")" >> stats.md
+          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Best Day")" "$(center_text 40 "$best_day ($(date -d "$best_day_date" +'%A'))")" >> stats.md
+          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Top Language")" "$(center_text 40 "$languages")" >> stats.md
+          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Primary Editor")" "$(center_text 40 "$editors")" >> stats.md
+          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Current Day")" "$(center_text 40 "$(date +'%A')")" >> stats.md
           echo "└──────────────────────┴──────────────────────────────────────────┘" >> stats.md
           echo "" >> stats.md
           
           # Daily breakdown with full day names
           echo "📅 DAILY BREAKDOWN" >> stats.md
-          echo "┌────────────────┬────────────┬────────────────────────────────────┐" >> stats.md
-          echo "│ Day            │ Time       │ Activity                          │" >> stats.md
-          echo "├────────────────┼────────────┼────────────────────────────────────┤" >> stats.md
+          echo "┌──────────────────┬──────────────┬────────────────────────────────────┐" >> stats.md
+          echo "│$(center_text 18 "Day")│$(center_text 14 "Time")│$(center_text 40 "Activity")│" >> stats.md
+          echo "├──────────────────┼──────────────┼────────────────────────────────────┤" >> stats.md
           
           declare -A day_data
           while IFS='|' read -r date text percent; do
@@ -106,23 +118,23 @@ jobs:
               text="0 secs"
               percent=0
             fi
-            printf "│ %-14s │ %-10s │ %-38s │\n" "$day_name" "$text" "$(generate_progress_bar ${percent%.*} 100)" >> stats.md
+            printf "│ %-18s │ %-14s │ %-40s │\n" "$(center_text 18 "$day_name")" "$(center_text 14 "$text")" "$(generate_progress_bar ${percent%.*} 100)" >> stats.md
           done
           
-          echo "└────────────────┴────────────┴────────────────────────────────────┘" >> stats.md
+          echo "└──────────────────┴──────────────┴────────────────────────────────────┘" >> stats.md
           echo "" >> stats.md
 
           # Top 5 Technologies
           echo "🚀 TOP 5 TECHNOLOGIES" >> stats.md
-          echo "┌────────────────────┬────────────────────┬────────────────────────────────────┐" >> stats.md
-          echo "│ Technology         │ Time               │ Usage                              │" >> stats.md
-          echo "├────────────────────┼────────────────────┼────────────────────────────────────┤" >> stats.md
+          echo "┌──────────────────────┬──────────────────────┬────────────────────────────────────┐" >> stats.md
+          echo "│$(center_text 22 "Technology")│$(center_text 22 "Time")│$(center_text 40 "Usage")│" >> stats.md
+          echo "├──────────────────────┼──────────────────────┼────────────────────────────────────┤" >> stats.md
           
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
-            printf "│ %-18s │ %-18s │ %-38s │\n" "${name:0:18}" "$text" "$(generate_progress_bar ${percent%.*} 100)" >> stats.md
+            printf "│ %-22s │ %-22s │ %-40s │\n" "$(center_text 22 "${name:0:22}")" "$(center_text 22 "$text")" "$(generate_progress_bar ${percent%.*} 100)" >> stats.md
           done
           
-          echo "└────────────────────┴────────────────────┴────────────────────────────────────┘" >> stats.md
+          echo "└──────────────────────┴──────────────────────┴────────────────────────────────────┘" >> stats.md
           echo '```' >> stats.md
           echo '</div>' >> stats.md
 
