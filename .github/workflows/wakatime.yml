@@ -48,45 +48,39 @@ jobs:
           }
 
           # Получаем данные за текущую неделю
-          API_URL="https://wakatime.com/api/v1/users/current/stats?api_key=$WAKATIME_API_KEY&range=week&cache_buster=$(date +%s)"
+          API_URL="https://wakatime.com/api/v1/users/current/stats?api_key=$WAKATIME_API_KEY&range=week"
           echo "::group::Загрузка данных WakaTime"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" -o wakatime.json || {
             echo "Ошибка при получении данных WakaTime"
             exit 1
           }
-          
-          # Проверяем валидность JSON
-          if ! jq empty wakatime.json 2>/dev/null; then
-            echo "Неверный JSON-ответ от WakaTime API"
-            exit 1
-          fi
-          
-          # Проверяем наличие необходимых данных
+
+          # Создаем дефолтную структуру данных
+          DEFAULT_DATA='{
+            "data": {
+              "human_readable_total": "0 secs",
+              "human_readable_daily_average": "0 secs",
+              "best_day": {"text": "0 secs", "date": "N/A"},
+              "days": [],
+              "languages": []
+            }
+          }'
+
+          # Проверяем и исправляем данные
           if ! jq -e '.data' wakatime.json >/dev/null 2>&1; then
-            echo "Отсутствуют данные в ответе WakaTime"
-            exit 1
+            echo "$DEFAULT_DATA" > wakatime.json
+          else
+            # Объединяем с дефолтными значениями
+            jq -r --argjson default "$DEFAULT_DATA" '.data = (.data + $default.data)' wakatime.json > temp.json && mv temp.json wakatime.json
           fi
           echo "::endgroup::"
-
-          # Устанавливаем значения по умолчанию
-          DEFAULT_STATS='{
-            "human_readable_total": "0 secs",
-            "human_readable_daily_average": "0 secs",
-            "best_day": {"text": "0 secs", "date": "N/A"},
-            "days": [],
-            "languages": []
-          }'
-          
-          # Объединяем с дефолтными значениями
-          jq -r --argjson default "$DEFAULT_STATS" '.data += $default | .data' wakatime.json > wakatime_processed.json
-          mv wakatime_processed.json wakatime.json
 
           # Process data
           total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
           best_day_seconds=$(jq -r '.data.best_day.total_seconds // 0' wakatime.json)
           productivity=$(echo "scale=1; $best_day_seconds * 100 / ($total_seconds + 1)" | bc)
-          active_days=$(jq -r '[.data.days[]? | select(.total_seconds > 0)] | length' wakatime.json)
-          
+          active_days=$(jq -r '[.data.days[] | select(.total_seconds > 0)] | length' wakatime.json)
+
           # Generate report
           echo '```text' > stats.md
           echo "### Статистика кодинга" >> stats.md
@@ -119,7 +113,7 @@ jobs:
           # Получаем дни недели в правильном порядке
           DAYS_ORDER=("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
           for day in "${DAYS_ORDER[@]}"; do
-            day_data=$(jq -r --arg day "$day" '.data.days[] | select(.name == $day) // {"text": "0 mins", "percent": 0}' wakatime.json)
+            day_data=$(jq -r --arg day "$day" '.data.days[] | select(.name == $day) // {"text": "0 mins", "percent": 0, "name": $day}' wakatime.json)
             text=$(jq -r '.text' <<< "$day_data")
             percent=$(jq -r '.percent | floor' <<< "$day_data")
             
@@ -137,7 +131,7 @@ jobs:
           
           # Top technologies section
           echo "TOP 5 TECHNOLOGIES" >> stats.md
-          jq -r '.data.languages[0:5] | .[]? | "\(.name)|\(.text)|\(.percent|floor)"' wakatime.json | 
+          jq -r '.data.languages[0:5] | .[]? | select(.name != null) | "\(.name)|\(.text)|\(.percent|floor)"' wakatime.json | 
           while IFS='|' read -r name text percent; do
             echo "▌ $name: $text ($percent%)" >> stats.md
             echo "  $(generate_progress_bar $percent 100 20)" >> stats.md
