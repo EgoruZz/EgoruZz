@@ -36,17 +36,13 @@ jobs:
           generate_progress_bar() {
             local value=${1:-0}
             local max=${2:-100}
-            local size=${3:-27}  # 40 symbols - 4 for percentage
+            local size=${3:-20}  # Reduced size for better fit
             local percentage=$(( value * 100 / max ))
             local progress=$(( percentage * size / 100 ))
             local remainder=$(( size - progress ))
             printf -v bar "%${progress}s" ""
             printf -v remainder "%${remainder}s" ""
-            # Center the progress bar in its column
-            local full_bar="${bar// /█}${remainder// /░} ${percentage}%"
-            local bar_len=${#full_bar}
-            local padding=$(( (40 - bar_len) / 2 ))
-            printf "%*s%s%*s" $padding "" "$full_bar" $padding ""
+            printf "${bar// /█}${remainder// /░} ${percentage}%%"
           }
 
           # Center-align text in a fixed-width field
@@ -86,23 +82,23 @@ jobs:
           
           # Coding statistics table
           echo "📊 CODING STATISTICS" >> stats.md
-          echo "┌──────────────────────┬──────────────────────────────────────────┐" >> stats.md
-          echo "│$(center_text 22 "Metric")│$(center_text 40 "Value")│" >> stats.md
-          echo "├──────────────────────┼──────────────────────────────────────────┤" >> stats.md
-          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Total Coding Time")" "$(center_text 40 "$total_time")" >> stats.md
-          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Daily Average")" "$(center_text 40 "$daily_avg")" >> stats.md
-          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Best Day")" "$(center_text 40 "$best_day ($(date -d "$best_day_date" +'%A'))")" >> stats.md
-          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Top Language")" "$(center_text 40 "$languages")" >> stats.md
-          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Primary Editor")" "$(center_text 40 "$editors")" >> stats.md
-          printf "│ %-22s │ %-40s │\n" "$(center_text 22 "Current Day")" "$(center_text 40 "$(date +'%A')")" >> stats.md
-          echo "└──────────────────────┴──────────────────────────────────────────┘" >> stats.md
+          echo "┌──────────────────────┬──────────────────────────┐" >> stats.md
+          echo "│$(center_text 22 "Metric")│$(center_text 26 "Value")│" >> stats.md
+          echo "├──────────────────────┼──────────────────────────┤" >> stats.md
+          printf "│ %-22s │ %-26s │\n" "$(center_text 22 "Total Coding Time")" "$(center_text 26 "$total_time")" >> stats.md
+          printf "│ %-22s │ %-26s │\n" "$(center_text 22 "Daily Average")" "$(center_text 26 "$daily_avg")" >> stats.md
+          printf "│ %-22s │ %-26s │\n" "$(center_text 22 "Best Day")" "$(center_text 26 "$best_day ($(date -d "$best_day_date" +'%A'))")" >> stats.md
+          printf "│ %-22s │ %-26s │\n" "$(center_text 22 "Top Language")" "$(center_text 26 "$languages")" >> stats.md
+          printf "│ %-22s │ %-26s │\n" "$(center_text 22 "Primary Editor")" "$(center_text 26 "$editors")" >> stats.md
+          printf "│ %-22s │ %-26s │\n" "$(center_text 22 "Current Day")" "$(center_text 26 "$(date +'%A')")" >> stats.md
+          echo "└──────────────────────┴──────────────────────────┘" >> stats.md
           echo "" >> stats.md
           
           # Daily breakdown with full day names
           echo "📅 DAILY BREAKDOWN" >> stats.md
-          echo "┌──────────────────┬──────────────┬────────────────────────────────────┐" >> stats.md
-          echo "│$(center_text 18 "Day")│$(center_text 14 "Time")│$(center_text 40 "Activity")│" >> stats.md
-          echo "├──────────────────┼──────────────┼────────────────────────────────────┤" >> stats.md
+          echo "┌──────────────────┬──────────────┬────────────────────┐" >> stats.md
+          echo "│$(center_text 18 "Day")│$(center_text 14 "Time")│$(center_text 20 "Activity")│" >> stats.md
+          echo "├──────────────────┼──────────────┼────────────────────┤" >> stats.md
           
           declare -A day_data
           while IFS='|' read -r date text percent; do
@@ -117,23 +113,23 @@ jobs:
               text="0 secs"
               percent=0
             fi
-            printf "│ %-18s │ %-14s │ %-40s │\n" "$(center_text 18 "$day_name")" "$(center_text 14 "$text")" "$(generate_progress_bar ${percent%.*} 100)" >> stats.md
+            printf "│ %-18s │ %-14s │ %-20s │\n" "$(center_text 18 "$day_name")" "$(center_text 14 "$text")" "$(generate_progress_bar ${percent%.*} 100 20)" >> stats.md
           done
           
-          echo "└──────────────────┴──────────────┴────────────────────────────────────┘" >> stats.md
+          echo "└──────────────────┴──────────────┴────────────────────┘" >> stats.md
           echo "" >> stats.md
 
           # Top 5 Technologies
           echo "🚀 TOP 5 TECHNOLOGIES" >> stats.md
-          echo "┌──────────────────────┬──────────────────────┬────────────────────────────────────┐" >> stats.md
-          echo "│$(center_text 22 "Technology")│$(center_text 22 "Time")│$(center_text 40 "Usage")│" >> stats.md
-          echo "├──────────────────────┼──────────────────────┼────────────────────────────────────┤" >> stats.md
+          echo "┌──────────────────────┬──────────────────────┬────────────────────┐" >> stats.md
+          echo "│$(center_text 22 "Technology")│$(center_text 22 "Time")│$(center_text 20 "Usage")│" >> stats.md
+          echo "├──────────────────────┼──────────────────────┼────────────────────┤" >> stats.md
           
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
-            printf "│ %-22s │ %-22s │ %-40s │\n" "$(center_text 22 "${name:0:22}")" "$(center_text 22 "$text")" "$(generate_progress_bar ${percent%.*} 100)" >> stats.md
+            printf "│ %-22s │ %-22s │ %-20s │\n" "$(center_text 22 "${name:0:22}")" "$(center_text 22 "$text")" "$(generate_progress_bar ${percent%.*} 100 20)" >> stats.md
           done
           
-          echo "└──────────────────────┴──────────────────────┴────────────────────────────────────┘" >> stats.md
+          echo "└──────────────────────┴──────────────────────┴────────────────────┘" >> stats.md
           echo '```' >> stats.md
 
           # Update README
