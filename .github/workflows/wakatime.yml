@@ -36,7 +36,7 @@ jobs:
           generate_progress_bar() {
             local value=${1:-0}
             local max=${2:-100}
-            local size=${3:-20}
+            local size=${3:-18}  # Fixed size for progress bars
             local percentage=$(( value * 100 / max ))
             local progress=$(( percentage * size / 100 ))
             local remainder=$(( size - progress ))
@@ -80,7 +80,8 @@ jobs:
           echo "🔄 Updated: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
           
-          # Enhanced metrics table with fixed borders
+          # Enhanced metrics table with fixed borders and title
+          echo "📊 CODING STATISTICS" >> stats.md
           echo "┌──────────────────────┬────────────────────┐" >> stats.md
           echo "│$(center_text 22 "Metric")│$(center_text 18 "Value")│" >> stats.md
           echo "├──────────────────────┼────────────────────┤" >> stats.md
@@ -114,7 +115,7 @@ jobs:
               text="0 secs"
               percent=0
             fi
-            printf "│ %-10s │ %-8s │ %-18s │\n" "$(center_text 10 "$day_name")" "$(center_text 8 "$text")" "$(generate_progress_bar ${percent%.*} 100 18)" >> stats.md
+            printf "│ %-10s │ %-8s │ %-18s │\n" "$(center_text 10 "$day_name")" "$(center_text 8 "$text")" "$(generate_progress_bar ${percent%.*} 100)" >> stats.md
           done
           
           echo "└────────────┴──────────┴────────────────────┘" >> stats.md
@@ -128,7 +129,7 @@ jobs:
           
           # Get top 5 languages
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
-            printf "│ %-12s │ %-8s │ %-18s │\n" "$(center_text 12 "${name:0:12}")" "$(center_text 8 "$text")" "$(generate_progress_bar ${percent%.*} 100 18)" >> stats.md
+            printf "│ %-12s │ %-8s │ %-18s │\n" "$(center_text 12 "${name:0:12}")" "$(center_text 8 "$text")" "$(generate_progress_bar ${percent%.*} 100)" >> stats.md
           done
           
           echo "└──────────────┴──────────┴────────────────────┘" >> stats.md
