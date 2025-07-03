@@ -25,7 +25,7 @@ jobs:
       - name: Setup environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq bc toilet figlet lolcat || echo "Some decorative packages not installed"
+          sudo apt-get install -y jq bc
 
       - name: Fetch and process stats
         id: process-stats
@@ -45,15 +45,14 @@ jobs:
             echo "${bar// /▇}${remainder// /░} ${percentage}%"
           }
 
-          # Date range for last 7 days
-          START_DATE=$(date -d '7 days ago' +'%Y-%m-%d')
-          END_DATE=$(date +'%Y-%m-%d')
-          CACHE_BUSTER="cache"
-          HEADER_STYLE=$( (figlet -f mini "Live Stats" | lolcat 2>/dev/null || echo "CODING STATS") )
-          DATE_RANGE="$START_DATE → $END_DATE"
-          
-          # Get WakaTime data for last 7 days
-          API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER"
+          # Generate dates for last 7 days
+          dates=()
+          for i in {6..0}; do
+            dates+=("$(date -d "$i days ago" +'%Y-%m-%d')")
+          done
+
+          # Get WakaTime data
+          API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY"
           echo "::group::Fetching WakaTime data"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
           echo "::endgroup::"
@@ -62,41 +61,55 @@ jobs:
           total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
           total_time=$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)
           daily_avg=$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)
+          best_day=$(jq -r '.data.best_day.text // "0 secs"' wakatime.json)
+          best_day_date=$(jq -r '.data.best_day.date // ""' wakatime.json)
+          languages=$(jq -r '.data.languages[0].name // "None"' wakatime.json)
+          editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           
           # Generate report
           echo '```text' > stats.md
-          echo "$HEADER_STYLE" >> stats.md
-          echo "⏳ LAST 7 DAYS » $DATE_RANGE" >> stats.md
+          echo "⏳ LAST 7 DAYS » $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')" >> stats.md
           echo "🔄 Updated: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
           
-          # Simple metrics table
-          echo "┌──────────────────────┬──────────────────┐" >> stats.md
-          echo "│ Metric               │ Value            │" >> stats.md
-          echo "├──────────────────────┼──────────────────┤" >> stats.md
-          printf "│ %-20s │ %-16s │\n" "Total Time" "$total_time" >> stats.md
-          printf "│ %-20s │ %-16s │\n" "Daily Average" "$daily_avg" >> stats.md
-          printf "│ %-20s │ %-16s │\n" "Current Day" "$(date +'%A')" >> stats.md
-          echo "└──────────────────────┴──────────────────┘" >> stats.md
+          # Enhanced metrics table
+          echo "┌──────────────────────────┬──────────────────────┐" >> stats.md
+          echo "│ Metric                   │ Value                │" >> stats.md
+          echo "├──────────────────────────┼──────────────────────┤" >> stats.md
+          printf "│ %-24s │ %-20s │\n" "Total Coding Time" "$total_time" >> stats.md
+          printf "│ %-24s │ %-20s │\n" "Daily Average" "$daily_avg" >> stats.md
+          printf "│ %-24s │ %-20s │\n" "Best Day ($(date -d "$best_day_date" +'%a'))" "$best_day" >> stats.md
+          printf "│ %-24s │ %-20s │\n" "Top Language" "$languages" >> stats.md
+          printf "│ %-24s │ %-20s │\n" "Primary Editor" "$editors" >> stats.md
+          printf "│ %-24s │ %-20s │\n" "Current Day" "$(date +'%A')" >> stats.md
+          echo "└──────────────────────────┴──────────────────────┘" >> stats.md
           echo "" >> stats.md
           
-          # Daily activity
-          if jq -e '.data.days' wakatime.json >/dev/null 2>&1; then
-            echo "📅 DAILY BREAKDOWN" >> stats.md
-            echo "┌──────────────┬────────────────┬──────────────────────┐" >> stats.md
-            echo "│ Day          │ Coding Time    │ Activity Progress    │" >> stats.md
-            echo "├──────────────┼────────────────┼──────────────────────┤" >> stats.md
-            
-            jq -r '.data.days[] | "\(.date)|\(.text)|\(.percent // 0)"' wakatime.json | 
-            while IFS='|' read -r date text percent; do
-              day_name=$(date -d "$date" +"%A")
-              printf "│ %-12s │ %-14s │ %-20s │\n" "$day_name" "$text" "$(generate_progress_bar ${percent%.*} 100 20)"
-            done >> stats.md
-            
-            echo "└──────────────┴────────────────┴──────────────────────┘" >> stats.md
-          else
-            echo "No daily activity data available" >> stats.md
-          fi
+          # Daily breakdown - always show all 7 days
+          echo "📅 DAILY BREAKDOWN" >> stats.md
+          echo "┌──────────────┬────────────────┬──────────────────────┐" >> stats.md
+          echo "│ Day          │ Coding Time    │ Activity Progress    │" >> stats.md
+          echo "├──────────────┼────────────────┼──────────────────────┤" >> stats.md
+          
+          # Create associative array of day data
+          declare -A day_data
+          while IFS='|' read -r date text percent; do
+            day_data["$date"]="$text|$percent"
+          done < <(jq -r '.data.days[] | "\(.date)|\(.text)|\(.percent // 0)"' wakatime.json 2>/dev/null)
+          
+          # Display all 7 days
+          for date in "${dates[@]}"; do
+            day_name=$(date -d "$date" +"%a")
+            if [[ -n "${day_data[$date]}" ]]; then
+              IFS='|' read -r text percent <<< "${day_data[$date]}"
+            else
+              text="0 secs"
+              percent=0
+            fi
+            printf "│ %-12s │ %-14s │ %-20s │\n" "$day_name" "$text" "$(generate_progress_bar ${percent%.*} 100 20)" >> stats.md
+          done
+          
+          echo "└──────────────┴────────────────┴──────────────────────┘" >> stats.md
           echo '```' >> stats.md
 
           # Update README
