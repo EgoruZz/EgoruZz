@@ -47,25 +47,50 @@ jobs:
             echo "${bar// /▇}${remainder// /░} ${percentage}%"
           }
 
-          # Используем недельный диапазон (понедельник -> воскресенье)
-          REPORT_TYPE="This Week Wakatime"
-          DATE_RANGE="$(date -d 'last monday' +'%Y-%m-%d') → $(date -d 'this sunday' +'%Y-%m-%d')"
-          
           # Получаем данные за текущую неделю
           API_URL="https://wakatime.com/api/v1/users/current/stats?api_key=$WAKATIME_API_KEY&range=week&cache_buster=$(date +%s)"
           echo "::group::Загрузка данных WakaTime"
-          curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
+          curl -sS --retry 3 --retry-delay 2 "$API_URL" -o wakatime.json || {
+            echo "Ошибка при получении данных WakaTime"
+            exit 1
+          }
+          
+          # Проверяем валидность JSON
+          if ! jq empty wakatime.json 2>/dev/null; then
+            echo "Неверный JSON-ответ от WakaTime API"
+            exit 1
+          fi
+          
+          # Проверяем наличие необходимых данных
+          if ! jq -e '.data' wakatime.json >/dev/null 2>&1; then
+            echo "Отсутствуют данные в ответе WakaTime"
+            exit 1
+          fi
           echo "::endgroup::"
+
+          # Устанавливаем значения по умолчанию
+          DEFAULT_STATS='{
+            "human_readable_total": "0 secs",
+            "human_readable_daily_average": "0 secs",
+            "best_day": {"text": "0 secs", "date": "N/A"},
+            "days": [],
+            "languages": []
+          }'
+          
+          # Объединяем с дефолтными значениями
+          jq -r --argjson default "$DEFAULT_STATS" '.data += $default | .data' wakatime.json > wakatime_processed.json
+          mv wakatime_processed.json wakatime.json
 
           # Process data
           total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
           best_day_seconds=$(jq -r '.data.best_day.total_seconds // 0' wakatime.json)
           productivity=$(echo "scale=1; $best_day_seconds * 100 / ($total_seconds + 1)" | bc)
-          active_days=$(jq -r '.data.days | map(select(.total_seconds > 0)) | length' wakatime.json)
+          active_days=$(jq -r '[.data.days[]? | select(.total_seconds > 0)] | length' wakatime.json)
           
           # Generate report
           echo '```text' > stats.md
-          echo "$REPORT_TYPE » $DATE_RANGE" >> stats.md
+          echo "### Статистика кодинга" >> stats.md
+          echo "This Week Wakatime » $(date -d 'last monday' +'%Y-%m-%d') → $(date -d 'this sunday' +'%Y-%m-%d')" >> stats.md
           echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
           
@@ -73,11 +98,11 @@ jobs:
           echo "┌──────────────────────────┬───────────────────────┐" >> stats.md
           echo "│        Metric           │        Value          │" >> stats.md
           echo "├──────────────────────────┼───────────────────────┤" >> stats.md
-          printf "│ Total Time             │ %21s │\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" >> stats.md
+          printf "│ Total Time             │ %21s │\n" "$(jq -r '.data.human_readable_total' wakatime.json)" >> stats.md
           echo "├──────────────────────────┼───────────────────────┤" >> stats.md
-          printf "│ Daily Avg              │ %21s │\n" "$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)" >> stats.md
+          printf "│ Daily Avg              │ %21s │\n" "$(jq -r '.data.human_readable_daily_average' wakatime.json)" >> stats.md
           echo "├──────────────────────────┼───────────────────────┤" >> stats.md
-          printf "│ Best Day               │ %21s │\n" "$(jq -r '(.data.best_day.text // "0 secs") + " (" + (.data.best_day.date // "N/A") + ")"' wakatime.json)" >> stats.md
+          printf "│ Best Day               │ %21s │\n" "$(jq -r '(.data.best_day.text) + " (" + (.data.best_day.date) + ")"' wakatime.json)" >> stats.md
           echo "├──────────────────────────┼───────────────────────┤" >> stats.md
           printf "│ Productivity           │ %21s │\n" "$(generate_progress_bar ${productivity%.*} 100 20)" >> stats.md
           echo "├──────────────────────────┼───────────────────────┤" >> stats.md
@@ -90,15 +115,23 @@ jobs:
           echo "┌───────┬────────────────┬──────────────────────┐" >> stats.md
           echo "│ День  │ Время кодинга  │ Прогресс активности  │" >> stats.md
           echo "├───────┼────────────────┼──────────────────────┤" >> stats.md
-          jq -r '.data.days | to_entries? | .[]? | "\(.key[:3])|\(.value.text)|\(.value.percent|floor)"' wakatime.json | 
-          while IFS='|' read -r day text percent; do
+          
+          # Получаем дни недели в правильном порядке
+          DAYS_ORDER=("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
+          for day in "${DAYS_ORDER[@]}"; do
+            day_data=$(jq -r --arg day "$day" '.data.days[] | select(.name == $day) // {"text": "0 mins", "percent": 0}' wakatime.json)
+            text=$(jq -r '.text' <<< "$day_data")
+            percent=$(jq -r '.percent | floor' <<< "$day_data")
+            
             case $day in
-              "Mon") day="Пн";; "Tue") day="Вт";; "Wed") day="Ср";;
-              "Thu") day="Чт";; "Fri") day="Пт";; "Sat") day="Сб";;
-              "Sun") day="Вс";; *) day="$day";;
+              "Mon") ru_day="Пн";; "Tue") ru_day="Вт";; "Wed") ru_day="Ср";;
+              "Thu") ru_day="Чт";; "Fri") ru_day="Пт";; "Sat") ru_day="Сб";;
+              "Sun") ru_day="Вс";; *) ru_day="$day";;
             esac
-            printf "│ %-4s │ %-14s │ %-20s │\n" "$day" "$text" "$(generate_progress_bar $percent 100 20)"
+            
+            printf "│ %-4s │ %-14s │ %-20s │\n" "$ru_day" "$text" "$(generate_progress_bar $percent 100 20)"
           done >> stats.md
+          
           echo "└───────┴────────────────┴──────────────────────┘" >> stats.md
           echo "" >> stats.md
           
@@ -119,8 +152,6 @@ jobs:
           
           # Set outputs
           echo "stats-generated=true" >> $GITHUB_OUTPUT
-
-          # Cleanup
           rm -f stats.md wakatime.json
 
       - name: Commit and push changes
