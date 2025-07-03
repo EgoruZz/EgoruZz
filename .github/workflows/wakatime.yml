@@ -26,15 +26,16 @@ jobs:
       - name: Setup environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq bc
+          sudo apt-get install -y jq bc figlet toilet
           command -v cowsay >/dev/null 2>&1 || sudo apt-get install -y cowsay
+          command -v fortune >/dev/null 2>&1 || sudo apt-get install -y fortune-mod
 
       - name: Fetch and process stats
         id: process-stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Функция для прогресс-баров
+          # Function for progress bars
           generate_progress_bar() {
             local value=${1:-0}
             local max=${2:-100}
@@ -47,95 +48,84 @@ jobs:
             echo "${bar// /▇}${remainder// /░} ${percentage}%"
           }
 
-          # Получаем данные за текущую неделю
-          API_URL="https://wakatime.com/api/v1/users/current/stats?api_key=$WAKATIME_API_KEY&range=week"
-          echo "::group::Загрузка данных WakaTime"
-          curl -sS --retry 3 --retry-delay 2 "$API_URL" -o wakatime.json || {
-            echo "Ошибка при получении данных WakaTime"
-            exit 1
-          }
+          # Get current week dates (Monday to Sunday)
+          current_week_start=$(date -d "last monday" +'%Y-%m-%d')
+          current_week_end=$(date -d "this sunday" +'%Y-%m-%d')
+          today=$(date +'%Y-%m-%d')
 
-          # Создаем дефолтную структуру данных
-          DEFAULT_DATA='{
-            "data": {
-              "human_readable_total": "0 secs",
-              "human_readable_daily_average": "0 secs",
-              "best_day": {"text": "0 secs", "date": "N/A"},
-              "days": [],
-              "languages": []
-            }
-          }'
-
-          # Проверяем и исправляем данные
-          if ! jq -e '.data' wakatime.json >/dev/null 2>&1; then
-            echo "$DEFAULT_DATA" > wakatime.json
+          # Determine report type
+          if [[ "${{ github.event_name }}" == "schedule" ]] && [[ "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
+             [[ "${{ inputs.force-refresh }}" == "true" ]]; then
+            CACHE_BUSTER=$(date +%s)
+            REPORT_TYPE="🚀 WEEKLY RESET"
+            HEADER_STYLE=$(toilet -f term "THIS WEEK STATS" 2>/dev/null || figlet "THIS WEEK STATS")
+            DATE_RANGE="$current_week_start → $current_week_end"
+            echo "::notice::Full refresh mode activated"
           else
-            # Объединяем с дефолтными значениями
-            jq -r --argjson default "$DEFAULT_DATA" '.data = (.data + $default.data)' wakatime.json > temp.json && mv temp.json wakatime.json
+            CACHE_BUSTER="cache"
+            REPORT_TYPE="📈 AUTO UPDATE"
+            HEADER_STYLE=$(figlet -f mini "Live Stats" 2>/dev/null || echo "THIS WEEK STATS")
+            DATE_RANGE="$current_week_start → $today"
           fi
+
+          # Get WakaTime data for current week
+          API_URL="https://wakatime.com/api/v1/users/current/summaries?api_key=$WAKATIME_API_KEY&start=$current_week_start&end=$current_week_end&cache_buster=$CACHE_BUSTER"
+          echo "::group::Fetching WakaTime data"
+          curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
           echo "::endgroup::"
 
           # Process data
-          total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
-          best_day_seconds=$(jq -r '.data.best_day.total_seconds // 0' wakatime.json)
+          total_seconds=$(jq -r '.data[0].grand_total.total_seconds // 0' wakatime.json)
+          daily_avg=$(echo "scale=1; $total_seconds / 7" | bc)
+          best_day_seconds=$(jq -r '.data[0].grand_total.max // 0' wakatime.json)
           productivity=$(echo "scale=1; $best_day_seconds * 100 / ($total_seconds + 1)" | bc)
-          active_days=$(jq -r '[.data.days[] | select(.total_seconds > 0)] | length' wakatime.json)
-
+          week_days=$(jq -r '[.data[0].days[] | select(.total_seconds > 0)] | length' wakatime.json)
+          
           # Generate report
           echo '```text' > stats.md
-          echo "### Статистика кодинга" >> stats.md
-          echo "This Week Wakatime » $(date -d 'last monday' +'%Y-%m-%d') → $(date -d 'this sunday' +'%Y-%m-%d')" >> stats.md
+          echo "$HEADER_STYLE" >> stats.md
+          echo "⏳ $REPORT_TYPE » $DATE_RANGE" >> stats.md
           echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
           
-          # Main stats
-          echo "┌──────────────────────────┬───────────────────────┐" >> stats.md
-          echo "│        Metric           │        Value          │" >> stats.md
-          echo "├──────────────────────────┼───────────────────────┤" >> stats.md
-          printf "│ Total Time             │ %21s │\n" "$(jq -r '.data.human_readable_total' wakatime.json)" >> stats.md
-          echo "├──────────────────────────┼───────────────────────┤" >> stats.md
-          printf "│ Daily Avg              │ %21s │\n" "$(jq -r '.data.human_readable_daily_average' wakatime.json)" >> stats.md
-          echo "├──────────────────────────┼───────────────────────┤" >> stats.md
-          printf "│ Best Day               │ %21s │\n" "$(jq -r '(.data.best_day.text) + " (" + (.data.best_day.date) + ")"' wakatime.json)" >> stats.md
-          echo "├──────────────────────────┼───────────────────────┤" >> stats.md
-          printf "│ Productivity           │ %21s │\n" "$(generate_progress_bar ${productivity%.*} 100 20)" >> stats.md
-          echo "├──────────────────────────┼───────────────────────┤" >> stats.md
-          printf "│ Active Days            │ %21s │\n" "$active_days/7 days" >> stats.md
-          echo "└──────────────────────────┴───────────────────────┘" >> stats.md
+          # Clean two-column stats
+          echo "┌──────────────────────┬──────────────────────┐" >> stats.md
+          echo "│ METRIC               │ VALUE                │" >> stats.md
+          echo "├──────────────────────┼──────────────────────┤" >> stats.md
+          printf "│ Total Time          │ %20s │\n" "$(jq -r '.data[0].grand_total.text // "0 secs"' wakatime.json)" >> stats.md
+          echo "├──────────────────────┼──────────────────────┤" >> stats.md
+          printf "│ Daily Average       │ %20s │\n" "$(printf "%02d:%02d" $(($daily_avg/3600)) $(($daily_avg%3600/60))" >> stats.md
+          echo "├──────────────────────┼──────────────────────┤" >> stats.md
+          printf "│ Best Day            │ %20s │\n" "$(printf "%02d:%02d" $(($best_day_seconds/3600)) $(($best_day_seconds%3600/60))" >> stats.md
+          echo "├──────────────────────┼──────────────────────┤" >> stats.md
+          printf "│ Productivity        │ %20s │\n" "$(generate_progress_bar ${productivity%.*} 100 20)" >> stats.md
+          echo "├──────────────────────┼──────────────────────┤" >> stats.md
+          printf "│ Active Days         │ %20s │\n" "$week_days/7 days" >> stats.md
+          echo "└──────────────────────┴──────────────────────┘" >> stats.md
           echo "" >> stats.md
           
-          # Weekly activity in Russian
-          echo "📅 АКТИВНОСТЬ ПО ДНЯМ" >> stats.md
-          echo "┌───────┬────────────────┬──────────────────────┐" >> stats.md
-          echo "│ День  │ Время кодинга  │ Прогресс активности  │" >> stats.md
-          echo "├───────┼────────────────┼──────────────────────┤" >> stats.md
-          
-          # Получаем дни недели в правильном порядке
-          DAYS_ORDER=("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")
-          for day in "${DAYS_ORDER[@]}"; do
-            day_data=$(jq -r --arg day "$day" '.data.days[] | select(.name == $day) // {"text": "0 mins", "percent": 0, "name": $day}' wakatime.json)
-            text=$(jq -r '.text' <<< "$day_data")
-            percent=$(jq -r '.percent | floor' <<< "$day_data")
-            
-            case $day in
-              "Mon") ru_day="Пн";; "Tue") ru_day="Вт";; "Wed") ru_day="Ср";;
-              "Thu") ru_day="Чт";; "Fri") ru_day="Пт";; "Sat") ru_day="Сб";;
-              "Sun") ru_day="Вс";; *) ru_day="$day";;
-            esac
-            
-            printf "│ %-4s │ %-14s │ %-20s │\n" "$ru_day" "$text" "$(generate_progress_bar $percent 100 20)"
+          # Top technologies
+          echo "🔝 TOP 5 TECHNOLOGIES" >> stats.md
+          jq -r '.data[0].languages[0:5] | .[]? | "\(.name)|\(.text)|\(.percent|floor)"' wakatime.json | 
+          while IFS='|' read -r name text percent; do
+            printf "%-15s %-12s %3d%%\n%s\n\n" "$name:" "$text" "$percent" "$(generate_progress_bar $percent 100 20)"
           done >> stats.md
           
+          # Weekly activity
+          echo "📅 WEEKLY ACTIVITY" >> stats.md
+          echo "┌───────┬────────────────┬──────────────────────┐" >> stats.md
+          echo "│ Day   │ Coding Time    │ Activity Progress    │" >> stats.md
+          echo "├───────┼────────────────┼──────────────────────┤" >> stats.md
+          jq -r '.data[0].days[] | "\(.date|strptime("%Y-%m-%d")|strftime("%a"))|\(.text)|\((.total_seconds*100/(.grand_total.total_seconds+1))|floor)"' wakatime.json | 
+          while IFS='|' read -r day text percent; do
+            printf "│ %-5s │ %-14s │ %-20s │\n" "$day" "$text" "$(generate_progress_bar $percent 100 20)"
+          done >> stats.md
           echo "└───────┴────────────────┴──────────────────────┘" >> stats.md
           echo "" >> stats.md
           
-          # Top technologies section
-          echo "TOP 5 TECHNOLOGIES" >> stats.md
-          jq -r '.data.languages[0:5] | .[]? | select(.name != null) | "\(.name)|\(.text)|\(.percent|floor)"' wakatime.json | 
-          while IFS='|' read -r name text percent; do
-            echo "▌ $name: $text ($percent%)" >> stats.md
-            echo "  $(generate_progress_bar $percent 100 20)" >> stats.md
-          done
+          # Fun fact
+          echo "💡 DEV TIP" >> stats.md
+          (fortune -s computers programming science education 2>/dev/null || echo "Stay curious! Keep coding!") >> stats.md
           echo '```' >> stats.md
 
           # Update README
