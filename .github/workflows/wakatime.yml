@@ -26,8 +26,7 @@ jobs:
       - name: Setup environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq bc figlet toilet boxes
-          command -v cowsay >/dev/null 2>&1 || sudo apt-get install -y cowsay
+          sudo apt-get install -y jq bc
           command -v lolcat >/dev/null 2>&1 || sudo gem install lolcat || echo "Lolcat not available"
 
       - name: Fetch and process stats
@@ -53,15 +52,11 @@ jobs:
              [[ "${{ inputs.force-refresh }}" == "true" ]]; then
             CACHE_BUSTER=$(date +%s)
             REPORT_TYPE="🚀 WEEKLY RESET"
-            HEADER_STYLE=$( (toilet -f future --filter border:metal "DEV STATS" 2>/dev/null || 
-                          figlet -f slant "CODE PULSE" | lolcat 2>/dev/null ||
-                          echo "WEEKLY CODING REPORT") )
             DATE_RANGE="$(date -d 'last monday' +'%Y-%m-%d') → $(date -d 'last sunday' +'%Y-%m-%d')"
             echo "::notice::Full refresh mode activated"
           else
             CACHE_BUSTER="cache"
             REPORT_TYPE="📈 AUTO UPDATE"
-            HEADER_STYLE=$( (figlet -f mini "Live Stats" | lolcat 2>/dev/null || echo "CODING STATS") )
             DATE_RANGE="$(date -d '7 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')"
           fi
 
@@ -79,47 +74,50 @@ jobs:
           
           # Generate report
           echo '```text' > stats.md
-          echo "$HEADER_STYLE" | (boxes -d parchment 2>/dev/null || cat) >> stats.md
           echo "⏳ $REPORT_TYPE » $DATE_RANGE" >> stats.md
           echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
           
-          # Main stats - improved alignment
-          echo "╔══════════════════════════════════════════════╗" >> stats.md
-          echo "║            📊 CODING ANALYTICS               ║" >> stats.md
-          echo "╠══════════════════════╦═══════════════════════╣" >> stats.md
-          printf "║ Total Time          ║ %21s ║\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" >> stats.md
-          echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
-          printf "║ Daily Avg           ║ %21s ║\n" "$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)" >> stats.md
-          echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
-          printf "║ Best Day            ║ %21s ║\n" "$(jq -r '(.data.best_day.text // "0 secs") + " (" + (.data.best_day.date // "N/A") + ")"' wakatime.json)" >> stats.md
-          echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
-          printf "║ Productivity        ║ %21s ║\n" "$(generate_progress_bar ${productivity%.*} 100 20)" >> stats.md
-          echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
-          printf "║ Active Days         ║ %21s ║\n" "$week_days/7 days" >> stats.md
-          echo "╚══════════════════════╩═══════════════════════╝" >> stats.md
+          # New Code Analytics table style
+          echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" >> stats.md
+          echo "┃              CODE ANALYTICS               ┃" >> stats.md
+          echo "┣━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+          printf "┃ %-20s ┃ %-15s ┃\n" "Total Time" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" >> stats.md
+          echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+          printf "┃ %-20s ┃ %-15s ┃\n" "Daily Average" "$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)" >> stats.md
+          echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+          printf "┃ %-20s ┃ %-15s ┃\n" "Best Day" "$(jq -r '.data.best_day.text // "0 secs"' wakatime.json)" >> stats.md
+          echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+          printf "┃ %-20s ┃ %-15s ┃\n" "Best Day Date" "$(jq -r '.data.best_day.date // "N/A"' wakatime.json)" >> stats.md
+          echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+          printf "┃ %-20s ┃ %-15s ┃\n" "Productivity" "$(generate_progress_bar ${productivity%.*} 100 20)" >> stats.md
+          echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+          printf "┃ %-20s ┃ %-15s ┃\n" "Active Days" "$week_days/7 days" >> stats.md
+          echo "┗━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┛" >> stats.md
           echo "" >> stats.md
           
-          # Top technologies with improved formatting
-          echo "🌈 TOP 5 TECHNOLOGIES" >> stats.md
-          jq -r '.data.languages[0:5] | .[]? | "\(.name)|\(.text)|\(.percent|floor)"' wakatime.json | 
-          while IFS='|' read -r name text percent; do
-            color=$(( 160 + (RANDOM % 40) ))
-            printf "\033[38;5;%sm▌ %-15s %-12s %3d%%\n  %s\033[0m\n" \
-              "$color" "$name:" "$text" "$percent" "$(generate_progress_bar $percent 100 20)"
-          done >> stats.md
-          echo "" >> stats.md
-          
-          # Weekly activity with fixed alignment
-          echo "📅 WEEKLY ACTIVITY" >> stats.md
-          echo "┌───────┬────────────────┬──────────────────────┐" >> stats.md
-          echo "│ Day   │ Coding Time    │ Activity Progress    │" >> stats.md
-          echo "├───────┼────────────────┼──────────────────────┤" >> stats.md
-          jq -r '.data.days | to_entries? | .[]? | "\(.key[:3])|\(.value.text)|\(.value.percent|floor)"' wakatime.json | 
+          # Weekly activity
+          echo "📅 АКТИВНОСТЬ ПО ДНЯМ" >> stats.md
+          echo "┌───────────┬────────────────┬──────────────────────┐" >> stats.md
+          echo "│ День      │ Время кодинга  │ Прогресс активности  │" >> stats.md
+          echo "├───────────┼────────────────┼──────────────────────┤" >> stats.md
+          jq -r '.data.days | to_entries? | .[]? | "\(.key)|\(.value.text)|\(.value.percent|floor)"' wakatime.json | 
           while IFS='|' read -r day text percent; do
-            printf "│ %-5s │ %-14s │ %-20s │\n" "$day" "$text" "$(generate_progress_bar $percent 100 20)"
+            case "${day}" in
+              "Mon") day_name="Monday" ;;
+              "Tue") day_name="Tuesday" ;;
+              "Wed") day_name="Wednesday" ;;
+              "Thu") day_name="Thursday" ;;
+              "Fri") day_name="Friday" ;;
+              "Sat") day_name="Saturday" ;;
+              "Sun") day_name="Sunday" ;;
+              *) day_name="${day}" ;;
+            esac
+            
+            formatted_text=$(echo "$text" | sed 's/hrs/hr/; s/mins/min/')
+            printf "│ %-9s │ %-14s │ %-20s │\n" "$day_name" "$formatted_text" "$(generate_progress_bar $percent 100 20)"
           done >> stats.md
-          echo "└───────┴────────────────┴──────────────────────┘" >> stats.md
+          echo "└───────────┴────────────────┴──────────────────────┘" >> stats.md
           echo '```' >> stats.md
 
           # Update README
@@ -130,8 +128,6 @@ jobs:
           
           # Set outputs
           echo "stats-generated=true" >> $GITHUB_OUTPUT
-
-          # Cleanup
           rm -f stats.md wakatime.json
 
       - name: Commit and push changes
