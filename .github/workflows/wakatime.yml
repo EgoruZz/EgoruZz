@@ -55,7 +55,7 @@ jobs:
 
           # Determine report type
           if [[ "${{ github.event_name }}" == "schedule" ]] && [[ "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
-             [[ "${{ inputs.force-refresh }}" == "true" ]]; then
+            [[ "${{ inputs.force-refresh }}" == "true" ]]; then
             CACHE_BUSTER=$(date +%s)
             REPORT_TYPE="🚀 WEEKLY RESET"
             HEADER_STYLE=$(toilet -f term "THIS WEEK STATS" 2>/dev/null || figlet "THIS WEEK STATS")
@@ -72,12 +72,19 @@ jobs:
           API_URL="https://wakatime.com/api/v1/users/current/summaries?api_key=$WAKATIME_API_KEY&start=$current_week_start&end=$current_week_end&cache_buster=$CACHE_BUSTER"
           echo "::group::Fetching WakaTime data"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
+          echo "API Response:"
+          head -n 50 wakatime.json
           echo "::endgroup::"
 
-          # Process data
+          # Process data with proper error handling
+          if ! jq -e '.data' wakatime.json >/dev/null 2>&1; then
+            echo "::error::Invalid API response format"
+            exit 1
+          fi
+
           total_seconds=$(jq -r '.data[0].grand_total.total_seconds // 0' wakatime.json)
           daily_avg=$(echo "scale=1; $total_seconds / 7" | bc)
-          best_day_seconds=$(jq -r '.data[0].grand_total.max // 0' wakatime.json)
+          best_day_seconds=$(jq -r '[.data[0].days[].total_seconds] | max // 0' wakatime.json)
           productivity=$(echo "scale=1; $best_day_seconds * 100 / ($total_seconds + 1)" | bc)
           week_days=$(jq -r '[.data[0].days[] | select(.total_seconds > 0)] | length' wakatime.json)
           
@@ -116,8 +123,9 @@ jobs:
           echo "┌───────┬────────────────┬──────────────────────┐" >> stats.md
           echo "│ Day   │ Coding Time    │ Activity Progress    │" >> stats.md
           echo "├───────┼────────────────┼──────────────────────┤" >> stats.md
-          jq -r '.data[0].days[] | "\(.date|strptime("%Y-%m-%d")|strftime("%a"))|\(.text)|\((.total_seconds*100/(.grand_total.total_seconds+1))|floor)"' wakatime.json | 
-          while IFS='|' read -r day text percent; do
+          jq -r '.data[0].days[] | "\(.date)|\(.text)|\((.total_seconds*100/(if .grand_total.total_seconds > 0 then .grand_total.total_seconds else 1 end))|floor)"' wakatime.json | 
+          while IFS='|' read -r date text percent; do
+            day=$(date -d "$date" +'%a')
             printf "│ %-5s │ %-14s │ %-20s │\n" "$day" "$text" "$(generate_progress_bar $percent 100 20)"
           done >> stats.md
           echo "└───────┴────────────────┴──────────────────────┘" >> stats.md
