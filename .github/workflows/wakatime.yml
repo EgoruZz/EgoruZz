@@ -38,7 +38,7 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Function for progress bars
+          # Функция для прогресс-баров (без изменений)
           generate_progress_bar() {
             local value=${1:-0}
             local max=${2:-100}
@@ -51,26 +51,14 @@ jobs:
             echo "${bar// /▇}${remainder// /░} ${percentage}%"
           }
 
-          # Determine report type
-          if [[ "${{ github.event_name }}" == "schedule" ]] && [[ "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
-             [[ "${{ inputs.force-refresh }}" == "true" ]]; then
-            CACHE_BUSTER=$(date +%s)
-            REPORT_TYPE="🚀 WEEKLY RESET"
-            HEADER_STYLE=$( (toilet -f future --filter border:metal "DEV STATS" 2>/dev/null || 
-                          figlet -f slant "CODE PULSE" | lolcat 2>/dev/null ||
-                          echo "WEEKLY CODING REPORT") )
-            DATE_RANGE="$(date -d 'last monday' +'%Y-%m-%d') → $(date -d 'last sunday' +'%Y-%m-%d')"
-            echo "::notice::Full refresh mode activated"
-          else
-            CACHE_BUSTER="cache"
-            REPORT_TYPE="📈 AUTO UPDATE"
-            HEADER_STYLE=$( (figlet -f mini "Live Stats" | lolcat 2>/dev/null || echo "CODING STATS") )
-            DATE_RANGE="$(date -d '7 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')"
-          fi
-
-          # Get WakaTime data
-          API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER"
-          echo "::group::Fetching WakaTime data"
+          # Всегда используем недельный диапазон (понедельник -> сегодня)
+          CACHE_BUSTER=$(date +%s)
+          REPORT_TYPE="📊 ТЕКУЩАЯ НЕДЕЛЯ"
+          DATE_RANGE="$(date -d 'last monday' +'%Y-%m-%d') → $(date +'%Y-%m-%d')"
+          
+          # Получаем данные за текущую неделю
+          API_URL="https://wakatime.com/api/v1/users/current/stats?api_key=$WAKATIME_API_KEY&range=week&cache_buster=$CACHE_BUSTER"
+          echo "::group::Загрузка данных WakaTime"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
           echo "::endgroup::"
 
@@ -80,16 +68,15 @@ jobs:
           productivity=$(echo "scale=1; $best_day_seconds * 100 / ($total_seconds + 1)" | bc)
           week_days=$(jq -r '.data.days | length' wakatime.json)
           
-          # Generate report
+          # Generate report (без верхней картинки)
           echo '```text' > stats.md
-          echo "$HEADER_STYLE" | (boxes -d parchment 2>/dev/null || cat) >> stats.md
           echo "⏳ $REPORT_TYPE » $DATE_RANGE" >> stats.md
           echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
           
           # Main stats - improved alignment
           echo "╔══════════════════════════════════════════════╗" >> stats.md
-          echo "║            📊 CODING ANALYTICS               ║" >> stats.md
+          echo "║            📊 CODING ANALYTICS              ║" >> stats.md
           echo "╠══════════════════════╦═══════════════════════╣" >> stats.md
           printf "║ Total Time          ║ %21s ║\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" >> stats.md
           echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
@@ -103,14 +90,14 @@ jobs:
           echo "╚══════════════════════╩═══════════════════════╝" >> stats.md
           echo "" >> stats.md
           
-          # Top technologies with improved formatting
+          # Top technologies section
           echo "🌈 TOP 5 TECHNOLOGIES" >> stats.md
           jq -r '.data.languages[0:5] | .[]? | "\(.name)|\(.text)|\(.percent|floor)"' wakatime.json | 
           while IFS='|' read -r name text percent; do
-            color=$(( 160 + (RANDOM % 40) ))
-            printf "\033[38;5;%sm▌ %-15s %-12s %3d%%\n  %s\033[0m\n" \
-              "$color" "$name:" "$text" "$percent" "$(generate_progress_bar $percent 100 20)"
-          done >> stats.md
+            # Убираем ANSI-коды и используем Unicode-символы
+            echo "▌ $name: $text ($percent%)" >> stats.md
+            echo "  $(generate_progress_bar $percent 100 20)" >> stats.md
+          done
           echo "" >> stats.md
           
           # Weekly activity with fixed alignment

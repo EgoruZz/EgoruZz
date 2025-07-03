@@ -3,79 +3,12 @@
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
 
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&duration=4000&color=62E200&center=true&vCenter=true&width=700&lines=Frontend+Developer+%E2%80%A2+Tech+Writer&pause=0" alt="Typing Animation" />
-</p>
-
 ### ⏳ Статистика кодинга
+<!--START_SECTION:waka-->
 ```text
- __________________________
-/\                         \
-\_|           __           |
-  | | o   _  (__|_ _._|_ _ |
-  | |_|\/(/_ __)|_(_| |__> |
-  |                        |
-  |   _____________________|_
-   \_/_______________________/
-⏳ 📈 AUTO UPDATE » 2025-06-26 → 2025-07-03
-🔄 Last sync: 2025-07-03 13:01 (MSK)
-
-╔══════════════════════════════════════════════╗
-║            📊 CODING ANALYTICS               ║
-╠══════════════════════╦═══════════════════════╣
-║ Total Time          ║         5 hrs 50 mins ║
-╠══════════════════════╬═══════════════════════╣
-║ Daily Avg           ║         2 hrs 55 mins ║
-╠══════════════════════╬═══════════════════════╣
-║ Best Day            ║ 3 hrs 44 mins (2025-06-30) ║
-╠══════════════════════╬═══════════════════════╣
-║ Productivity        ║ ▇▇▇▇▇▇▇▇▇▇▇▇░░░░░░░░ 64% ║
-╠══════════════════════╬═══════════════════════╣
-║ Active Days         ║              0/7 days ║
-╚══════════════════════╩═══════════════════════╝
-
-🌈 TOP 5 TECHNOLOGIES
-[38;5;162m▌ YAML:           4 hrs 8 mins  71%
-  ▇▇▇▇▇▇▇▇▇▇▇▇▇▇░░░░░░ 71%[0m
-[38;5;181m▌ Markdown:       1 hr 39 mins  28%
-  ▇▇▇▇▇░░░░░░░░░░░░░░░ 28%[0m
-[38;5;176m▌ C++:            1 min          0%
-  ░░░░░░░░░░░░░░░░░░░░ 0%[0m
-[38;5;197m▌ Git Config:     0 secs         0%
-  ░░░░░░░░░░░░░░░░░░░░ 0%[0m
-
-📅 WEEKLY ACTIVITY
-┌───────┬────────────────┬──────────────────────┐
-│ Day   │ Coding Time    │ Activity Progress    │
-├───────┼────────────────┼──────────────────────┤
-└───────┴────────────────┴──────────────────────┘
-
-💡 DEV TIP
- ____________________________
-< Stay curious! Keep coding! >
- ----------------------------
-          \
-           \
-            \          __---__
-                    _-       /--______
-               __--( /     \ )XXXXXXXXXXX\v.
-             .-XXX(   O   O  )XXXXXXXXXXXXXXX-
-            /XXX(       U     )        XXXXXXX\
-          /XXXXX(              )--_  XXXXXXXXXXX\
-         /XXXXX/ (      O     )   XXXXXX   \XXXXX\
-         XXXXX/   /            XXXXXX   \__ \XXXXX
-         XXXXXX__/          XXXXXX         \__---->
- ---___  XXX__/          XXXXXX      \__         /
-   \-  --__/   ___/\  XXXXXX            /  ___--/=
-    \-\    ___/    XXXXXX              '--- XXXXXX
-       \-\/XXX\ XXXXXX                      /XXXXX
-         \XXXXXXXXX   \                    /XXXXX/
-          \XXXXXX      >                 _/XXXXX/
-            \XXXXX--__/              __-- XXXX/
-             -XXXXXXXX---------------  XXXXXX-
-                \XXXXXXXXXXXXXXXXXXXXXXXXXX/
-                  ""VXXXXXXXXXXXXXXXXXXV""
+dcwc;
 ```
+<!--END_SECTION:waka-->
 ---
 
 ## 🛠 Мой стек технологий
