@@ -46,7 +46,7 @@ jobs:
             echo "${bar// /▇}${remainder// /░} ${percentage}%"
           }
 
-          # Get current week dates (Monday to Sunday)
+          # Get current week dates (Monday to Today)
           CURRENT_DAY=$(date +%u)
           MONDAY_DATE=$(date -d "last monday" +"%Y-%m-%d")
           TODAY_DATE=$(date +"%Y-%m-%d")
@@ -54,52 +54,70 @@ jobs:
           
           # Get WakaTime data for current week
           API_URL="https://wakatime.com/api/v1/users/current/summaries?start=$MONDAY_DATE&end=$TODAY_DATE&api_key=$WAKATIME_API_KEY"
-          echo "::group::Fetching WakaTime data"
+          echo "::group::Fetching WakaTime data from $API_URL"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
+          echo "API response:"
+          cat wakatime.json | jq empty 2>/dev/null || echo "Invalid JSON response"
           echo "::endgroup::"
 
-          # Process data
-          total_seconds=$(jq -r '.data[0].grand_total.total_seconds // 0' wakatime.json)
-          total_time=$(jq -r '.data[0].grand_total.text' wakatime.json)
-          days_data=$(jq -r '.data[0].days[] | "\(.date)|\(.text)|\(.percent)"' wakatime.json)
-          
-          # Calculate daily average
-          daily_average_seconds=$((total_seconds / DAYS_PASSED))
-          daily_average_hours=$((daily_average_seconds / 3600))
-          daily_average_mins=$(( (daily_average_seconds % 3600) / 60 ))
-          daily_average="${daily_average_hours}hr ${daily_average_mins}min"
+          # Check if response is valid
+          if ! jq -e '.data[0]' wakatime.json >/dev/null 2>&1; then
+            echo "::error::Invalid WakaTime API response"
+            echo '```text' > stats.md
+            echo "⏳ WAKATIME STATS UNAVAILABLE" >> stats.md
+            echo "🔄 Last sync attempt: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
+            echo "" >> stats.md
+            echo "Failed to fetch data from WakaTime API" >> stats.md
+            echo "Please check your API key and connection" >> stats.md
+            echo '```' >> stats.md
+          else
+            # Process data with fallback values
+            total_seconds=$(jq -r '.data[0].grand_total.total_seconds // 0' wakatime.json)
+            total_time=$(jq -r '.data[0].grand_total.text // "0 secs"' wakatime.json)
+            
+            # Calculate daily average
+            daily_average_seconds=$(( total_seconds / (DAYS_PASSED > 0 ? DAYS_PASSED : 1) ))
+            daily_average_hours=$((daily_average_seconds / 3600))
+            daily_average_mins=$(( (daily_average_seconds % 3600) / 60 ))
+            daily_average="${daily_average_hours}hr ${daily_average_mins}min"
 
-          # Generate report
-          echo '```text' > stats.md
-          echo "⏳ WEEKLY STATS » $MONDAY_DATE → $TODAY_DATE ($DAYS_PASSED/7 days)" >> stats.md
-          echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
-          echo "" >> stats.md
-          
-          # Metrics table
-          echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" >> stats.md
-          echo "┃                WEEKLY METRICS             ┃" >> stats.md
-          echo "┣━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┫" >> stats.md
-          printf "┃ %-20s ┃ %-15s ┃\n" "Total Time" "$total_time" >> stats.md
-          echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
-          printf "┃ %-20s ┃ %-15s ┃\n" "Daily Average" "$daily_average" >> stats.md
-          echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
-          printf "┃ %-20s ┃ %-15s ┃\n" "Days Tracked" "$DAYS_PASSED/7" >> stats.md
-          echo "┗━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┛" >> stats.md
-          echo "" >> stats.md
-          
-          # Weekly activity
-          echo "📅 DAILY ACTIVITY" >> stats.md
-          echo "┌──────────────┬────────────────┬──────────────────────┐" >> stats.md
-          echo "│ Day          │ Coding Time    │ Activity Progress    │" >> stats.md
-          echo "├──────────────┼────────────────┼──────────────────────┤" >> stats.md
-          
-          while IFS='|' read -r date text percent; do
-            day_name=$(date -d "$date" +"%A")
-            printf "│ %-12s │ %-14s │ %-20s │\n" "$day_name" "$text" "$(generate_progress_bar ${percent%.*} 100 20)"
-          done <<< "$days_data" >> stats.md
-          
-          echo "└──────────────┴────────────────┴──────────────────────┘" >> stats.md
-          echo '```' >> stats.md
+            # Generate report
+            echo '```text' > stats.md
+            echo "⏳ WEEKLY STATS » $MONDAY_DATE → $TODAY_DATE ($DAYS_PASSED/7 days)" >> stats.md
+            echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
+            echo "" >> stats.md
+            
+            # Metrics table
+            echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" >> stats.md
+            echo "┃                WEEKLY METRICS             ┃" >> stats.md
+            echo "┣━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+            printf "┃ %-20s ┃ %-15s ┃\n" "Total Time" "$total_time" >> stats.md
+            echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+            printf "┃ %-20s ┃ %-15s ┃\n" "Daily Average" "$daily_average" >> stats.md
+            echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+            printf "┃ %-20s ┃ %-15s ┃\n" "Days Tracked" "$DAYS_PASSED/7" >> stats.md
+            echo "┗━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┛" >> stats.md
+            echo "" >> stats.md
+            
+            # Weekly activity (only if days data exists)
+            if jq -e '.data[0].days' wakatime.json >/dev/null 2>&1; then
+              echo "📅 DAILY ACTIVITY" >> stats.md
+              echo "┌──────────────┬────────────────┬──────────────────────┐" >> stats.md
+              echo "│ Day          │ Coding Time    │ Activity Progress    │" >> stats.md
+              echo "├──────────────┼────────────────┼──────────────────────┤" >> stats.md
+              
+              jq -r '.data[0].days[]? | "\(.date)|\(.text)|\(.percent // 0)"' wakatime.json | 
+              while IFS='|' read -r date text percent; do
+                day_name=$(date -d "$date" +"%A")
+                printf "│ %-12s │ %-14s │ %-20s │\n" "$day_name" "$text" "$(generate_progress_bar ${percent%.*} 100 20)"
+              done >> stats.md
+              
+              echo "└──────────────┴────────────────┴──────────────────────┘" >> stats.md
+            else
+              echo "No daily activity data available" >> stats.md
+            fi
+            echo '```' >> stats.md
+          fi
 
           # Update README
           sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
