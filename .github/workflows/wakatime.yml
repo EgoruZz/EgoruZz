@@ -28,7 +28,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq bc figlet toilet boxes
           sudo npm install -g carbon-now-cli || echo "Carbon-now-cli installation failed"
-          # Install Playwright browsers
           npx playwright install chromium
           command -v cowsay >/dev/null 2>&1 || sudo apt-get install -y cowsay
           command -v fortune >/dev/null 2>&1 || sudo apt-get install -y fortune-mod
@@ -88,9 +87,9 @@ jobs:
           echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
           
-          # Main stats
+          # Main stats - improved alignment
           echo "╔══════════════════════════════════════════════╗" >> stats.md
-          echo "║            📊 CODING ANALYTICS              ║" >> stats.md
+          echo "║            📊 CODING ANALYTICS               ║" >> stats.md
           echo "╠══════════════════════╦═══════════════════════╣" >> stats.md
           printf "║ Total Time          ║ %21s ║\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" >> stats.md
           echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
@@ -104,17 +103,17 @@ jobs:
           echo "╚══════════════════════╩═══════════════════════╝" >> stats.md
           echo "" >> stats.md
           
-          # Top technologies with colors
+          # Top technologies with improved formatting
           echo "🌈 TOP 5 TECHNOLOGIES" >> stats.md
-          jq -r '.data.languages[0:5] | .[]? | "\(.name): \(.text) (\((.percent|floor)*100/100)%)"' wakatime.json | 
-          while IFS= read -r line; do
-            progress=$(jq -r --arg name "${line%%:*}" '.data.languages[] | select(.name == $name) | .percent | floor' wakatime.json)
+          jq -r '.data.languages[0:5] | .[]? | "\(.name)|\(.text)|\(.percent|floor)"' wakatime.json | 
+          while IFS='|' read -r name text percent; do
             color=$(( 160 + (RANDOM % 40) ))
-            printf "\033[38;5;%sm▌ %s\n  %s\033[0m\n" "$color" "$line" "$(generate_progress_bar $progress 100 20)"
+            printf "\033[38;5;%sm▌ %-15s %-12s %3d%%\n  %s\033[0m\n" \
+              "$color" "$name:" "$text" "$percent" "$(generate_progress_bar $percent 100 20)"
           done >> stats.md
           echo "" >> stats.md
           
-          # Weekly activity
+          # Weekly activity with fixed alignment
           echo "📅 WEEKLY ACTIVITY" >> stats.md
           echo "┌───────┬────────────────┬──────────────────────┐" >> stats.md
           echo "│ Day   │ Coding Time    │ Activity Progress    │" >> stats.md
@@ -126,10 +125,11 @@ jobs:
           echo "└───────┴────────────────┴──────────────────────┘" >> stats.md
           echo "" >> stats.md
           
-          # Fun fact
+          # Fun fact with fallback
           echo "💡 DEV TIP" >> stats.md
-          (fortune -s computers programming science education 2>/dev/null || echo "Keep coding!") | 
-          (cowsay -f $(ls /usr/share/cowsay/cows/ 2>/dev/null | shuf -n 1) 2>/dev/null || cat) | 
+          cowfile=$(find /usr/share/cowsay/cows/ -type f 2>/dev/null | shuf -n 1 || true)
+          (fortune -s computers programming science education 2>/dev/null || echo "Stay curious! Keep coding!") | 
+          (if [ -n "${cowfile}" ]; then cowsay -f "${cowfile}"; else cat; fi 2>/dev/null) | 
           (lolcat 2>/dev/null || cat) >> stats.md
           echo '```' >> stats.md
 
@@ -151,8 +151,7 @@ jobs:
           if command -v carbon-now &>/dev/null && [ -f stats.md ]; then
             echo "Generating Carbon image..."
             grep -v '```' stats.md > /tmp/stats_for_carbon.md
-            # Use --headless flag and disable browser opening
-            carbon-now /tmp/stats_for_carbon.md -t one-dark -l /tmp/carbon.png -h --headless
+            carbon-now /tmp/stats_for_carbon.md -t one-dark -l /tmp/carbon.png -h --headless --target local
             echo "carbon-image-generated=true" >> $GITHUB_OUTPUT
           else
             echo "carbon-image-generated=false" >> $GITHUB_OUTPUT
@@ -170,7 +169,7 @@ jobs:
         if: steps.process-stats.outputs.stats-generated == 'true'
         run: |
           if git diff --quiet --exit-code README.md; then
-            echo "::notice::Нет изменений в README.md"
+            echo "::notice::No changes detected in README.md"
             exit 0
           fi
 
@@ -187,7 +186,6 @@ jobs:
                        -m "Инкрементальное обновление | Триггер: ${{ github.event_name }}"
           fi
           
-          # Используем токен доступа для аутентификации
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git pull --rebase
           git push origin main
