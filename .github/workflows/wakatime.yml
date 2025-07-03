@@ -79,7 +79,6 @@ jobs:
           editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           
           # Generate report
-          echo '<div style="font-size: 28px; font-family: monospace;">' > stats.md
           echo '```text' >> stats.md
           echo "⏳ LAST 7 DAYS » $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')" >> stats.md
           echo "🔄 Updated: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
@@ -136,7 +135,6 @@ jobs:
           
           echo "└──────────────────────┴──────────────────────┴────────────────────────────────────┘" >> stats.md
           echo '```' >> stats.md
-          echo '</div>' >> stats.md
 
           # Update README
           sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
