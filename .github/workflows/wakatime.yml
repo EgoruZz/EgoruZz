@@ -45,13 +45,15 @@ jobs:
             echo "${bar// /▇}${remainder// /░} ${percentage}%"
           }
 
-          # Determine report type and date range
+          # Determine current week dates (Monday to Sunday)
+          MONDAY=$(date -d "monday -1 week" +'%Y-%m-%d')
+          SUNDAY=$(date -d "sunday" +'%Y-%m-%d')
           CACHE_BUSTER="cache"
           HEADER_STYLE=$( (figlet -f mini "Live Stats" | lolcat 2>/dev/null || echo "CODING STATS") )
-          DATE_RANGE="$(date -d '7 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')"
+          DATE_RANGE="$MONDAY → $SUNDAY"
           
-          # Get WakaTime data for last 7 days
-          API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER"
+          # Get WakaTime data for current week
+          API_URL="https://wakatime.com/api/v1/users/current/summaries?api_key=$WAKATIME_API_KEY&start=$MONDAY&end=$SUNDAY"
           echo "::group::Fetching WakaTime data"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
           echo "::endgroup::"
@@ -68,14 +70,15 @@ jobs:
             echo '```' >> stats.md
           else
             # Process data with fallback values
-            total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
-            total_time=$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)
-            daily_avg=$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)
+            total_seconds=$(jq -r '[.data[].grand_total.total_seconds] | add // 0' wakatime.json)
+            total_time=$(($total_seconds / 3600))h$((($total_seconds % 3600) / 60))m
+            daily_avg_seconds=$(($total_seconds / 7))
+            daily_avg=$(($daily_avg_seconds / 3600))h$((($daily_avg_seconds % 3600) / 60))m
             
             # Generate report
             echo '```text' > stats.md
             echo "$HEADER_STYLE" >> stats.md
-            echo "⏳ LAST 7 DAYS » $DATE_RANGE" >> stats.md
+            echo "⏳ CURRENT WEEK » $DATE_RANGE" >> stats.md
             echo "🔄 Updated: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
             echo "" >> stats.md
             
@@ -90,19 +93,31 @@ jobs:
             echo "" >> stats.md
             
             # Weekly activity
-            if jq -e '.data.days' wakatime.json >/dev/null 2>&1; then
+            if jq -e '.data[].days' wakatime.json >/dev/null 2>&1; then
               echo "📅 DAILY BREAKDOWN" >> stats.md
               echo "┌──────────────┬────────────────┬──────────────────────┐" >> stats.md
               echo "│ Day          │ Coding Time    │ Activity Progress    │" >> stats.md
               echo "├──────────────┼────────────────┼──────────────────────┤" >> stats.md
               
-              jq -r '.data.days[] | "\(.date)|\(.text)|\(.percent // 0)"' wakatime.json | 
-              while IFS='|' read -r date text percent; do
+              # Combine days from all summaries
+              jq -r '.data[].days[] | "\(.date)|\(.text)|\(.total_seconds)"' wakatime.json > days.txt
+              
+              # Calculate percentages
+              total_week_seconds=$(awk -F'|' '{sum += $3} END {print sum}' days.txt)
+              
+              # Process each day
+              while IFS='|' read -r date text seconds; do
                 day_name=$(date -d "$date" +"%A")
-                printf "│ %-12s │ %-14s │ %-20s │\n" "$day_name" "$text" "$(generate_progress_bar ${percent%.*} 100 20)"
-              done >> stats.md
+                if [ "$total_week_seconds" -gt 0 ]; then
+                  percent=$((seconds * 100 / total_week_seconds))
+                else
+                  percent=0
+                fi
+                printf "│ %-12s │ %-14s │ %-20s │\n" "$day_name" "$text" "$(generate_progress_bar $percent 100 20)"
+              done < days.txt >> stats.md
               
               echo "└──────────────┴────────────────┴──────────────────────┘" >> stats.md
+              rm -f days.txt
             else
               echo "No daily activity data available" >> stats.md
             fi
