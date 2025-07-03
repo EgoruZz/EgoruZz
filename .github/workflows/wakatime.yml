@@ -1,15 +1,15 @@
-name: WakaTime Weekly Sync
+name: WakaTime Sync
 concurrency:
   group: wakatime-sync-${{ github.ref }}
   cancel-in-progress: false
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Каждый день в 00:00 UTC (03:00 МСК)
+    - cron: "0 0 * * *"  # Every day at 00:00 UTC (03:00 MSK)
   workflow_dispatch:
     inputs:
       force-refresh:
-        description: 'Принудительное обновление (игнорировать кеш)'
+        description: 'Force full refresh (ignore cache)'
         required: false
         default: 'false'
 
@@ -22,17 +22,18 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Установка окружения
+      - name: Setup environment
         run: |
           sudo apt-get update
           sudo apt-get install -y jq bc
+          command -v lolcat >/dev/null 2>&1 || sudo gem install lolcat || echo "Lolcat not available"
 
-      - name: Получение и обработка статистики
+      - name: Fetch and process stats
         id: process-stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Функция для прогресс-бара
+          # Function for progress bars
           generate_progress_bar() {
             local value=${1:-0}
             local max=${2:-100}
@@ -45,84 +46,87 @@ jobs:
             echo "${bar// /▇}${remainder// /░} ${percentage}%"
           }
 
-          # Определяем текущий день недели (1-7, где 1 - понедельник)
+          # Get current week dates (Monday to Sunday)
           CURRENT_DAY=$(date +%u)
-          DAYS_PASSED=$CURRENT_DAY  # Если сегодня Чт, то прошло 4 дня
-
-          # Определяем даты начала (понедельник) и конца (текущий день) недели
-          START_DATE=$(date -d "last monday" +"%Y-%m-%d")
-          END_DATE=$(date +"%Y-%m-%d")
-
-          # Если сегодня понедельник, сбрасываем статистику
-          if [[ $CURRENT_DAY -eq 1 ]]; then
-            REPORT_TYPE="🚀 НОВАЯ НЕДЕЛЯ"
-            CACHE_BUSTER=$(date +%s)
-          else
-            REPORT_TYPE="📈 ТЕКУЩАЯ НЕДЕЛЯ"
-            CACHE_BUSTER="cache"
-          fi
-
-          # Получаем данные WakaTime за текущую неделю
-          API_URL="https://wakatime.com/api/v1/users/current/summaries?start=$START_DATE&end=$END_DATE&api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER"
-          echo "::group::Загрузка данных WakaTime..."
+          MONDAY_DATE=$(date -d "last monday" +"%Y-%m-%d")
+          TODAY_DATE=$(date +"%Y-%m-%d")
+          DAYS_PASSED=$CURRENT_DAY
+          
+          # Get WakaTime data for current week
+          API_URL="https://wakatime.com/api/v1/users/current/summaries?start=$MONDAY_DATE&end=$TODAY_DATE&api_key=$WAKATIME_API_KEY"
+          echo "::group::Fetching WakaTime data"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
           echo "::endgroup::"
 
-          # Обработка данных
-          TOTAL_TIME=$(jq -r '.data[0].grand_total.text' wakatime.json)
-          DAYS_DATA=$(jq -r '.data[0].days[] | "\(.date)|\(.text)|\(.percent)"' wakatime.json)
+          # Process data
+          total_seconds=$(jq -r '.data[0].grand_total.total_seconds // 0' wakatime.json)
+          total_time=$(jq -r '.data[0].grand_total.text' wakatime.json)
+          days_data=$(jq -r '.data[0].days[] | "\(.date)|\(.text)|\(.percent)"' wakatime.json)
+          
+          # Calculate daily average
+          daily_average_seconds=$((total_seconds / DAYS_PASSED))
+          daily_average_hours=$((daily_average_seconds / 3600))
+          daily_average_mins=$(( (daily_average_seconds % 3600) / 60 ))
+          daily_average="${daily_average_hours}hr ${daily_average_mins}min"
 
-          # Генерация отчёта
+          # Generate report
           echo '```text' > stats.md
-          echo "⏳ $REPORT_TYPE » $START_DATE → $END_DATE" >> stats.md
-          echo "🔄 Последнее обновление: $(date +'%Y-%m-%d %H:%M') (МСК)" >> stats.md
+          echo "⏳ WEEKLY STATS » $MONDAY_DATE → $TODAY_DATE ($DAYS_PASSED/7 days)" >> stats.md
+          echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
           
-          # Общая статистика
+          # Metrics table
           echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" >> stats.md
-          echo "┃          НЕДЕЛЬНАЯ СТАТИСТИКА            ┃" >> stats.md
+          echo "┃                WEEKLY METRICS             ┃" >> stats.md
           echo "┣━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┫" >> stats.md
-          printf "┃ %-20s ┃ %-15s ┃\n" "Всего времени" "$TOTAL_TIME" >> stats.md
+          printf "┃ %-20s ┃ %-15s ┃\n" "Total Time" "$total_time" >> stats.md
           echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
-          printf "┃ %-20s ┃ %-15s ┃\n" "Прогресс недели" "$DAYS_PASSED/7 дней" >> stats.md
+          printf "┃ %-20s ┃ %-15s ┃\n" "Daily Average" "$daily_average" >> stats.md
+          echo "┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━━━━━┫" >> stats.md
+          printf "┃ %-20s ┃ %-15s ┃\n" "Days Tracked" "$DAYS_PASSED/7" >> stats.md
           echo "┗━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┛" >> stats.md
           echo "" >> stats.md
           
-          # Статистика по дням
-          echo "📅 АКТИВНОСТЬ ПО ДНЯМ" >> stats.md
+          # Weekly activity
+          echo "📅 DAILY ACTIVITY" >> stats.md
           echo "┌──────────────┬────────────────┬──────────────────────┐" >> stats.md
-          echo "│ Дата         │ Время          │ Прогресс дня         │" >> stats.md
+          echo "│ Day          │ Coding Time    │ Activity Progress    │" >> stats.md
           echo "├──────────────┼────────────────┼──────────────────────┤" >> stats.md
           
           while IFS='|' read -r date text percent; do
             day_name=$(date -d "$date" +"%A")
             printf "│ %-12s │ %-14s │ %-20s │\n" "$day_name" "$text" "$(generate_progress_bar ${percent%.*} 100 20)"
-          done <<< "$DAYS_DATA" >> stats.md
+          done <<< "$days_data" >> stats.md
           
           echo "└──────────────┴────────────────┴──────────────────────┘" >> stats.md
           echo '```' >> stats.md
 
-          # Обновляем README.md
+          # Update README
           sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
               /<!--START_SECTION:waka-->/r stats.md
               d
           }' README.md
           
-          # Устанавливаем выходные данные
+          # Set outputs
           echo "stats-generated=true" >> $GITHUB_OUTPUT
           rm -f stats.md wakatime.json
 
-      - name: Коммит и пуш изменений
+      - name: Commit and push changes
         if: steps.process-stats.outputs.stats-generated == 'true'
         run: |
+          if git diff --quiet --exit-code README.md; then
+            echo "::notice::No changes detected in README.md"
+            exit 0
+          fi
+
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add README.md
           
           if [[ $(date +%u) -eq 1 ]]; then
-            git commit -m "🚀 Сброс недельной статистики [$(date +'%Y-%m-%d')]"
+            git commit -m "🚀 Weekly stats reset [$(date +'%Y-%m-%d')]"
           else
-            git commit -m "📈 Обновление статистики [$(date +'%H:%M МСК')]"
+            git commit -m "📈 Update weekly stats [$(date +'%H:%M MSK')]"
           fi
           
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
