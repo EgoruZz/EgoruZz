@@ -32,15 +32,17 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Function for compact progress bars
+          # Function for progress bars
           generate_progress_bar() {
             local value=${1:-0}
             local max=${2:-100}
-            local size=${3:-15}  # Compact size for table cells
+            local size=15
             local percentage=$(( value * 100 / max ))
             local progress=$(( percentage * size / 100 ))
             local remainder=$(( size - progress ))
-            printf "${bar// /█}${remainder// /░} ${percentage}%%"
+            printf "█%.0s" $(seq 1 $progress)
+            printf "░%.0s" $(seq 1 $remainder)
+            printf " %3d%%" $percentage
           }
 
           # Center-align text
@@ -72,9 +74,9 @@ jobs:
           languages=$(jq -r '.data.languages[0].name // "None"' wakatime.json)
           editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           
-          # Generate report with HTML tags for font size
+          # Generate report
           echo '```html' >> stats.md
-          echo '<div style="font-size: 28px; font-family: monospace;">' >> stats.md
+          echo '<div style="font-size: 28px; font-family: monospace; line-height: 1.5;">' >> stats.md
           echo "⏳ LAST 7 DAYS » $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')" >> stats.md
           echo "🔄 Updated: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
@@ -104,14 +106,15 @@ jobs:
           done < <(jq -r '.data.days[] | "\(.date)|\(.text)|\(.percent // 0)"' wakatime.json 2>/dev/null)
           
           for date in "${dates[@]}"; do
-            day_name=$(date -d "$date" +"%a") # Short day name
+            day_name=$(date -d "$date" +"%a")
             if [[ -n "${day_data[$date]}" ]]; then
               IFS='|' read -r text percent <<< "${day_data[$date]}"
             else
               text="0 secs"
               percent=0
             fi
-            printf "│ %-14s │ %-14s │ %-18s │\n" "$(center_text 14 "$day_name")" "$(center_text 14 "$text")" "$(generate_progress_bar ${percent%.*} 100 15)" >> stats.md
+            progress_bar=$(generate_progress_bar ${percent%.*} 100)
+            printf "│ %-14s │ %-14s │ %-18s │\n" "$(center_text 14 "$day_name")" "$(center_text 14 "$text")" "$progress_bar" >> stats.md
           done
           
           echo "└──────────────┴──────────────┴──────────────────┘" >> stats.md
@@ -124,7 +127,8 @@ jobs:
           echo "├──────────────────────┼──────────────────────┼──────────────────┤" >> stats.md
           
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
-            printf "│ %-22s │ %-22s │ %-18s │\n" "$(center_text 22 "${name:0:20}")" "$(center_text 22 "$text")" "$(generate_progress_bar ${percent%.*} 100 15)" >> stats.md
+            progress_bar=$(generate_progress_bar ${percent%.*} 100)
+            printf "│ %-22s │ %-22s │ %-18s │\n" "$(center_text 22 "${name:0:20}")" "$(center_text 22 "$text")" "$progress_bar" >> stats.md
           done
           
           echo "└──────────────────────┴──────────────────────┴──────────────────┘" >> stats.md
