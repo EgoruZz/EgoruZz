@@ -36,7 +36,7 @@ jobs:
           generate_progress_bar() {
             local value=${1:-0}
             local max=${2:-100}
-            local size=${3:-36}  # 40 symbols - 4 for percentage
+            local size=${3:-27}  # 40 symbols - 4 for percentage
             local percentage=$(( value * 100 / max ))
             local progress=$(( percentage * size / 100 ))
             local remainder=$(( size - progress ))
