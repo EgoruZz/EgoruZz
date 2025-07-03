@@ -3,7 +3,6 @@
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
 
-<div align="center">
 ### ⏳ Статистика кодинга
 ```text
 ### Статистика кодинга
@@ -39,7 +38,6 @@ This Week Wakatime » 2025-06-30 → 2025-07-06
 
 TOP 5 TECHNOLOGIES
 ```
-</div>
 ---
 
 ## 🛠 Мой стек технологий
