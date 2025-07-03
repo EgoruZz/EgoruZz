@@ -26,9 +26,10 @@ jobs:
       - name: Setup environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq bc figlet toilet
+          sudo apt-get install -y jq bc figlet toilet boxes
           command -v cowsay >/dev/null 2>&1 || sudo apt-get install -y cowsay
           command -v fortune >/dev/null 2>&1 || sudo apt-get install -y fortune-mod
+          command -v lolcat >/dev/null 2>&1 || sudo gem install lolcat || echo "Lolcat not available"
 
       - name: Fetch and process stats
         id: process-stats
@@ -48,96 +49,86 @@ jobs:
             echo "${bar// /▇}${remainder// /░} ${percentage}%"
           }
 
-          # Get current week dates (Monday to Sunday)
-          current_week_start=$(date -d "last monday" +'%Y-%m-%d')
-          current_week_end=$(date -d "this sunday" +'%Y-%m-%d')
-          today=$(date +'%Y-%m-%d')
-
           # Determine report type
           if [[ "${{ github.event_name }}" == "schedule" ]] && [[ "${{ github.event.schedule }}" == "10 0 * * 1" ]] || 
-            [[ "${{ inputs.force-refresh }}" == "true" ]]; then
+             [[ "${{ inputs.force-refresh }}" == "true" ]]; then
             CACHE_BUSTER=$(date +%s)
             REPORT_TYPE="🚀 WEEKLY RESET"
-            HEADER_STYLE=$(toilet -f term "THIS WEEK STATS" 2>/dev/null || figlet "THIS WEEK STATS")
-            DATE_RANGE="$current_week_start → $current_week_end"
+            HEADER_STYLE=$( (toilet -f future --filter border:metal "DEV STATS" 2>/dev/null || 
+                          figlet -f slant "CODE PULSE" | lolcat 2>/dev/null ||
+                          echo "WEEKLY CODING REPORT") )
+            DATE_RANGE="$(date -d 'last monday' +'%Y-%m-%d') → $(date -d 'last sunday' +'%Y-%m-%d')"
             echo "::notice::Full refresh mode activated"
           else
             CACHE_BUSTER="cache"
             REPORT_TYPE="📈 AUTO UPDATE"
-            HEADER_STYLE=$(figlet -f mini "Live Stats" 2>/dev/null || echo "THIS WEEK STATS")
-            DATE_RANGE="$current_week_start → $today"
+            HEADER_STYLE=$( (figlet -f mini "Live Stats" | lolcat 2>/dev/null || echo "CODING STATS") )
+            DATE_RANGE="$(date -d '7 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')"
           fi
 
-          # Get WakaTime data for current week
-          API_URL="https://wakatime.com/api/v1/users/current/summaries?api_key=$WAKATIME_API_KEY&start=$current_week_start&end=$current_week_end&cache_buster=$CACHE_BUSTER"
+          # Get WakaTime data
+          API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY&cache_buster=$CACHE_BUSTER"
           echo "::group::Fetching WakaTime data"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
-          echo "API Response Preview:"
-          head -n 50 wakatime.json
           echo "::endgroup::"
 
-          # Process data with proper error handling
-          if ! jq -e '.data' wakatime.json >/dev/null 2>&1; then
-            echo "::error::Invalid API response format"
-            exit 1
-          fi
-
-          # Calculate totals from all days
-          total_seconds=$(jq -r '.cumulative_total.seconds // 0' wakatime.json)
-          daily_avg=$(jq -r '.daily_average.seconds // 0' wakatime.json)
-          best_day_seconds=$(jq -r '[.data[].grand_total.total_seconds] | max // 0' wakatime.json)
+          # Process data
+          total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
+          best_day_seconds=$(jq -r '.data.best_day.total_seconds // 0' wakatime.json)
           productivity=$(echo "scale=1; $best_day_seconds * 100 / ($total_seconds + 1)" | bc)
-          week_days=$(jq -r '[.data[] | select(.grand_total.total_seconds > 0)] | length' wakatime.json)
+          week_days=$(jq -r '.data.days | length' wakatime.json)
           
           # Generate report
           echo '```text' > stats.md
-          echo "$HEADER_STYLE" >> stats.md
+          echo "$HEADER_STYLE" | (boxes -d parchment 2>/dev/null || cat) >> stats.md
           echo "⏳ $REPORT_TYPE » $DATE_RANGE" >> stats.md
           echo "🔄 Last sync: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
           echo "" >> stats.md
           
-          # Clean two-column stats
-          echo "┌──────────────────────┬──────────────────────┐" >> stats.md
-          echo "│ METRIC               │ VALUE                │" >> stats.md
-          echo "├──────────────────────┼──────────────────────┤" >> stats.md
-          printf "│ Total Time          │ %20s │\n" "$(jq -r '.cumulative_total.text // "0 secs"' wakatime.json)" >> stats.md
-          echo "├──────────────────────┼──────────────────────┤" >> stats.md
-          printf "│ Daily Average       │ %20s │\n" "$(jq -r '.daily_average.text // "0 secs"' wakatime.json)" >> stats.md
-          echo "├──────────────────────┼──────────────────────┤" >> stats.md
-          printf "│ Best Day            │ %20s │\n" "$(printf "%02d:%02d" $(($best_day_seconds/3600)) $(($best_day_seconds%3600/60))" >> stats.md
-          echo "├──────────────────────┼──────────────────────┤" >> stats.md
-          printf "│ Productivity        │ %20s │\n" "$(generate_progress_bar ${productivity%.*} 100 20)" >> stats.md
-          echo "├──────────────────────┼──────────────────────┤" >> stats.md
-          printf "│ Active Days         │ %20s │\n" "$week_days/7 days" >> stats.md
-          echo "└──────────────────────┴──────────────────────┘" >> stats.md
+          # Main stats - improved alignment
+          echo "╔══════════════════════════════════════════════╗" >> stats.md
+          echo "║            📊 CODING ANALYTICS               ║" >> stats.md
+          echo "╠══════════════════════╦═══════════════════════╣" >> stats.md
+          printf "║ Total Time          ║ %21s ║\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" >> stats.md
+          echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
+          printf "║ Daily Avg           ║ %21s ║\n" "$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)" >> stats.md
+          echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
+          printf "║ Best Day            ║ %21s ║\n" "$(jq -r '(.data.best_day.text // "0 secs") + " (" + (.data.best_day.date // "N/A") + ")"' wakatime.json)" >> stats.md
+          echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
+          printf "║ Productivity        ║ %21s ║\n" "$(generate_progress_bar ${productivity%.*} 100 20)" >> stats.md
+          echo "╠══════════════════════╬═══════════════════════╣" >> stats.md
+          printf "║ Active Days         ║ %21s ║\n" "$week_days/7 days" >> stats.md
+          echo "╚══════════════════════╩═══════════════════════╝" >> stats.md
           echo "" >> stats.md
           
-          # Top technologies (from all days combined)
-          echo "🔝 TOP 5 TECHNOLOGIES" >> stats.md
-          jq -r '[.data[].languages[]? | {name: .name, seconds: .total_seconds}] | group_by(.name) | map({name: .[0].name, seconds: (map(.seconds) | add}) | sort_by(.seconds) | reverse | .[0:5] | .[] | "\(.name)|\(.seconds)"' wakatime.json | 
-          while IFS='|' read -r name seconds; do
-            text=$(printf "%02d:%02d" $(($seconds/3600)) $(($seconds%3600/60)))
-            percent=$((seconds * 100 / ($total_seconds + 1)))
-            printf "%-15s %-12s %3d%%\n%s\n\n" "$name:" "$text" "$percent" "$(generate_progress_bar $percent 100 20)"
+          # Top technologies with improved formatting
+          echo "🌈 TOP 5 TECHNOLOGIES" >> stats.md
+          jq -r '.data.languages[0:5] | .[]? | "\(.name)|\(.text)|\(.percent|floor)"' wakatime.json | 
+          while IFS='|' read -r name text percent; do
+            color=$(( 160 + (RANDOM % 40) ))
+            printf "\033[38;5;%sm▌ %-15s %-12s %3d%%\n  %s\033[0m\n" \
+              "$color" "$name:" "$text" "$percent" "$(generate_progress_bar $percent 100 20)"
           done >> stats.md
+          echo "" >> stats.md
           
-          # Weekly activity
+          # Weekly activity with fixed alignment
           echo "📅 WEEKLY ACTIVITY" >> stats.md
           echo "┌───────┬────────────────┬──────────────────────┐" >> stats.md
           echo "│ Day   │ Coding Time    │ Activity Progress    │" >> stats.md
           echo "├───────┼────────────────┼──────────────────────┤" >> stats.md
-          jq -r '.data[] | "\(.range.date)|\(.grand_total.text)|\(.grand_total.total_seconds)"' wakatime.json | 
-          while IFS='|' read -r date text seconds; do
-            day=$(date -d "$date" +'%a')
-            percent=$((seconds * 100 / ($total_seconds + 1)))
+          jq -r '.data.days | to_entries? | .[]? | "\(.key[:3])|\(.value.text)|\(.value.percent|floor)"' wakatime.json | 
+          while IFS='|' read -r day text percent; do
             printf "│ %-5s │ %-14s │ %-20s │\n" "$day" "$text" "$(generate_progress_bar $percent 100 20)"
           done >> stats.md
           echo "└───────┴────────────────┴──────────────────────┘" >> stats.md
           echo "" >> stats.md
           
-          # Fun fact
+          # Fun fact with fallback
           echo "💡 DEV TIP" >> stats.md
-          (fortune -s computers programming science education 2>/dev/null || echo "Stay curious! Keep coding!") >> stats.md
+          cowfile=$(find /usr/share/cowsay/cows/ -type f 2>/dev/null | shuf -n 1 || true)
+          (fortune -s computers programming science education 2>/dev/null || echo "Stay curious! Keep coding!") | 
+          (if [ -n "${cowfile}" ]; then cowsay -f "${cowfile}"; else cat; fi 2>/dev/null) | 
+          (lolcat 2>/dev/null || cat) >> stats.md
           echo '```' >> stats.md
 
           # Update README
@@ -148,6 +139,8 @@ jobs:
           
           # Set outputs
           echo "stats-generated=true" >> $GITHUB_OUTPUT
+
+          # Cleanup
           rm -f stats.md wakatime.json
 
       - name: Commit and push changes
