@@ -23,7 +23,7 @@
   <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
 </p>
 
-<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 22px;">
+<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 28px;">
   <code>flake8</code> for code style checking<br>
   Automated checks via GitHub Actions
 </ul>
@@ -32,7 +32,7 @@
 <h2 style="font-size: 28px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
 </div>
 
-<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 22px;">
+<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 28px;">
   <li>[x] Learn FastAPI</li>
   <li>[ ] Master Kubernetes</li>
   <li>[ ] Write a technical article</li>
