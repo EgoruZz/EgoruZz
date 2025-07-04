@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <span style="font-size: 24px;">
+  <span style="font-size: 50px;">
     <code>flake8</code> for code style checking<br>
     Automated checks via GitHub Actions
   </span>
