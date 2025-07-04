@@ -23,14 +23,12 @@
   <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
 </p>
 
-<p align="center" style="font-size: 40px;">
-  <code>flake8</code> for code style checking<br>
-  Automated checks via GitHub Actions
+<p align="center">
+  <span style="font-size: 24px;">
+    <code>flake8</code> for code style checking<br>
+    Automated checks via GitHub Actions
+  </span>
 </p>
-
-<div align="center">
-<h2 style="font-size: 28px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
-</div>
 
 <div align="center">
 <h2 style="font-size: 28px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
