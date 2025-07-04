@@ -11,23 +11,20 @@
 
 ### 📌 Report Info
 
-<div style='font-size: 16px;'>
+<span style='font-size: 1.1em'>
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-28 → 2025-07-04 |
-| Last Updated | 2025-07-04 19:27 UTC |
-</div>
+| Last Updated | 2025-07-04 19:34 UTC |
+</span>
 
 ### 📊 Coding Statistics
 
 | Metric | Value | Progress |
 |--------|-------|----------|
 | Daily Average | 5 hrs 12 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   5% |
-| Peak Productivity | 10 hrs 24 mins | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱  85% |
-| Code Intensity | 10 hrs 24 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   1% |
-| Focus Level | 78.93% | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱▱  78% |
-| Editor Efficiency | VS Code | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱  90% |
-| OS Utilization | Mac | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱  80% |
+| Top Category | Coding | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱▱  75% |
+| Productivity | 10 hrs 24 mins | ▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱▱▱▱▱  60% |
 
 ### 🚀 Top Languages
 
@@ -47,8 +44,6 @@
 | 🖥️ Operating System | Mac |
 | ⌨️ Preferred Editor | VS Code |
 | 📊 Total Coding Time | 10 hrs 24 mins |
-| 📦 Project Categories | Coding |
-| ⚡ Coding Streak | 0 days |
 
 </div>
 <!--END_SECTION:waka-->
