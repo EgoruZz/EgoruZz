@@ -1,7 +1,6 @@
 <h1 align="center">
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/> 
   Hi, I'm EgoruZz!
-  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
   <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
   </a>
@@ -24,22 +23,24 @@
   <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
 </p>
 
-<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 40px;">
+<p align="center" style="font-size: 20px;">
   <code>flake8</code> for code style checking<br>
   Automated checks via GitHub Actions
-</ul>
+</p>
 
 <div align="center">
 <h2 style="font-size: 28px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
 </div>
 
-<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 40px;">
-  <li>[x] Learn FastAPI</li>
-  <li>[ ] Master Kubernetes</li>
-  <li>[ ] Write a technical article</li>
-  <li>[ ] Contribute to open source</li>
-  <li>[ ] Build a SaaS project</li>
-</ul>
+<div align="center" style="font-size: 24px; text-align: left; display: inline-block;">
+  <ul style="list-style-position: inside; padding-left: 20px;">
+    <li>[x] Learn FastAPI</li>
+    <li>[ ] Master Kubernetes</li>
+    <li>[ ] Write a technical article</li>
+    <li>[ ] Contribute to open source</li>
+    <li>[ ] Build a SaaS project</li>
+  </ul>
+</div>
 
 <!--START_SECTION:waka-->
 <div align='center'>
