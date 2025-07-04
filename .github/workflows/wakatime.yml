@@ -32,19 +32,6 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Function for progress bars
-          generate_progress_bar() {
-            local value=${1:-0}
-            local max=${2:-100}
-            local size=20
-            local percentage=$(( value * 100 / max ))
-            local progress=$(( percentage * size / 100 ))
-            local remainder=$(( size - progress ))
-            printf "█%.0s" $(seq 1 $progress)
-            printf "░%.0s" $(seq 1 $remainder)
-            printf " %3d%%" $percentage
-          }
-
           # Get WakaTime data
           API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY"
           echo "::group::Fetching WakaTime data"
@@ -61,57 +48,49 @@ jobs:
           editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           operating_systems=$(jq -r '.data.operating_systems[0].name // "None"' wakatime.json)
           
-          # Generate report
-          echo '```html' >> stats.md
-          echo '<div style="font-size: 40px; font-family: monospace; line-height: 1.5;">' >> stats.md
-          echo "⏳ LAST 7 DAYS » $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')" >> stats.md
-          echo "🔄 Updated: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
+          # Generate report in pure markdown
+          echo "<!--START_SECTION:waka-->" >> stats.md
+          echo "**⏳ Last 7 Days:** $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')" >> stats.md
+          echo "**🔄 Updated:** $(date +'%Y-%m-%d %H:%M') (MSK) - This shows when this workflow last ran and updated the stats" >> stats.md
           echo "" >> stats.md
           
           # Coding statistics
-          echo "📊 CODING STATISTICS" >> stats.md
-          echo "Total Time: $total_time" >> stats.md
-          echo "Daily Average: $daily_avg" >> stats.md
-          echo "Best Day: $best_day on $best_day_date" >> stats.md
-          echo "Most Used Editor: $editors" >> stats.md
-          echo "Operating System: $operating_systems" >> stats.md
+          echo "### 📊 Coding Statistics" >> stats.md
+          echo "- **Total Time:** $total_time" >> stats.md
+          echo "- **Daily Average:** $daily_avg" >> stats.md
+          echo "- **Best Day:** $best_day on $best_day_date" >> stats.md
+          echo "- **Most Used Editor:** $editors" >> stats.md
+          echo "- **Operating System:** $operating_systems" >> stats.md
           echo "" >> stats.md
           
           # Top Languages
-          echo "🚀 TOP LANGUAGES (TIME)" >> stats.md
-          jq -r '.data.languages[0:10] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "### 🚀 Top Languages" >> stats.md
+          jq -r '.data.languages[0:10] | .[] | "- \(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
           echo "" >> stats.md
           
           # Top Editors
-          echo "⌨️ TOP EDITORS" >> stats.md
-          jq -r '.data.editors[0:5] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "### ⌨️ Top Editors" >> stats.md
+          jq -r '.data.editors[0:5] | .[] | "- \(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
           echo "" >> stats.md
           
           # Top Operating Systems
-          echo "💻 TOP OPERATING SYSTEMS" >> stats.md
-          jq -r '.data.operating_systems[0:3] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "### 💻 Top Operating Systems" >> stats.md
+          jq -r '.data.operating_systems[0:3] | .[] | "- \(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
           echo "" >> stats.md
           
           # Top Categories
-          echo "🗂️ TOP CATEGORIES" >> stats.md
-          jq -r '.data.categories[0:5] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
-          echo "" >> stats.md
-          
-          # Top Projects
-          echo "📂 TOP PROJECTS" >> stats.md
-          jq -r '.data.projects[0:5] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "### 🗂️ Top Categories" >> stats.md
+          jq -r '.data.categories[0:5] | .[] | "- \(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
           echo "" >> stats.md
           
           # Code Analytics
-          echo "🔍 CODE ANALYTICS" >> stats.md
-          echo "Lines of Code: $(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" >> stats.md
-          echo "Time per Project: $(jq -r '.data.projects[].text' wakatime.json | paste -sd ", " -)" >> stats.md
-          echo "Most Productive Time: $(jq -r '.data.best_day.text // "N/A"' wakatime.json) on $(jq -r '.data.best_day.date // "N/A"' wakatime.json)" >> stats.md
-          echo "Most Used Language: $languages" >> stats.md
-          echo "Most Used Editor: $editors" >> stats.md
-          echo "Most Used OS: $operating_systems" >> stats.md
-          echo '</div>' >> stats.md
-          echo '```' >> stats.md
+          echo "### 🔍 Code Analytics" >> stats.md
+          echo "- **Lines of Code:** $(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" >> stats.md
+          echo "- **Most Productive Time:** $best_day on $best_day_date" >> stats.md
+          echo "- **Most Used Language:** $languages" >> stats.md
+          echo "- **Most Used Editor:** $editors" >> stats.md
+          echo "- **Most Used OS:** $operating_systems" >> stats.md
+          echo "<!--END_SECTION:waka-->" >> stats.md
 
           # Update README
           sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
