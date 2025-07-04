@@ -5,8 +5,10 @@
 
 ## ⏳ Статистика кодинга
 <!--START_SECTION:waka-->
+<div align='center'>
+
 **⏳ Last 7 Days:** 2025-06-28 → 2025-07-04
-**🔄 Updated:** 2025-07-04 15:36 (MSK) - This shows when this workflow last ran and updated the stats
+**🔄 Updated:** 2025-07-04 15:45 UTC - Last workflow run time
 
 ### 📊 Coding Statistics
 - **Total Time:** 10 hrs 24 mins
@@ -36,6 +38,8 @@
 - **Most Used Language:** YAML
 - **Most Used Editor:** VS Code
 - **Most Used OS:** Mac
+
+</div>
 <!--END_SECTION:waka-->
 ---
 
