@@ -90,32 +90,38 @@ jobs:
           best_day_minutes=$(convert_to_minutes "$best_day")
           total_minutes=$(convert_to_minutes "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)")
 
-          # Получаем данные за последние 2 дня для сравнения
-          yesterday=$(date -d 'yesterday' +"%Y-%m-%d")
-          day_before=$(date -d '2 days ago' +"%Y-%m-%d")
-
-          yesterday_data=$(curl -sS "https://wakatime.com/api/v1/users/current/summaries?api_key=$WAKATIME_API_KEY&start=$yesterday&end=$yesterday" | jq '.data[0]')
-          day_before_data=$(curl -sS "https://wakatime.com/api/v1/users/current/summaries?api_key=$WAKATIME_API_KEY&start=$day_before&end=$day_before" | jq '.data[0]')
-
-          yesterday_time=$(echo "$yesterday_data" | jq -r '.grand_total.human_readable_total // "0 mins"')
-          day_before_time=$(echo "$day_before_data" | jq -r '.grand_total.human_readable_total // "0 mins"')
-
-          # Сравниваем
-          yesterday_mins=$(convert_to_minutes "$yesterday_time")
-          day_before_mins=$(convert_to_minutes "$day_before_time")
-
-          if (( day_before_mins > 0 )); then
-            change_percent=$(( (yesterday_mins - day_before_mins) * 100 / day_before_mins ))
-            if (( change_percent > 5 )); then
-              trend="▲ $change_percent%"
-            elif (( change_percent < -5 )); then
-              trend="▼ $((change_percent * -1))%"
+          # Time Distribution
+          time_distribution=$(jq '.data.time_periods' wakatime.json)
+          
+          convert_seconds_to_hours_minutes() {
+            local total_seconds=$1
+            local hours=$((total_seconds / 3600))
+            local minutes=$(( (total_seconds % 3600) / 60 ))
+            
+            if (( hours > 0 && minutes > 0 )); then
+              printf "%dh %dm" "$hours" "$minutes"
+            elif (( hours > 0 )); then
+              printf "%dh" "$hours"
             else
-              trend="≈"
+              printf "%dm" "$minutes"
             fi
-          else
-            trend="N/A"
-          fi
+          }
+
+          morning_seconds=$(jq -r '.morning // 0' <<< "$time_distribution")
+          afternoon_seconds=$(jq -r '.afternoon // 0' <<< "$time_distribution")
+          evening_seconds=$(jq -r '.evening // 0' <<< "$time_distribution")
+          night_seconds=$(jq -r '.night // 0' <<< "$time_distribution")
+
+          total_distribution_seconds=$((morning_seconds + afternoon_seconds + evening_seconds + night_seconds))
+
+          calculate_percentage() {
+            local period_seconds=$1
+            if (( total_distribution_seconds > 0 )); then
+              echo $(( (period_seconds * 100) / total_distribution_seconds ))
+            else
+              echo 0
+            fi
+          }
 
           # Генерация отчёта
           echo "<!--START_SECTION:waka-->" > stats.md
@@ -143,13 +149,15 @@ jobs:
           printf "| Total Time | %s (per week) | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 10080)" >> stats.md
           echo "" >> stats.md
           
-          # Сравнение дней (новая отдельная таблица)
-          echo "### 🔄 Daily Comparison" >> stats.md
+          # Time Distribution
+          echo "### ⏱️ Time Distribution" >> stats.md
           echo "" >> stats.md
-          echo "| Day | Time | Progress | Trend |" >> stats.md
-          echo "|-----|------|----------|-------|" >> stats.md
-          printf "| %s | %s | %s | %s |\n" "$(date -d '2 days ago' +'%a, %b %d')" "$day_before_time" "$(generate_progress_bar $day_before_mins 1440)" "Baseline" >> stats.md
-          printf "| %s | %s | %s | %s |\n" "$(date -d 'yesterday' +'%a, %b %d')" "$yesterday_time" "$(generate_progress_bar $yesterday_mins 1440)" "$trend" >> stats.md
+          echo "| Period      | Coding Time | Percentage |" >> stats.md
+          echo "|-------------|-------------|------------|" >> stats.md
+          printf "| Morning     | %-9s | %3d%%       |\n" "$(convert_seconds_to_hours_minutes $morning_seconds)" "$(calculate_percentage $morning_seconds)" >> stats.md
+          printf "| Afternoon   | %-9s | %3d%%       |\n" "$(convert_seconds_to_hours_minutes $afternoon_seconds)" "$(calculate_percentage $afternoon_seconds)" >> stats.md
+          printf "| Evening     | %-9s | %3d%%       |\n" "$(convert_seconds_to_hours_minutes $evening_seconds)" "$(calculate_percentage $evening_seconds)" >> stats.md
+          printf "| Night       | %-9s | %3d%%       |\n" "$(convert_seconds_to_hours_minutes $night_seconds)" "$(calculate_percentage $night_seconds)" >> stats.md
           echo "" >> stats.md
           
           # Топ языков
