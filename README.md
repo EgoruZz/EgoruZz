@@ -14,7 +14,7 @@
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-27 → 2025-07-03 |
-| Last Updated | 2025-07-04 20:32 UTC |
+| Last Updated | 2025-07-04 20:36 UTC |
 
 ### 📊 Coding Statistics
 
@@ -31,8 +31,8 @@
 |----------|------|-------|
 | YAML | 8 hrs 12 mins | [######]  34% |
 | Markdown | 2 hrs 9 mins | [#]   8% |
-| C++ | 1 min | []   0% |
-| Git Config | 0 secs | []   0% |
+| C++ | 1 min | [#]   0% |
+| Git Config | 0 secs | [#]   0% |
 
 ### 🔍 Code Insights
 
