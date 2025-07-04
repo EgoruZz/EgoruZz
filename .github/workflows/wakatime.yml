@@ -32,9 +32,28 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Progress bar function
+          # Функция преобразования времени в минуты
+          convert_to_minutes() {
+            local time_str="$1"
+            if [[ $time_str == *"hrs"* && $time_str == *"mins"* ]]; then
+              hours=$(echo "$time_str" | awk '{print $1}')
+              minutes=$(echo "$time_str" | awk '{print $3}')
+              echo $((hours * 60 + minutes))
+            elif [[ $time_str == *"hrs"* ]]; then
+              hours=$(echo "$time_str" | awk '{print $1}')
+              echo $((hours * 60))
+            elif [[ $time_str == *"mins"* ]]; then
+              echo "$time_str" | awk '{print $1}')
+            else
+              echo 0
+            fi
+          }
+
+          # Функция прогресс-бара (теперь от 24 часов)
           generate_progress_bar() {
-            local percent=${1%.*}
+            local minutes=${1%.*}
+            local percent=$((minutes * 100 / 1440))  # 1440 минут в сутках
+            percent=$((percent > 100 ? 100 : percent))  # Ограничение максимум 100%
             local filled=$((percent/5))
             local empty=$((20-filled))
             printf "▰%.0s" $(seq 1 $filled)
@@ -42,13 +61,13 @@ jobs:
             printf " %3d%%" $percent
           }
 
-          # Get WakaTime data
+          # Получение данных WakaTime
           API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY"
           echo "::group::Fetching WakaTime data"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
           echo "::endgroup::"
 
-          # Process data
+          # Обработка данных
           total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
           daily_avg=$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)
           best_day=$(jq -r '.data.best_day.text // "0 secs"' wakatime.json)
@@ -58,14 +77,19 @@ jobs:
           categories=$(jq -r '.data.categories[0].name // "None"' wakatime.json)
           editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           
-          # Generate report
+          # Конвертация времени в минуты
+          daily_minutes=$(convert_to_minutes "$daily_avg")
+          best_day_minutes=$(convert_to_minutes "$best_day")
+          total_minutes=$(convert_to_minutes "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)")
+
+          # Генерация отчёта
           echo "<!--START_SECTION:waka-->" > stats.md
           echo "<div align='center'>" >> stats.md
           echo "" >> stats.md
           echo "## ⏳ WakaTime Weekly Report" >> stats.md
           echo "" >> stats.md
           
-          # Report Info table (без увеличения шрифта)
+          # Информация об отчёте
           echo "### 📌 Report Info" >> stats.md
           echo "" >> stats.md
           echo "| Period | Range |" >> stats.md
@@ -74,17 +98,17 @@ jobs:
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
           echo "" >> stats.md
           
-          # Coding statistics
+          # Статистика кодинга
           echo "### 📊 Coding Statistics" >> stats.md
           echo "" >> stats.md
           echo "| Metric | Value | Progress |" >> stats.md
           echo "|--------|-------|----------|" >> stats.md
-          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $(echo "$daily_avg" | awk '{print $1}'))" >> stats.md
-          printf "| Top Category | %s | %s |\n" "$categories" "$(generate_progress_bar 75)" >> stats.md
-          printf "| Productivity | %s | %s |\n" "$(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" "$(generate_progress_bar 60)" >> stats.md
+          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes)" >> stats.md
+          printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes)" >> stats.md
+          printf "| Total Time | %s | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes)" >> stats.md
           echo "" >> stats.md
           
-          # Top Languages
+          # Топ языков
           echo "### 🚀 Top Languages" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage |" >> stats.md
@@ -94,22 +118,21 @@ jobs:
           done
           echo "" >> stats.md
           
-          # Code Insights
+          # Инсайты
           echo "### 🔍 Code Insights" >> stats.md
           echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
           echo "|---------|-------|" >> stats.md
-          echo "| 🏆 Most Productive Day | $best_day on $best_day_date |" >> stats.md
           echo "| 💎 Top Language | $languages |" >> stats.md
-          echo "| 🖥️ Operating System | $os |" >> stats.md
-          echo "| ⌨️ Preferred Editor | $editors |" >> stats.md
-          echo "| 📊 Total Coding Time | $(jq -r '.data.human_readable_total // "0 secs"' wakatime.json) |" >> stats.md
+          echo "| 🖥️ OS | $os |" >> stats.md
+          echo "| ⌨️ Editor | $editors |" >> stats.md
+          echo "| 📊 Category | $categories |" >> stats.md
           echo "" >> stats.md
           
           echo "</div>" >> stats.md
           echo "<!--END_SECTION:waka-->" >> stats.md
 
-          # Update README
+          # Обновление README
           sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
               /<!--START_SECTION:waka-->/r stats.md
               d
