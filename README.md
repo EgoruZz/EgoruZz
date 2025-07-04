@@ -23,22 +23,26 @@
   <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
 </p>
 
-<p align="center">
-  <span style="font-size: 50px;">
-    <code>flake8</code> for code style checking<br>
-    Automated checks via GitHub Actions
-  </span>
-</p>
+<div align="center">
+<table style="font-size: 50px; border: none; margin: 12px 0;">
+  <tr>
+    <td style="padding: 4px 0; text-align: center; font-family: monospace;">
+      flake8 for code style checking<br>
+      <span style="font-size: 50px;">Automated checks via GitHub Actions</span>
+    </td>
+  </tr>
+</table>
+</div>
 
 <div align="center">
 <h2 style="font-size: 40px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
 
-<table style="font-size: 40px; border: none;">
-  <tr><td style="padding: 4px 0;">✓ [x] Learn FastAPI</td></tr>
-  <tr><td style="padding: 4px 0;">○ [ ] Master Kubernetes</td></tr>
-  <tr><td style="padding: 4px 0;">○ [ ] Write a technical article</td></tr>
-  <tr><td style="padding: 4px 0;">○ [ ] Contribute to open source</td></tr>
-  <tr><td style="padding: 4px 0;">○ [ ] Build a SaaS project</td></tr>
+<table style="font-size: 50px; border: none;">
+  <tr><td style="padding: 4px 0;">[x] Learn FastAPI</td></tr>
+  <tr><td style="padding: 4px 0;">[ ] Master Kubernetes</td></tr>
+  <tr><td style="padding: 4px 0;">[ ] Write a technical article</td></tr>
+  <tr><td style="padding: 4px 0;">[ ] Contribute to open source</td></tr>
+  <tr><td style="padding: 4px 0;">[ ] Build a SaaS project</td></tr>
 </table>
 </div>
 </div>
