@@ -28,58 +28,82 @@ jobs:
           import requests, json
           from datetime import datetime
 
-          # Get comprehensive stats
-          url = 'https://wakatime.com/api/v1/users/current/stats/last_7_days'
-          headers = {'Authorization': f'Bearer $WAKATIME_API_KEY'}
-          response = requests.get(url, headers=headers)
-          data = response.json()['data']
+          try:
+              # Get WakaTime stats
+              url = 'https://wakatime.com/api/v1/users/current/stats/last_7_days'
+              headers = {'Authorization': f'Bearer $WAKATIME_API_KEY'}
+              response = requests.get(url, headers=headers)
+              response.raise_for_status()
+              data = response.json()
 
-          # Prepare data sections
-          def prepare_section(items, limit):
-              return ''.join([f'- {item[\"name\"]}: {item[\"text\"]} ({item[\"percent\"]}%)\n' for item in items[:limit]])
+              if 'data' not in data:
+                  raise ValueError('Invalid API response - missing data')
 
-          # Generate markdown
-          stats = f'''## WAKATIME DEVELOPMENT ANALYTICS (7-DAY REPORT)
-          **Last Updated**: {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}
+              stats_data = data['data']
 
-          ### SUMMARY
-          - **Total Time**: {data['human_readable_total']}
-          - **Daily Average**: {data['human_readable_daily_average']}
-          - **Best Day**: {data['best_day']['text']} ({data['best_day']['date']})
+              # Helper function to format items
+              def format_items(items, limit=5):
+                  return ''.join(f'- {item[\"name\"]}: {item[\"text\"]} ({item[\"percent\"]}%)\n' for item in items[:limit])
 
-          ### TIME DISTRIBUTION
-          - **Coding**: {data['categories']['coding']['text']} ({data['categories']['coding']['percent']}%)
-          - **Building**: {data['categories']['building']['text']} ({data['categories']['building']['percent']}%)
-          - **Debugging**: {data['categories']['debugging']['text']} ({data['categories']['debugging']['percent']}%)
+              # Generate markdown content
+              stats_content = f'''
+              ## WAKATIME DEVELOPMENT ANALYTICS (7-DAY REPORT)
+              **Last Updated**: {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}
 
-          ### LANGUAGES (TOP 7)
-          {prepare_section(data['languages'], 7)}
+              ### SUMMARY
+              - **Total Time**: {stats_data.get('human_readable_total', 'N/A')}
+              - **Daily Average**: {stats_data.get('human_readable_daily_average', 'N/A')}
+              - **Best Day**: {stats_data.get('best_day', {}).get('text', 'N/A')} ({stats_data.get('best_day', {}).get('date', 'N/A')})
 
-          ### DEVELOPMENT ENVIRONMENT
-          **Editors**:
-          {prepare_section(data['editors'], 3)}
+              ### TIME DISTRIBUTION
+              - **Coding**: {stats_data.get('categories', {}).get('coding', {}).get('text', 'N/A')} ({stats_data.get('categories', {}).get('coding', {}).get('percent', 'N/A')}%)
+              - **Building**: {stats_data.get('categories', {}).get('building', {}).get('text', 'N/A')} ({stats_data.get('categories', {}).get('building', {}).get('percent', 'N/A')}%)
+              - **Debugging**: {stats_data.get('categories', {}).get('debugging', {}).get('text', 'N/A')} ({stats_data.get('categories', {}).get('debugging', {}).get('percent', 'N/A')}%)
 
-          **Operating Systems**:
-          {prepare_section(data['operating_systems'], 2)}
+              ### LANGUAGES (TOP 5)
+              {format_items(stats_data.get('languages', []), 5}
 
-          ### PROJECTS (TOP 3)
-          {prepare_section(data['projects'], 3)}
-          '''
+              ### DEVELOPMENT ENVIRONMENT
+              **Editors**:
+              {format_items(stats_data.get('editors', []), 3}
 
-          # Save to file
-          with open('stats.md', 'w') as f:
-              f.write(f'```markdown\n{stats}\n```')
+              **Operating Systems**:
+              {format_items(stats_data.get('operating_systems', []), 2}
 
-          # Update README
-          with open('README.md', 'r') as f:
-              content = f.read()
+              ### PROJECTS (TOP 3)
+              {format_items(stats_data.get('projects', []), 3}
+              '''
 
-          start = content.find('<!--START_SECTION:waka-->')
-          end = content.find('<!--END_SECTION:waka-->')
+              # Write to file
+              with open('wakatime_stats.md', 'w') as f:
+                  f.write(f'```markdown\n{stats_content}\n```')
 
-          if start != -1 and end != -1:
-              with open('README.md', 'w') as f:
-                  f.write(content[:start] + '<!--START_SECTION:waka-->\n' + open('stats.md').read() + '\n<!--END_SECTION:waka-->' + content[end+len('<!--END_SECTION:waka-->'):])
+              # Update README
+              with open('README.md', 'r') as f:
+                  readme_content = f.read()
+
+              start_marker = '<!--START_SECTION:waka-->'
+              end_marker = '<!--END_SECTION:waka-->'
+              
+              start_idx = readme_content.find(start_marker)
+              end_idx = readme_content.find(end_marker)
+
+              if start_idx != -1 and end_idx != -1:
+                  new_content = (
+                      readme_content[:start_idx] + 
+                      start_marker + '\n' + 
+                      open('wakatime_stats.md').read() + '\n' + 
+                      end_marker + 
+                      readme_content[end_idx + len(end_marker):]
+                  )
+                  
+                  with open('README.md', 'w') as f:
+                      f.write(new_content)
+
+          except Exception as e:
+              print(f'Error generating stats: {str(e)}')
+              with open('wakatime_stats.md', 'w') as f:
+                  f.write('```\nError generating WakaTime stats\n```')
           "
 
       - name: Commit changes
@@ -87,5 +111,5 @@ jobs:
           git config --global user.name "WakaTime Analytics"
           git config --global user.email "analytics@github.com"
           git add README.md
-          git commit -m "📈 Update professional WakaTime stats"
+          git commit -m "📈 Update WakaTime stats [skip ci]" || echo "No changes to commit"
           git push
