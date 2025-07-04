@@ -4,11 +4,46 @@
 </h1>
 
 ## ⏳ Статистика кодинга
-<!--START_SECTION:waka-->
-```text
-лвсы
+```html
+<div style="font-size: 40px; font-family: monospace; line-height: 1.5;">
+⏳ LAST 7 DAYS » 2025-06-28 → 2025-07-04
+🔄 Updated: 2025-07-04 15:30 (MSK)
+
+📊 CODING STATISTICS
+Total Time: 10 hrs 24 mins
+Daily Average: 5 hrs 12 mins
+Best Day: 6 hrs 39 mins on 2025-07-03
+Most Used Editor: VS Code
+Operating System: Mac
+
+🚀 TOP LANGUAGES (TIME)
+YAML: 8 hrs 12 mins (78.93%)
+Markdown: 2 hrs 9 mins (20.81%)
+C++: 1 min (0.26%)
+Git Config: 0 secs (0.0%)
+
+⌨️ TOP EDITORS
+VS Code: 10 hrs 24 mins (100.0%)
+
+💻 TOP OPERATING SYSTEMS
+Mac: 10 hrs 24 mins (100.0%)
+
+🗂️ TOP CATEGORIES
+Coding: 10 hrs 24 mins (100.0%)
+
+📂 TOP PROJECTS
+repository: 10 hrs 22 mins (99.74%)
+2025-ШКОЛА-инфа: 1 min (0.26%)
+
+🔍 CODE ANALYTICS
+Lines of Code: 10 hrs 24 mins
+Time per Project: 10 hrs 22 mins,1 min
+Most Productive Time: 6 hrs 39 mins on 2025-07-03
+Most Used Language: YAML
+Most Used Editor: VS Code
+Most Used OS: Mac
+</div>
 ```
-<!--END_SECTION:waka-->
 ---
 
 ## 🛠 Мой стек технологий
