@@ -1,6 +1,6 @@
 name: WakaTime Sync
 concurrency:
-  group: waka-sync-${{ github.ref }}
+  group: wakatime-sync-${{ github.ref }}
   cancel-in-progress: false
 
 on:
@@ -68,25 +68,22 @@ jobs:
           # Report Info table with larger font
           echo "### 📌 Report Info" >> stats.md
           echo "" >> stats.md
-          echo "<div style='font-size: 16px;'>" >> stats.md
+          echo "<span style='font-size: 1.1em'>" >> stats.md
           echo "| Period | Range |" >> stats.md
           echo "|--------|-------|" >> stats.md
           echo "| Last 7 Days | $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d') |" >> stats.md
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
-          echo "</div>" >> stats.md
+          echo "</span>" >> stats.md
           echo "" >> stats.md
           
-          # Enhanced Coding statistics
+          # Coding statistics
           echo "### 📊 Coding Statistics" >> stats.md
           echo "" >> stats.md
           echo "| Metric | Value | Progress |" >> stats.md
           echo "|--------|-------|----------|" >> stats.md
           printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $(echo "$daily_avg" | awk '{print $1}'))" >> stats.md
-          printf "| Peak Productivity | %s | %s |\n" "$(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" "$(generate_progress_bar 85)" >> stats.md
-          printf "| Code Intensity | %s | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $(echo "scale=2; $total_seconds / 3600 / 7" | bc))" >> stats.md
-          printf "| Focus Level | %s | %s |\n" "$(jq -r '.data.languages[0].percent // "0"' wakatime.json)%" "$(generate_progress_bar $(jq -r '.data.languages[0].percent // 0' wakatime.json))" >> stats.md
-          printf "| Editor Efficiency | %s | %s |\n" "$editors" "$(generate_progress_bar 90)" >> stats.md
-          printf "| OS Utilization | %s | %s |\n" "$os" "$(generate_progress_bar 80)" >> stats.md
+          printf "| Top Category | %s | %s |\n" "$categories" "$(generate_progress_bar 75)" >> stats.md
+          printf "| Productivity | %s | %s |\n" "$(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" "$(generate_progress_bar 60)" >> stats.md
           echo "" >> stats.md
           
           # Top Languages
@@ -109,8 +106,6 @@ jobs:
           echo "| 🖥️ Operating System | $os |" >> stats.md
           echo "| ⌨️ Preferred Editor | $editors |" >> stats.md
           echo "| 📊 Total Coding Time | $(jq -r '.data.human_readable_total // "0 secs"' wakatime.json) |" >> stats.md
-          echo "| 📦 Project Categories | $categories |" >> stats.md
-          echo "| ⚡ Coding Streak | $(jq -r '.data.streak // 0' wakatime.json) days |" >> stats.md
           echo "" >> stats.md
           
           echo "</div>" >> stats.md
