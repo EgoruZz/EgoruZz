@@ -1,4 +1,5 @@
-<h1 align="center"> 
+<h1 align="center">
+  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/> 
   Привет, я EgoruZz!
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
@@ -50,24 +51,30 @@
 
 ---
 
-<div align='center'>
+<div align="center">
 ## 🛠 Мой стек технологий
-
-![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white)
-![Django](https://img.shields.io/badge/-Django-092E20?logo=django&logoColor=white)
-![FastAPI](https://img.shields.io/badge/-FastAPI-009688?logo=fastapi&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?logo=postgresql&logoColor=white)
-![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white)
-
-- `flake8` для проверки стиля кода
-- Автоматические проверки через GitHub Actions
 </div>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/-Django-092E20?logo=django&logoColor=white" alt="Django">
+  <img src="https://img.shields.io/badge/-FastAPI-009688?logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/-PostgreSQL-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white" alt="Docker">
+</p>
+
+<p align="center">
+  <code>flake8</code> для проверки стиля кода<br>
+  Автоматические проверки через GitHub Actions
+</p>
 
 ---
 
 <div align="center">
 ## 📊 GitHub Analytics
-  <!-- Основная статистика с улучшенной обработкой ошибок -->
+</div>
+
+<div align="center">
   <picture>
     <source
       srcset="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true&include_all_commits=false"
@@ -77,16 +84,13 @@
       src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" 
       height="180em"
       alt="GitHub Stats"
-      onerror="this.onerror=null;this.src='https://github-profile-summary-cards.vercel.app/api/cards/stats?username=EgoruZz&theme=github'"
     />
   </picture>
 
-  <!-- Топ языков с улучшенной фильтрацией -->
   <img
     src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true"
     height="180em"
     alt="Top Languages"
-    onerror="this.onerror=null;this.src='https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=EgoruZz&theme=github'"
   />
 </div>
 
@@ -94,16 +98,28 @@
 
 <div align="center">
 ## 🎯 Мои цели на 2025
-- [x] Выучить FastAPI
-- [ ] Освоить Kubernetes
-- [ ] Написать техническую статью
 </div>
+
+<p align="center">
+  - [x] Выучить FastAPI<br>
+  - [ ] Освоить Kubernetes<br>
+  - [ ] Написать техническую статью
+</p>
 
 ---
 
 <div align="center">
 ## 🤝 Свяжитесь со мной
-[![Telegram](https://img.shields.io/badge/Telegram-@ваш_ник-26A5E4?logo=telegram)](https://t.me/your_username)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Ваше_Имя-0A66C2?logo=linkedin)](https://linkedin.com/in/your_username)
-[![Email](https://img.shields.io/badge/Email-ваш@email.com-EA4335?logo=gmail)](mailto:ваш@email.com)
 </div>
+
+<p align="center">
+  <a href="https://t.me/your_username">
+    <img src="https://img.shields.io/badge/Telegram-@ваш_ник-26A5E4?logo=telegram" alt="Telegram">
+  </a>
+  <a href="https://linkedin.com/in/your_username">
+    <img src="https://img.shields.io/badge/LinkedIn-Ваше_Имя-0A66C2?logo=linkedin" alt="LinkedIn">
+  </a>
+  <a href="mailto:ваш@email.com">
+    <img src="https://img.shields.io/badge/Email-ваш@email.com-EA4335?logo=gmail" alt="Email">
+  </a>
+</p>
