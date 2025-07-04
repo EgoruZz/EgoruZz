@@ -5,7 +5,7 @@ concurrency:
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "30 0 * * *"  # 00:30 UTC каждый день
   workflow_dispatch:
     inputs:
       force-refresh:
@@ -48,10 +48,12 @@ jobs:
           editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           operating_systems=$(jq -r '.data.operating_systems[0].name // "None"' wakatime.json)
           
-          # Generate report in pure markdown
+          # Generate centered markdown report
           echo "<!--START_SECTION:waka-->" >> stats.md
+          echo "<div align='center'>" >> stats.md
+          echo "" >> stats.md
           echo "**⏳ Last 7 Days:** $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')" >> stats.md
-          echo "**🔄 Updated:** $(date +'%Y-%m-%d %H:%M') (MSK) - This shows when this workflow last ran and updated the stats" >> stats.md
+          echo "**🔄 Updated:** $(date -u +'%Y-%m-%d %H:%M') UTC - Last workflow run time" >> stats.md
           echo "" >> stats.md
           
           # Coding statistics
@@ -90,6 +92,8 @@ jobs:
           echo "- **Most Used Language:** $languages" >> stats.md
           echo "- **Most Used Editor:** $editors" >> stats.md
           echo "- **Most Used OS:** $operating_systems" >> stats.md
+          echo "" >> stats.md
+          echo "</div>" >> stats.md
           echo "<!--END_SECTION:waka-->" >> stats.md
 
           # Update README
