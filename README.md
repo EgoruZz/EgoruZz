@@ -31,17 +31,16 @@
 </p>
 
 <div align="center">
-<h2 style="font-size: 28px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
-</div>
+<h2 style="font-size: 40px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
 
-<div align="center">
-  <div style="display: inline-block; text-align: left; font-size: 40px; line-height: 1.8;">
-    <div>✓ [x] Learn FastAPI</div>
-    <div>○ [ ] Master Kubernetes</div>
-    <div>○ [ ] Write a technical article</div>
-    <div>○ [ ] Contribute to open source</div>
-    <div>○ [ ] Build a SaaS project</div>
-  </div>
+<table style="font-size: 40px; border: none;">
+  <tr><td style="padding: 4px 0;">✓ [x] Learn FastAPI</td></tr>
+  <tr><td style="padding: 4px 0;">○ [ ] Master Kubernetes</td></tr>
+  <tr><td style="padding: 4px 0;">○ [ ] Write a technical article</td></tr>
+  <tr><td style="padding: 4px 0;">○ [ ] Contribute to open source</td></tr>
+  <tr><td style="padding: 4px 0;">○ [ ] Build a SaaS project</td></tr>
+</table>
+</div>
 </div>
 
 <!--START_SECTION:waka-->
