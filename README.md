@@ -5,9 +5,37 @@
 
 ## ⏳ Статистика кодинга
 <!--START_SECTION:waka-->
-```text
-лвсы
-```
+**⏳ Last 7 Days:** 2025-06-28 → 2025-07-04
+**🔄 Updated:** 2025-07-04 15:36 (MSK) - This shows when this workflow last ran and updated the stats
+
+### 📊 Coding Statistics
+- **Total Time:** 10 hrs 24 mins
+- **Daily Average:** 5 hrs 12 mins
+- **Best Day:** 6 hrs 39 mins on 2025-07-03
+- **Most Used Editor:** VS Code
+- **Operating System:** Mac
+
+### 🚀 Top Languages
+- YAML: 8 hrs 12 mins (78.93%)
+- Markdown: 2 hrs 9 mins (20.81%)
+- C++: 1 min (0.26%)
+- Git Config: 0 secs (0.0%)
+
+### ⌨️ Top Editors
+- VS Code: 10 hrs 24 mins (100.0%)
+
+### 💻 Top Operating Systems
+- Mac: 10 hrs 24 mins (100.0%)
+
+### 🗂️ Top Categories
+- Coding: 10 hrs 24 mins (100.0%)
+
+### 🔍 Code Analytics
+- **Lines of Code:** 10 hrs 24 mins
+- **Most Productive Time:** 6 hrs 39 mins on 2025-07-03
+- **Most Used Language:** YAML
+- **Most Used Editor:** VS Code
+- **Most Used OS:** Mac
 <!--END_SECTION:waka-->
 ---
 
