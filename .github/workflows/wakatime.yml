@@ -31,50 +31,39 @@ jobs:
           # Get comprehensive stats
           url = 'https://wakatime.com/api/v1/users/current/stats/last_7_days'
           headers = {'Authorization': f'Bearer $WAKATIME_API_KEY'}
-          data = requests.get(url, headers=headers).json()['data']
+          response = requests.get(url, headers=headers)
+          data = response.json()['data']
 
-          # Calculate additional metrics
-          productivity = '🟢 High' if data['is_up_to_date'] else '🔴 Low'
-          languages = data['languages'][:7]
-          editors = data['editors'][:3]
-          os = data['operating_systems'][:2]
-          projects = data['projects'][:3]
-          categories = data['categories']
+          # Prepare data sections
+          def prepare_section(items, limit):
+              return ''.join([f'- {item[\"name\"]}: {item[\"text\"]} ({item[\"percent\"]}%)\n' for item in items[:limit]])
 
           # Generate markdown
-          stats = f'''
-          ## WAKATIME DEVELOPMENT ANALYTICS (7-DAY REPORT)
+          stats = f'''## WAKATIME DEVELOPMENT ANALYTICS (7-DAY REPORT)
           **Last Updated**: {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}
 
           ### SUMMARY
           - **Total Time**: {data['human_readable_total']}
           - **Daily Average**: {data['human_readable_daily_average']}
-          - **Productivity**: {productivity}
           - **Best Day**: {data['best_day']['text']} ({data['best_day']['date']})
 
           ### TIME DISTRIBUTION
-          - **Coding**: {categories['coding']['text']} ({categories['coding']['percent']}%)
-          - **Building**: {categories['building']['text']} ({categories['building']['percent']}%)
-          - **Debugging**: {categories['debugging']['text']} ({categories['debugging']['percent']}%)
+          - **Coding**: {data['categories']['coding']['text']} ({data['categories']['coding']['percent']}%)
+          - **Building**: {data['categories']['building']['text']} ({data['categories']['building']['percent']}%)
+          - **Debugging**: {data['categories']['debugging']['text']} ({data['categories']['debugging']['percent']}%)
 
           ### LANGUAGES (TOP 7)
-          {''.join([f'- {lang['name']}: {lang['text']} ({lang['percent']}%)\n' for lang in languages])}
+          {prepare_section(data['languages'], 7)}
 
           ### DEVELOPMENT ENVIRONMENT
           **Editors**:
-          {''.join([f'- {editor['name']}: {editor['text']} ({editor['percent']}%)\n' for editor in editors])}
+          {prepare_section(data['editors'], 3)}
 
           **Operating Systems**:
-          {''.join([f'- {os['name']}: {os['text']} ({os['percent']}%)\n' for os in os])}
+          {prepare_section(data['operating_systems'], 2)}
 
           ### PROJECTS (TOP 3)
-          {''.join([f'- {project['name']}: {project['text']} ({project['percent']}%)\n' for project in projects])}
-
-          ### ACTIVITY TIMELINE
-          - **Morning (6-12)**: {data['human_readable_range']}
-          - **Afternoon (12-18)**: {data['human_readable_range']}
-          - **Evening (18-24)**: {data['human_readable_range']}
-          - **Night (0-6)**: {data['human_readable_range']}
+          {prepare_section(data['projects'], 3)}
           '''
 
           # Save to file
@@ -89,9 +78,8 @@ jobs:
           end = content.find('<!--END_SECTION:waka-->')
 
           if start != -1 and end != -1:
-              new_content = content[:start] + '<!--START_SECTION:waka-->\n' + open('stats.md').read() + '\n<!--END_SECTION:waka-->' + content[end+len('<!--END_SECTION:waka-->'):]
               with open('README.md', 'w') as f:
-                  f.write(new_content)
+                  f.write(content[:start] + '<!--START_SECTION:waka-->\n' + open('stats.md').read() + '\n<!--END_SECTION:waka-->' + content[end+len('<!--END_SECTION:waka-->'):])
           "
 
       - name: Commit changes
