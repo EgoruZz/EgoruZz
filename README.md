@@ -35,17 +35,13 @@
 </div>
 
 <div align="center">
-  <table>
-    <tr>
-      <td style="font-size: 40px; text-align: left; padding-left: 20px;">
-        • [x] Learn FastAPI<br>
-        • [ ] Master Kubernetes<br>
-        • [ ] Write a technical article<br>
-        • [ ] Contribute to open source<br>
-        • [ ] Build a SaaS project
-      </td>
-    </tr>
-  </table>
+  <div style="display: inline-block; text-align: left; font-size: 40px; line-height: 1.8;">
+    <div>✓ [x] Learn FastAPI</div>
+    <div>○ [ ] Master Kubernetes</div>
+    <div>○ [ ] Write a technical article</div>
+    <div>○ [ ] Contribute to open source</div>
+    <div>○ [ ] Build a SaaS project</div>
+  </div>
 </div>
 
 <!--START_SECTION:waka-->
