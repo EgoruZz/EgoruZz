@@ -1,39 +1,42 @@
 <h1 align="center">
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/> 
-  Привет, я EgoruZz!
+  Hi, I'm EgoruZz!
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
 
 <div align="center">
-<h2>🛠 Мой стек технологий</h2>
+<h2 style="font-size: 28px;">🚀 My Tech Stack</h2>
 </div>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white" alt="Django">
-  <img src="https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white" alt="FastAPI">
-  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes">
+  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
+  <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
 </p>
 
 <p align="center">
-  <code>flake8</code> для проверки стиля кода<br>
-  Автоматические проверки через GitHub Actions
+  <code>flake8</code> for code style checking<br>
+  Automated checks via GitHub Actions
 </p>
-
----
 
 <div align="center">
-<h2>🎯 Мои цели на 2025</h2>
+<h2 style="font-size: 28px;">🎯 My 2025 Goals</h2>
 </div>
 
-<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left;">
-  <li>[x] Выучить FastAPI</li>
-  <li>[ ] Освоить Kubernetes</li>
-  <li>[ ] Написать техническую статью</li>
+<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 18px;">
+  <li>[x] Learn FastAPI</li>
+  <li>[ ] Master Kubernetes</li>
+  <li>[ ] Write a technical article</li>
+  <li>[ ] Contribute to open source</li>
+  <li>[ ] Build a SaaS project</li>
 </ul>
-
----
 
 <!--START_SECTION:waka-->
 <div align='center'>
@@ -112,17 +115,29 @@
 ---
 
 <div align="center">
-<h2>🤝 Свяжитесь со мной</h2>
+<h2 style="font-size: 28px;">📬 Connect With Me</h2>
 </div>
 
 <p align="center">
   <a href="https://t.me/your_username" target="_blank">
-    <img src="https://img.shields.io/badge/Telegram-@ваш_ник-26A5E4?logo=telegram" alt="Telegram">
+    <img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram">
   </a>
   <a href="https://linkedin.com/in/your_username" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-Ваше_Имя-0A66C2?logo=linkedin" alt="LinkedIn">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
   </a>
-  <a href="mailto:ваш@email.com">
-    <img src="https://img.shields.io/badge/Email-ваш@email.com-EA4335?logo=gmail" alt="Email">
+  <a href="mailto:your@email.com">
+    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
+  </a>
+  <a href="https://github.com/EgoruZz" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
+  <a href="https://twitter.com/your_username" target="_blank">
+    <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter">
   </a>
 </p>
+
+<div align="center">
+  <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
+    <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
+  </a>
+</div>
