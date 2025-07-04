@@ -33,7 +33,7 @@
 </div>
 
 <div align="center" style="text-align: left; display: inline-block;">
-  <div style="font-size: 40px; line-height: 1.6;">
+  <div style="font-size: 100px; line-height: 1.6;">
     ✔️ [x] Learn FastAPI<br>
     ⏳ [ ] Master Kubernetes<br>
     ✍️ [ ] Write a technical article<br>
