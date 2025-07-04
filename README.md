@@ -11,12 +11,10 @@
 
 ### 📌 Report Info
 
-<span style='font-size: 1.1em'>
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-28 → 2025-07-04 |
-| Last Updated | 2025-07-04 19:34 UTC |
-</span>
+| Last Updated | 2025-07-04 19:39 UTC |
 
 ### 📊 Coding Statistics
 
