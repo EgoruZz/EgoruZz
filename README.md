@@ -32,14 +32,14 @@
 <h2 style="font-size: 28px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
 </div>
 
-<div align="center" style="font-size: 40px; text-align: left; display: inline-block;">
-  <ul style="list-style-position: inside; padding-left: 40px;">
-    <li>[x] Learn FastAPI</li>
-    <li>[ ] Master Kubernetes</li>
-    <li>[ ] Write a technical article</li>
-    <li>[ ] Contribute to open source</li>
-    <li>[ ] Build a SaaS project</li>
-  </ul>
+<div align="center" style="text-align: left; display: inline-block;">
+  <div style="font-size: 24px; line-height: 1.6;">
+    ✔️ [x] Learn FastAPI<br>
+    ⏳ [ ] Master Kubernetes<br>
+    ✍️ [ ] Write a technical article<br>
+    🌐 [ ] Contribute to open source<br>
+    🚀 [ ] Build a SaaS project
+  </div>
 </div>
 
 <!--START_SECTION:waka-->
