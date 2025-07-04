@@ -65,15 +65,13 @@ jobs:
           echo "## ⏳ WakaTime Weekly Report" >> stats.md
           echo "" >> stats.md
           
-          # Report Info table with larger font
+          # Report Info table (без увеличения шрифта)
           echo "### 📌 Report Info" >> stats.md
           echo "" >> stats.md
-          echo "<span style='font-size: 1.1em'>" >> stats.md
           echo "| Period | Range |" >> stats.md
           echo "|--------|-------|" >> stats.md
           echo "| Last 7 Days | $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d') |" >> stats.md
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
-          echo "</span>" >> stats.md
           echo "" >> stats.md
           
           # Coding statistics
