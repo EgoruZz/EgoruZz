@@ -1,6 +1,6 @@
 name: WakaTime Sync
 concurrency:
-  group: wakatime-sync-${{ github.ref }}
+  group: waka-sync-${{ github.ref }}
   cancel-in-progress: false
 
 on:
@@ -50,8 +50,8 @@ jobs:
             fi
           }
 
-          # Градиентный прогресс-бар (█▓▒░)
-          generate_gradient_bar() {
+          # Новый прогресс-бар: изначально ░, заполняется ▓
+          generate_progress_bar() {
             local minutes=$1
             local max=$2
             local length=20
@@ -61,20 +61,10 @@ jobs:
             local filled=$((percent * length / 100))
             local empty=$((length - filled))
             
-            # Градиент: █ (полный), ▓ (75%), ▒ (50%), ░ (25%)
-            for ((i=0; i<filled; i++)); do
-              if (( i < filled/4 )); then
-                printf "░"
-              elif (( i < filled/2 )); then
-                printf "▒"
-              elif (( i < filled*3/4 )); then
-                printf "▓"
-              else
-                printf "█"
-              fi
-            done
-            
-            printf " %.0s" $(seq 1 $empty)
+            # Заполненная часть: ▓
+            printf "▓%.0s" $(seq 1 $filled)
+            # Пустая часть: ░
+            printf "░%.0s" $(seq 1 $empty)
             printf " %3d%%" $percent
           }
 
@@ -115,28 +105,29 @@ jobs:
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
           echo "" >> stats.md
           
-          # Статистика кодинга с градиентным баром
+          # Статистика кодинга с новым прогресс-баром
           echo "### 📊 Coding Statistics" >> stats.md
           echo "" >> stats.md
           echo "| Metric | Value | Progress |" >> stats.md
           echo "|--------|-------|----------|" >> stats.md
-          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_gradient_bar $daily_minutes 1440)" >> stats.md
-          printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_gradient_bar $best_day_minutes 1440)" >> stats.md
-          printf "| Total Time | %s | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_gradient_bar $total_minutes 10080)" >> stats.md
+          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 1440)" >> stats.md
+          printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 1440)" >> stats.md
+          printf "| Total Time | %s | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 10080)" >> stats.md
+          printf "| Productivity | %s | %s |\n" "$(echo "scale=1; $total_minutes/7" | bc) mins/day" "$(generate_progress_bar $((total_minutes/7)) 240)" >> stats.md
           echo "" >> stats.md
           
-          # Топ языков с градиентом
+          # Топ языков с новым прогресс-баром
           echo "### 🚀 Top Languages" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage |" >> stats.md
           echo "|----------|------|-------|" >> stats.md
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
             lang_minutes=$(convert_to_minutes "$text")
-            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_gradient_bar $lang_minutes 1440)" >> stats.md
+            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 1440)" >> stats.md
           done
           echo "" >> stats.md
           
-          # Инсайты с дополнительными метриками
+          # Инсайты (без Efficiency)
           echo "### 🔍 Code Insights" >> stats.md
           echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
@@ -145,8 +136,6 @@ jobs:
           echo "| 🖥️ OS | $os |" >> stats.md
           echo "| ⌨️ Editor | $editors |" >> stats.md
           echo "| 📊 Category | $categories |" >> stats.md
-          echo "| 📈 Productivity | $(generate_gradient_bar $((total_minutes/7)) 240) |" >> stats.md
-          echo "| 🚀 Efficiency | $(generate_gradient_bar $((best_day_minutes*100/(total_minutes/7+1))) 100) |" >> stats.md
           echo "" >> stats.md
           
           echo "</div>" >> stats.md
