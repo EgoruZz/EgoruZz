@@ -9,11 +9,12 @@
 
 ## ⏳ WakaTime Weekly Report
 
-<h3>LAST 7 DAYS</h3>
-<h4>2025-06-28 → 2025-07-04</h4>
+### 📌 Report Info
 
-<h3>LAST UPDATED</h3>
-<h4>2025-07-04 18:54 UTC</h4>
+| Period | Range |
+|--------|-------|
+| Last 7 Days | 2025-06-28 → 2025-07-04 |
+| Last Updated | 2025-07-04 19:09 UTC |
 
 ### 📅 Weekly Coding Activity
 
@@ -46,9 +47,15 @@
 
 ### 🔍 Code Insights
 
-🏆 **Most Productive Day:** 6 hrs 39 mins on 2025-07-03
-💎 **Top Language:** YAML
-🖥️ **OS:** Mac
+| Insight | Value |
+|---------|-------|
+| 🏆 Most Productive Day | 6 hrs 39 mins on 2025-07-03 |
+| 💎 Top Language | YAML |
+| 🖥️ Operating System | Mac |
+| ⌨️ Preferred Editor | VS Code |
+| 📊 Total Coding Time | 10 hrs 24 mins |
+| 📈 Best Day Time | 6 hrs 39 mins |
+| 📅 Days Active | 7/7 |
 
 </div>
 <!--END_SECTION:waka-->
