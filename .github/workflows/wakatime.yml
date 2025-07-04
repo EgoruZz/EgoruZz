@@ -5,7 +5,7 @@ concurrency:
 
 on:
   schedule:
-    - cron: "30 0 * * *"  # 00:30 UTC каждый день
+    - cron: "30 0 * * *"
   workflow_dispatch:
     inputs:
       force-refresh:
@@ -32,6 +32,16 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
+          # Progress bar function
+          generate_progress_bar() {
+            local percent=$1
+            local filled=$((percent/5))
+            local empty=$((20-filled))
+            printf "▰%.0s" $(seq 1 $filled)
+            printf "▱%.0s" $(seq 1 $empty)
+            printf " %3d%%" $percent
+          }
+
           # Get WakaTime data
           API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY"
           echo "::group::Fetching WakaTime data"
@@ -48,51 +58,59 @@ jobs:
           editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           operating_systems=$(jq -r '.data.operating_systems[0].name // "None"' wakatime.json)
           
-          # Generate centered markdown report
+          # Generate report
           echo "<!--START_SECTION:waka-->" >> stats.md
           echo "<div align='center'>" >> stats.md
           echo "" >> stats.md
-          echo "**⏳ Last 7 Days:** $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')" >> stats.md
-          echo "**🔄 Updated:** $(date -u +'%Y-%m-%d %H:%M') UTC - Last workflow run time" >> stats.md
+          echo "## ⏳ WakaTime Weekly Report" >> stats.md
+          echo "" >> stats.md
+          echo "**Last 7 Days**  " >> stats.md  # Double space for line break
+          echo "$(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')  " >> stats.md
+          echo "" >> stats.md
+          echo "**Last Updated**  " >> stats.md
+          echo "$(date -u +'%Y-%m-%d %H:%M') UTC  " >> stats.md
           echo "" >> stats.md
           
-          # Coding statistics
+          # Coding statistics with progress bars
           echo "### 📊 Coding Statistics" >> stats.md
-          echo "- **Total Time:** $total_time" >> stats.md
-          echo "- **Daily Average:** $daily_avg" >> stats.md
-          echo "- **Best Day:** $best_day on $best_day_date" >> stats.md
-          echo "- **Most Used Editor:** $editors" >> stats.md
-          echo "- **Operating System:** $operating_systems" >> stats.md
+          echo "" >> stats.md
+          echo "| Metric | Value | Progress |" >> stats.md
+          echo "|--------|-------|----------|" >> stats.md
+          printf "| Total Time | %s | %s |\n" "$total_time" "$(generate_progress_bar $((total_seconds/3600))" >> stats.md
+          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar ${daily_avg% *})" >> stats.md
+          printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar ${best_day% *})" >> stats.md
           echo "" >> stats.md
           
-          # Top Languages
+          # Top Languages with colorful bars
           echo "### 🚀 Top Languages" >> stats.md
-          jq -r '.data.languages[0:10] | .[] | "- \(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "" >> stats.md
+          echo "| Language | Time | Usage |" >> stats.md
+          echo "|----------|------|-------|" >> stats.md
+          jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
+            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar ${percent%.*})" >> stats.md
+          done
           echo "" >> stats.md
           
           # Top Editors
           echo "### ⌨️ Top Editors" >> stats.md
-          jq -r '.data.editors[0:5] | .[] | "- \(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
           echo "" >> stats.md
-          
-          # Top Operating Systems
-          echo "### 💻 Top Operating Systems" >> stats.md
-          jq -r '.data.operating_systems[0:3] | .[] | "- \(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
-          echo "" >> stats.md
-          
-          # Top Categories
-          echo "### 🗂️ Top Categories" >> stats.md
-          jq -r '.data.categories[0:5] | .[] | "- \(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "| Editor | Time | Usage |" >> stats.md
+          echo "|--------|------|-------|" >> stats.md
+          jq -r '.data.editors[0:3] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
+            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar ${percent%.*})" >> stats.md
+          done
           echo "" >> stats.md
           
           # Code Analytics
-          echo "### 🔍 Code Analytics" >> stats.md
-          echo "- **Lines of Code:** $(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" >> stats.md
-          echo "- **Most Productive Time:** $best_day on $best_day_date" >> stats.md
-          echo "- **Most Used Language:** $languages" >> stats.md
-          echo "- **Most Used Editor:** $editors" >> stats.md
-          echo "- **Most Used OS:** $operating_systems" >> stats.md
+          echo "### 🔍 Code Insights" >> stats.md
           echo "" >> stats.md
+          echo "📈 **Lines of Code:** $(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" >> stats.md
+          echo "🏆 **Most Productive Day:** $best_day on $best_day_date" >> stats.md
+          echo "💎 **Top Language:** $languages" >> stats.md
+          echo "⚙️ **Main Editor:** $editors" >> stats.md
+          echo "🖥️ **OS:** $operating_systems" >> stats.md
+          echo "" >> stats.md
+          
           echo "</div>" >> stats.md
           echo "<!--END_SECTION:waka-->" >> stats.md
 
