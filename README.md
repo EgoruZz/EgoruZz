@@ -24,13 +24,9 @@
 </p>
 
 <div align="center">
-<table style="font-size: 50px; border: none; margin: 12px 0;">
-  <tr>
-    <td style="padding: 4px 0; text-align: center; font-family: monospace;">
-      flake8 for code style checking<br>
-      <span style="font-size: 50px;">Automated checks via GitHub Actions</span>
-    </td>
-  </tr>
+<table style="font-size: 50px; border: none;">
+  <tr><td style="padding: 4px 0;">[x] flake8 for code style checking</td></tr>
+  <tr><td style="padding: 4px 0;">[x] Automated checks via GitHub Actions</td></tr>
 </table>
 </div>
 
