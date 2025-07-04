@@ -6,8 +6,9 @@
   </a>
 </h1>
 
+
 <div align="center">
-<h2 style="font-size: 28px; margin-bottom: 12px;">🚀 My Tech Stack</h2>
+<h2 style="font-size: 28px;">🚀 My Tech Stack</h2>
 </div>
 
 <p align="center">
@@ -35,7 +36,8 @@
 </div>
 
 <div align="center">
-<h2 style="font-size: 40px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
+<h2 style="font-size: 28;">🎯 My 2025 Goals</h2>
+</div>
 
 <table style="font-size: 50px; border: none;">
   <tr><td style="padding: 4px 0;">[x] Learn FastAPI</td></tr>
@@ -44,7 +46,6 @@
   <tr><td style="padding: 4px 0;">[ ] Contribute to open source</td></tr>
   <tr><td style="padding: 4px 0;">[ ] Build a SaaS project</td></tr>
 </table>
-</div>
 </div>
 
 <!--START_SECTION:waka-->
