@@ -50,15 +50,18 @@ jobs:
             fi
           }
 
-          # Функция прогресс-бара (теперь от 24 часов)
+          # Новая функция прогресс-бара с разными стилями
           generate_progress_bar() {
             local minutes=${1%.*}
-            local percent=$((minutes * 100 / 1440))  # 1440 минут в сутках
+            local max_minutes=${2:-1440}  # По умолчанию 24 часа (1440 минут)
+            local percent=$((minutes * 100 / max_minutes))
             percent=$((percent > 100 ? 100 : percent))  # Ограничение максимум 100%
-            local filled=$((percent/5))
-            local empty=$((20-filled))
-            printf "▰%.0s" $(seq 1 $filled)
-            printf "▱%.0s" $(seq 1 $empty)
+            
+            # Новый стиль прогресс-бара
+            local filled=$((percent/2))
+            local empty=$((50-filled))
+            printf "⬛%.0s" $(seq 1 $filled)
+            printf "⬜%.0s" $(seq 1 $empty)
             printf " %3d%%" $percent
           }
 
@@ -90,12 +93,12 @@ jobs:
           echo "## ⏳ WakaTime Weekly Report" >> stats.md
           echo "" >> stats.md
           
-          # Информация об отчёте
+          # Информация об отчёте (7 дней до вчерашнего дня)
           echo "### 📌 Report Info" >> stats.md
           echo "" >> stats.md
           echo "| Period | Range |" >> stats.md
           echo "|--------|-------|" >> stats.md
-          echo "| Last 7 Days | $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d') |" >> stats.md
+          echo "| Last 7 Days | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
           echo "" >> stats.md
           
@@ -106,16 +109,17 @@ jobs:
           echo "|--------|-------|----------|" >> stats.md
           printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes)" >> stats.md
           printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes)" >> stats.md
-          printf "| Total Time | %s | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes)" >> stats.md
+          printf "| Total Time | %s | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 10080)" >> stats.md  # 10080 = 7*24*60
           echo "" >> stats.md
           
-          # Топ языков
+          # Топ языков (100% = 24 часа)
           echo "### 🚀 Top Languages" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage |" >> stats.md
           echo "|----------|------|-------|" >> stats.md
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
-            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar ${percent%.*})" >> stats.md
+            lang_minutes=$(convert_to_minutes "$text")
+            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes)" >> stats.md
           done
           echo "" >> stats.md
           
