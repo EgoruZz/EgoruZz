@@ -3,7 +3,6 @@
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
 
-## ⏳ Статистика кодинга
 <!--START_SECTION:waka-->
 <div align='center'>
 
@@ -48,8 +47,10 @@
 
 </div>
 <!--END_SECTION:waka-->
+
 ---
 
+<div align='center'>
 ## 🛠 Мой стек технологий
 
 ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white)
@@ -60,12 +61,12 @@
 
 - `flake8` для проверки стиля кода
 - Автоматические проверки через GitHub Actions
+</div>
 
 ---
 
-## 📊 GitHub Analytics
-
 <div align="center">
+## 📊 GitHub Analytics
   <!-- Основная статистика с улучшенной обработкой ошибок -->
   <picture>
     <source
@@ -91,14 +92,18 @@
 
 ---
 
+<div align="center">
 ## 🎯 Мои цели на 2025
 - [x] Выучить FastAPI
 - [ ] Освоить Kubernetes
 - [ ] Написать техническую статью
+</div>
 
 ---
 
+<div align="center">
 ## 🤝 Свяжитесь со мной
 [![Telegram](https://img.shields.io/badge/Telegram-@ваш_ник-26A5E4?logo=telegram)](https://t.me/your_username)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Ваше_Имя-0A66C2?logo=linkedin)](https://linkedin.com/in/your_username)
 [![Email](https://img.shields.io/badge/Email-ваш@email.com-EA4335?logo=gmail)](mailto:ваш@email.com)
+</div>
