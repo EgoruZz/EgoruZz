@@ -9,32 +9,25 @@
 
 ## ⏳ WakaTime Weekly Report
 
-### 📌 <span style='font-size: 1.2em'>Report Info</span>
+### 📌 Report Info
 
-<table style='font-size: 1.1em'>
-<tr><td><strong>Period</strong></td><td>2025-06-28 → 2025-07-04</td></tr>
-<tr><td><strong>Last Updated</strong></td><td>2025-07-04 19:24 UTC</td></tr>
-</table>
-
-### 📅 Weekly Coding Activity
-
-| Day       | Time   | Progress       |
-|-----------|--------|----------------|
-| Sat       | 0 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
-| Sun       | 0 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
-| Mon       | 0 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
-| Tue       | 0 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
-| Wed       | 0 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
-| Thu       | 0 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
-| Fri       | 0 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
+<div style='font-size: 16px;'>
+| Period | Range |
+|--------|-------|
+| Last 7 Days | 2025-06-28 → 2025-07-04 |
+| Last Updated | 2025-07-04 19:27 UTC |
+</div>
 
 ### 📊 Coding Statistics
 
 | Metric | Value | Progress |
 |--------|-------|----------|
 | Daily Average | 5 hrs 12 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   5% |
-| Weekday Average | 0h 0m | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
-| Top Category | Coding | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱▱  75% |
+| Peak Productivity | 10 hrs 24 mins | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱  85% |
+| Code Intensity | 10 hrs 24 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   1% |
+| Focus Level | 78.93% | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱▱  78% |
+| Editor Efficiency | VS Code | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱  90% |
+| OS Utilization | Mac | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱  80% |
 
 ### 🚀 Top Languages
 
@@ -49,12 +42,13 @@
 
 | Insight | Value |
 |---------|-------|
-| 🏆 Most Productive Day | 2025-07-03 (6 hrs 39 mins) |
+| 🏆 Most Productive Day | 6 hrs 39 mins on 2025-07-03 |
 | 💎 Top Language | YAML |
 | 🖥️ Operating System | Mac |
 | ⌨️ Preferred Editor | VS Code |
 | 📊 Total Coding Time | 10 hrs 24 mins |
-| 📅 Days Active | 0/7 |
+| 📦 Project Categories | Coding |
+| ⚡ Coding Streak | 0 days |
 
 </div>
 <!--END_SECTION:waka-->
