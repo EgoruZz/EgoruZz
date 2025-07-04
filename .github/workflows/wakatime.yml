@@ -50,7 +50,7 @@ jobs:
             fi
           }
 
-          # Новый прогресс-бар: изначально ░, заполняется ▓
+          # Улучшенный прогресс-бар с символами одинаковой ширины
           generate_progress_bar() {
             local minutes=$1
             local max=$2
@@ -61,11 +61,11 @@ jobs:
             local filled=$((percent * length / 100))
             local empty=$((length - filled))
             
-            # Заполненная часть: ▓
-            printf "▓%.0s" $(seq 1 $filled)
-            # Пустая часть: ░
-            printf "░%.0s" $(seq 1 $empty)
-            printf " %3d%%" $percent
+            # Используем только символы одинаковой ширины
+            printf "["
+            printf "#%.0s" $(seq 1 $filled)
+            printf "-%.0s" $(seq 1 $empty)
+            printf "] %3d%%" $percent
           }
 
           # Получение данных WakaTime
@@ -113,7 +113,7 @@ jobs:
           printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 1440)" >> stats.md
           printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 1440)" >> stats.md
           printf "| Total Time | %s | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 10080)" >> stats.md
-          printf "| Productivity | %s | %s |\n" "$(echo "scale=1; $total_minutes/7" | bc) mins/day" "$(generate_progress_bar $((total_minutes/7)) 240)" >> stats.md
+          printf "| Productivity | %s mins/day | %s |\n" "$(echo "scale=1; $total_minutes/7" | bc)" "$(generate_progress_bar $((total_minutes/7)) 240)" >> stats.md
           echo "" >> stats.md
           
           # Топ языков с новым прогресс-баром
@@ -127,7 +127,7 @@ jobs:
           done
           echo "" >> stats.md
           
-          # Инсайты (без Efficiency)
+          # Инсайты
           echo "### 🔍 Code Insights" >> stats.md
           echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
