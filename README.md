@@ -7,37 +7,44 @@
 <!--START_SECTION:waka-->
 <div align='center'>
 
-**⏳ Last 7 Days:** 2025-06-28 → 2025-07-04
-**🔄 Updated:** 2025-07-04 15:45 UTC - Last workflow run time
+## ⏳ WakaTime Weekly Report
+
+**Last 7 Days**  
+2025-06-28 → 2025-07-04  
+
+**Last Updated**  
+2025-07-04 15:54 UTC  
 
 ### 📊 Coding Statistics
-- **Total Time:** 10 hrs 24 mins
-- **Daily Average:** 5 hrs 12 mins
-- **Best Day:** 6 hrs 39 mins on 2025-07-03
-- **Most Used Editor:** VS Code
-- **Operating System:** Mac
+
+| Metric | Value | Progress |
+|--------|-------|----------|
+| Total Time | 10 hrs 24 mins |  |
+| Daily Average | 5 hrs 12 mins | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   5% |
+| Best Day | 6 hrs 39 mins on 2025-07-03 | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   6% |
 
 ### 🚀 Top Languages
-- YAML: 8 hrs 12 mins (78.93%)
-- Markdown: 2 hrs 9 mins (20.81%)
-- C++: 1 min (0.26%)
-- Git Config: 0 secs (0.0%)
+
+| Language | Time | Usage |
+|----------|------|-------|
+| YAML | 8 hrs 12 mins | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱▱▱▱▱  78% |
+| Markdown | 2 hrs 9 mins | ▰▰▰▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱  20% |
+| C++ | 1 min | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
+| Git Config | 0 secs | ▰▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0% |
 
 ### ⌨️ Top Editors
-- VS Code: 10 hrs 24 mins (100.0%)
 
-### 💻 Top Operating Systems
-- Mac: 10 hrs 24 mins (100.0%)
+| Editor | Time | Usage |
+|--------|------|-------|
+| VS Code | 10 hrs 24 mins | ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▱ 100% |
 
-### 🗂️ Top Categories
-- Coding: 10 hrs 24 mins (100.0%)
+### 🔍 Code Insights
 
-### 🔍 Code Analytics
-- **Lines of Code:** 10 hrs 24 mins
-- **Most Productive Time:** 6 hrs 39 mins on 2025-07-03
-- **Most Used Language:** YAML
-- **Most Used Editor:** VS Code
-- **Most Used OS:** Mac
+📈 **Lines of Code:** 10 hrs 24 mins
+🏆 **Most Productive Day:** 6 hrs 39 mins on 2025-07-03
+💎 **Top Language:** YAML
+⚙️ **Main Editor:** VS Code
+🖥️ **OS:** Mac
 
 </div>
 <!--END_SECTION:waka-->
