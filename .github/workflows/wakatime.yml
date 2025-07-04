@@ -1,161 +1,103 @@
-name: WakaTime Sync
+name: WakaTime Professional Stats
 concurrency:
-  group: wakatime-sync-${{ github.ref }}
+  group: wakatime-pro-${{ github.ref }}
   cancel-in-progress: false
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "30 0 * * *"  # 00:30 UTC
   workflow_dispatch:
-    inputs:
-      force-refresh:
-        description: 'Force full refresh (ignore cache)'
-        required: false
-        default: 'false'
 
 jobs:
-  update-stats:
+  generate-stats:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          fetch-depth: 0
-          persist-credentials: false
+          python-version: '3.10'
 
-      - name: Setup environment
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq bc
-
-      - name: Fetch and process stats
-        id: process-stats
+      - name: Generate Professional Stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Function for progress bars
-          generate_progress_bar() {
-            local value=${1:-0}
-            local max=${2:-100}
-            local size=20
-            local percentage=$(( value * 100 / max ))
-            local progress=$(( percentage * size / 100 ))
-            local remainder=$(( size - progress ))
-            printf "█%.0s" $(seq 1 $progress)
-            printf "░%.0s" $(seq 1 $remainder)
-            printf " %3d%%" $percentage
-          }
+          pip install requests
+          python -c "
+          import requests, json
+          from datetime import datetime
 
-          # Center-align text
-          center_text() {
-            local width=$1
-            local text=$2
-            local padding=$(( (width - ${#text}) / 2 ))
-            printf "%*s%s%*s" $padding "" "$text" $padding ""
-          }
+          # Get comprehensive stats
+          url = 'https://wakatime.com/api/v1/users/current/stats/last_7_days'
+          headers = {'Authorization': f'Bearer $WAKATIME_API_KEY'}
+          data = requests.get(url, headers=headers).json()['data']
 
-          # Generate dates for last 7 days
-          dates=()
-          for i in {6..0}; do
-            dates+=("$(date -d "$i days ago" +'%Y-%m-%d')")
-          done
+          # Calculate additional metrics
+          productivity = '🟢 High' if data['is_up_to_date'] else '🔴 Low'
+          languages = data['languages'][:7]
+          editors = data['editors'][:3]
+          os = data['operating_systems'][:2]
+          projects = data['projects'][:3]
+          categories = data['categories']
 
-          # Get WakaTime data
-          API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY"
-          echo "::group::Fetching WakaTime data"
-          curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
-          echo "::endgroup::"
+          # Generate markdown
+          stats = f'''
+          ## WAKATIME DEVELOPMENT ANALYTICS (7-DAY REPORT)
+          **Last Updated**: {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}
 
-          # Process data
-          total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
-          total_time=$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)
-          daily_avg=$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)
-          best_day=$(jq -r '.data.best_day.text // "0 secs"' wakatime.json)
-          best_day_date=$(jq -r '.data.best_day.date // ""' wakatime.json)
-          languages=$(jq -r '.data.languages[0].name // "None"' wakatime.json)
-          editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
-          
-          # Generate report
-          echo '```html' >> stats.md
-          echo '<div style="font-size: 40px; font-family: monospace; line-height: 1.5;">' >> stats.md
-          echo "⏳ LAST 7 DAYS » $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')" >> stats.md
-          echo "🔄 Updated: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
-          echo "" >> stats.md
-          
-          # Coding statistics table
-          echo "📊 CODING STATISTICS" >> stats.md
-          echo "┌────────────────────────────┬────────────────────────────┐" >> stats.md
-          echo "│$(center_text 30 "Metric")│$(center_text 30 "Value")│" >> stats.md
-          echo "├────────────────────────────┼────────────────────────────┤" >> stats.md
-          printf "│ %-30s │ %-30s │\n" "$(center_text 30 "Total Time")" "$(center_text 30 "$total_time")" >> stats.md
-          printf "│ %-30s │ %-30s │\n" "$(center_text 30 "Daily Avg")" "$(center_text 30 "$daily_avg")" >> stats.md
-          printf "│ %-30s │ %-30s │\n" "$(center_text 30 "Best Day")" "$(center_text 30 "$best_day")" >> stats.md
-          printf "│ %-30s │ %-30s │\n" "$(center_text 30 "Top Language")" "$(center_text 30 "$languages")" >> stats.md
-          printf "│ %-30s │ %-30s │\n" "$(center_text 30 "Editor")" "$(center_text 30 "$editors")" >> stats.md
-          echo "└────────────────────────────┴────────────────────────────┘" >> stats.md
-          echo "" >> stats.md
-          
-          # Daily breakdown
-          echo "📅 DAILY BREAKDOWN" >> stats.md
-          echo "┌──────────────────┬──────────────────┬──────────────────────────┐" >> stats.md
-          echo "│$(center_text 18 "Day")│$(center_text 18 "Time")│$(center_text 26 "Progress")│" >> stats.md
-          echo "├──────────────────┼──────────────────┼──────────────────────────┤" >> stats.md
-          
-          declare -A day_data
-          while IFS='|' read -r date text percent; do
-            day_data["$date"]="$text|$percent"
-          done < <(jq -r '.data.days[] | "\(.date)|\(.text)|\(.percent // 0)"' wakatime.json 2>/dev/null)
-          
-          for date in "${dates[@]}"; do
-            day_name=$(date -d "$date" +"%a")
-            if [[ -n "${day_data[$date]}" ]]; then
-              IFS='|' read -r text percent <<< "${day_data[$date]}"
-            else
-              text="0 secs"
-              percent=0
-            fi
-            progress_bar=$(generate_progress_bar ${percent%.*} 100)
-            printf "│ %-18s │ %-18s │ %-26s │\n" "$(center_text 18 "$day_name")" "$(center_text 18 "$text")" "$progress_bar" >> stats.md
-          done
-          
-          echo "└──────────────────┴──────────────────┴──────────────────────────┘" >> stats.md
-          echo "" >> stats.md
+          ### SUMMARY
+          - **Total Time**: {data['human_readable_total']}
+          - **Daily Average**: {data['human_readable_daily_average']}
+          - **Productivity**: {productivity}
+          - **Best Day**: {data['best_day']['text']} ({data['best_day']['date']})
 
-          # Top Technologies
-          echo "🚀 TOP TECHNOLOGIES" >> stats.md
-          echo "┌────────────────────────────┬────────────────────────────┬──────────────────────────┐" >> stats.md
-          echo "│$(center_text 30 "Technology")│$(center_text 30 "Time")│$(center_text 26 "Usage")│" >> stats.md
-          echo "├────────────────────────────┼────────────────────────────┼──────────────────────────┤" >> stats.md
-          
-          jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
-            progress_bar=$(generate_progress_bar ${percent%.*} 100)
-            printf "│ %-30s │ %-30s │ %-26s │\n" "$(center_text 30 "${name:0:28}")" "$(center_text 30 "$text")" "$progress_bar" >> stats.md
-          done
-          
-          echo "└────────────────────────────┴────────────────────────────┴──────────────────────────┘" >> stats.md
-          echo '</div>' >> stats.md
-          echo '```' >> stats.md
+          ### TIME DISTRIBUTION
+          - **Coding**: {categories['coding']['text']} ({categories['coding']['percent']}%)
+          - **Building**: {categories['building']['text']} ({categories['building']['percent']}%)
+          - **Debugging**: {categories['debugging']['text']} ({categories['debugging']['percent']}%)
+
+          ### LANGUAGES (TOP 7)
+          {''.join([f'- {lang['name']}: {lang['text']} ({lang['percent']}%)\n' for lang in languages])}
+
+          ### DEVELOPMENT ENVIRONMENT
+          **Editors**:
+          {''.join([f'- {editor['name']}: {editor['text']} ({editor['percent']}%)\n' for editor in editors])}
+
+          **Operating Systems**:
+          {''.join([f'- {os['name']}: {os['text']} ({os['percent']}%)\n' for os in os])}
+
+          ### PROJECTS (TOP 3)
+          {''.join([f'- {project['name']}: {project['text']} ({project['percent']}%)\n' for project in projects])}
+
+          ### ACTIVITY TIMELINE
+          - **Morning (6-12)**: {data['human_readable_range']}
+          - **Afternoon (12-18)**: {data['human_readable_range']}
+          - **Evening (18-24)**: {data['human_readable_range']}
+          - **Night (0-6)**: {data['human_readable_range']}
+          '''
+
+          # Save to file
+          with open('stats.md', 'w') as f:
+              f.write(f'```markdown\n{stats}\n```')
 
           # Update README
-          sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
-              /<!--START_SECTION:waka-->/r stats.md
-              d
-          }' README.md
-          
-          echo "stats-generated=true" >> $GITHUB_OUTPUT
-          rm -f stats.md wakatime.json
+          with open('README.md', 'r') as f:
+              content = f.read()
 
-      - name: Commit and push changes
-        if: steps.process-stats.outputs.stats-generated == 'true'
+          start = content.find('<!--START_SECTION:waka-->')
+          end = content.find('<!--END_SECTION:waka-->')
+
+          if start != -1 and end != -1:
+              new_content = content[:start] + '<!--START_SECTION:waka-->\n' + open('stats.md').read() + '\n<!--END_SECTION:waka-->' + content[end+len('<!--END_SECTION:waka-->'):]
+              with open('README.md', 'w') as f:
+                  f.write(new_content)
+          "
+
+      - name: Commit changes
         run: |
-          if git diff --quiet --exit-code README.md; then
-            echo "::notice::No changes detected in README.md"
-            exit 0
-          fi
-
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+          git config --global user.name "WakaTime Analytics"
+          git config --global user.email "analytics@github.com"
           git add README.md
-          git commit -m "📊 Update WakaTime stats [$(date +'%Y-%m-%d %H:%M')]"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          git pull --rebase
-          git push origin main
+          git commit -m "📈 Update professional WakaTime stats"
+          git push
