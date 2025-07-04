@@ -43,9 +43,14 @@ jobs:
 
               # Helper function to format items
               def format_items(items, limit=5):
-                  return ''.join(f'- {item[\"name\"]}: {item[\"text\"]} ({item[\"percent\"]}%)\n' for item in items[:limit])
+                  return ''.join([f'- {item[\"name\"]}: {item[\"text\"]} ({item[\"percent\"]}%)\n' for item in items[:limit]])
 
               # Generate markdown content
+              languages = format_items(stats_data.get('languages', []), 5)
+              editors = format_items(stats_data.get('editors', []), 3)
+              os = format_items(stats_data.get('operating_systems', []), 2)
+              projects = format_items(stats_data.get('projects', []), 3)
+
               stats_content = f'''
               ## WAKATIME DEVELOPMENT ANALYTICS (7-DAY REPORT)
               **Last Updated**: {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}
@@ -61,17 +66,17 @@ jobs:
               - **Debugging**: {stats_data.get('categories', {}).get('debugging', {}).get('text', 'N/A')} ({stats_data.get('categories', {}).get('debugging', {}).get('percent', 'N/A')}%)
 
               ### LANGUAGES (TOP 5)
-              {format_items(stats_data.get('languages', []), 5}
+              {languages}
 
               ### DEVELOPMENT ENVIRONMENT
               **Editors**:
-              {format_items(stats_data.get('editors', []), 3}
+              {editors}
 
               **Operating Systems**:
-              {format_items(stats_data.get('operating_systems', []), 2}
+              {os}
 
               ### PROJECTS (TOP 3)
-              {format_items(stats_data.get('projects', []), 3}
+              {projects}
               '''
 
               # Write to file
