@@ -75,7 +75,7 @@ jobs:
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
           echo "::endgroup::"
 
-          # Обработка основных данных
+          # Обработка данных
           total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
           daily_avg=$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)
           best_day=$(jq -r '.data.best_day.text // "0 secs"' wakatime.json)
@@ -85,37 +85,10 @@ jobs:
           categories=$(jq -r '.data.categories[0].name // "None"' wakatime.json)
           editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           
-          # Конвертация времени
+          # Конвертация времени в минуты
           daily_minutes=$(convert_to_minutes "$daily_avg")
           best_day_minutes=$(convert_to_minutes "$best_day")
           total_minutes=$(convert_to_minutes "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)")
-
-          # Activity Breakdown
-          activity_data=$(jq '.data.categories' wakatime.json)
-          total_activity_seconds=$(jq '[.[].total_seconds] | add' <<< "$activity_data")
-
-          calculate_percentage() {
-            local seconds=$1
-            if (( total_activity_seconds > 0 )); then
-              echo $(( (seconds * 100) / total_activity_seconds ))
-            else
-              echo 0
-            fi
-          }
-
-          format_time() {
-            local total_seconds=$1
-            local hours=$((total_seconds / 3600))
-            local minutes=$(( (total_seconds % 3600) / 60 ))
-            
-            if (( hours > 0 && minutes > 0 )); then
-              printf "%dh %dm" "$hours" "$minutes"
-            elif (( hours > 0 )); then
-              printf "%dh" "$hours"
-            else
-              printf "%dm" "$minutes"
-            fi
-          }
 
           # Генерация отчёта
           echo "<!--START_SECTION:waka-->" > stats.md
@@ -124,7 +97,7 @@ jobs:
           echo "## ⏳ WakaTime Weekly Report" >> stats.md
           echo "" >> stats.md
           
-          # Report Info
+          # Информация об отчёте
           echo "### 📌 Report Info" >> stats.md
           echo "" >> stats.md
           echo "| Period | Range |" >> stats.md
@@ -133,7 +106,7 @@ jobs:
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
           echo "" >> stats.md
           
-          # Coding Statistics
+          # Статистика кодинга
           echo "### 📊 Coding Statistics" >> stats.md
           echo "" >> stats.md
           echo "| Metric | Value | Progress |" >> stats.md
@@ -143,20 +116,7 @@ jobs:
           printf "| Total Time | %s (per week) | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 10080)" >> stats.md
           echo "" >> stats.md
           
-          # Activity Breakdown
-          echo "### 📊 Activity Breakdown" >> stats.md
-          echo "" >> stats.md
-          echo "| Activity Type | Time Spent | Percentage |" >> stats.md
-          echo "|---------------|------------|------------|" >> stats.md
-          
-          jq -r '.[] | select(.name != null) | "\(.name)|\(.total_seconds)"' <<< "$activity_data" | while IFS='|' read -r name seconds; do
-            time_spent=$(format_time "$seconds")
-            percentage=$(calculate_percentage "$seconds")
-            printf "| %-13s | %-9s | %6s%% |\n" "$name" "$time_spent" "$percentage" >> stats.md
-          done
-          echo "" >> stats.md
-          
-          # Top Languages
+          # Топ языков
           echo "### 🚀 Top Languages" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage |" >> stats.md
@@ -167,7 +127,7 @@ jobs:
           done
           echo "" >> stats.md
           
-          # Code Insights
+          # Инсайты
           echo "### 🔍 Code Insights" >> stats.md
           echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
