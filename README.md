@@ -1,11 +1,13 @@
 <h1 align="center">
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/> 
   Hi, I'm EgoruZz!
-  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
+  <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
+    <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
+  </a>
 </h1>
 
 <div align="center">
-<h2 style="font-size: 28px;">🚀 My Tech Stack</h2>
+<h2 style="font-size: 28px; margin-bottom: 12px;">🚀 My Tech Stack</h2>
 </div>
 
 <p align="center">
@@ -21,16 +23,16 @@
   <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
 </p>
 
-<p align="center">
+<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 22px;">
   <code>flake8</code> for code style checking<br>
   Automated checks via GitHub Actions
-</p>
+</ul>
 
 <div align="center">
-<h2 style="font-size: 28px;">🎯 My 2025 Goals</h2>
+<h2 style="font-size: 28px; margin-bottom: 12px;">🎯 My 2025 Goals</h2>
 </div>
 
-<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 18px;">
+<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left; font-size: 22px;">
   <li>[x] Learn FastAPI</li>
   <li>[ ] Master Kubernetes</li>
   <li>[ ] Write a technical article</li>
@@ -135,9 +137,3 @@
     <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter">
   </a>
 </p>
-
-<div align="center">
-  <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
-    <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
-  </a>
-</div>
