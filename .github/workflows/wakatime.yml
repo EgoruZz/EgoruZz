@@ -56,6 +56,7 @@ jobs:
           languages=$(jq -r '.data.languages[0].name // "None"' wakatime.json)
           os=$(jq -r '.data.operating_systems[0].name // "None"' wakatime.json)
           categories=$(jq -r '.data.categories[0].name // "None"' wakatime.json)
+          editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           
           # Generate dates for last 7 days
           dates=()
@@ -69,17 +70,23 @@ jobs:
             day_data["$date"]="$text|$percent"
           done < <(jq -r '.data.days[] | "\(.date)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null)
 
+          # Calculate total percent for progress bars normalization
+          total_percent=$(jq -r '[.data.days[].percent] | add' wakatime.json 2>/dev/null || echo "100")
+
           # Generate report
           echo "<!--START_SECTION:waka-->" > stats.md
           echo "<div align='center'>" >> stats.md
           echo "" >> stats.md
           echo "## ⏳ WakaTime Weekly Report" >> stats.md
           echo "" >> stats.md
-          echo "<h3>LAST 7 DAYS</h3>" >> stats.md
-          echo "<h4>$(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')</h4>" >> stats.md
+          
+          # Report Info table
+          echo "### 📌 Report Info" >> stats.md
           echo "" >> stats.md
-          echo "<h3>LAST UPDATED</h3>" >> stats.md
-          echo "<h4>$(date -u +'%Y-%m-%d %H:%M') UTC</h4>" >> stats.md
+          echo "| Period | Range |" >> stats.md
+          echo "|--------|-------|" >> stats.md
+          echo "| Last 7 Days | $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d') |" >> stats.md
+          echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
           echo "" >> stats.md
           
           # Weekly coding activity
@@ -92,7 +99,8 @@ jobs:
             day_name=$(date -d "$date" +"%a")
             if [[ -n "${day_data[$date]}" ]]; then
               IFS='|' read -r text percent <<< "${day_data[$date]}"
-              progress_bar=$(generate_progress_bar ${percent%.*} 100)
+              normalized_percent=$(echo "scale=2; $percent * 100 / $total_percent" | bc)
+              progress_bar=$(generate_progress_bar ${normalized_percent%.*})
               printf "| %-9s | %-6s | %-14s |\n" "$day_name" "$text" "$progress_bar" >> stats.md
             else
               printf "| %-9s | %-6s | %-14s |\n" "$day_name" "0 mins" "▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱   0%" >> stats.md
@@ -105,7 +113,7 @@ jobs:
           echo "" >> stats.md
           echo "| Metric | Value | Progress |" >> stats.md
           echo "|--------|-------|----------|" >> stats.md
-          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar ${daily_avg%% *})" >> stats.md
+          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $(echo "$daily_avg" | awk '{print $1}'))" >> stats.md
           printf "| Top Category | %s | %s |\n" "$categories" "$(generate_progress_bar 75)" >> stats.md
           printf "| Productivity | %s | %s |\n" "$(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" "$(generate_progress_bar 60)" >> stats.md
           echo "" >> stats.md
@@ -123,9 +131,15 @@ jobs:
           # Code Insights
           echo "### 🔍 Code Insights" >> stats.md
           echo "" >> stats.md
-          echo "🏆 **Most Productive Day:** $best_day on $best_day_date" >> stats.md
-          echo "💎 **Top Language:** $languages" >> stats.md
-          echo "🖥️ **OS:** $os" >> stats.md
+          echo "| Insight | Value |" >> stats.md
+          echo "|---------|-------|" >> stats.md
+          echo "| 🏆 Most Productive Day | $best_day on $best_day_date |" >> stats.md
+          echo "| 💎 Top Language | $languages |" >> stats.md
+          echo "| 🖥️ Operating System | $os |" >> stats.md
+          echo "| ⌨️ Preferred Editor | $editors |" >> stats.md
+          echo "| 📊 Total Coding Time | $(jq -r '.data.human_readable_total // "0 secs"' wakatime.json) |" >> stats.md
+          echo "| 📈 Best Day Time | $best_day |" >> stats.md
+          echo "| 📅 Days Active | $(jq -r '.data.days_including_holidays // 0' wakatime.json)/7 |" >> stats.md
           echo "" >> stats.md
           
           echo "</div>" >> stats.md
