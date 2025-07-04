@@ -53,21 +53,20 @@ jobs:
           generate_progress_bar() {
             local minutes=$1
             local max=$2
-            local length=20  # Можно настроить длину (10-20 символов)
+            local length=15
             local percent=$((minutes * 100 / max))
-            percent=$((percent > 100 ? 100 : percent))  # Ограничение до 100%
+            percent=$((percent > 100 ? 100 : percent))
 
             local filled=$((percent * length / 100))
             local empty=$((length - filled))
 
-            # Гарантируем, что filled и empty не отрицательные
             filled=$((filled < 0 ? 0 : filled))
             empty=$((empty < 0 ? 0 : empty))
 
             printf "["
-            printf "▰%.0s" $(seq 1 $filled)    # Заполненные блоки
-            printf "▱%.0s" $(seq 1 $empty)     # Пустые блоки
-            printf "] %3d%%" "$percent"        # Процент
+            printf "▰%.0s" $(seq 1 $filled)
+            printf "▱%.0s" $(seq 1 $empty)
+            printf "] %3d%%" "$percent"
           }
 
           # Получение данных WakaTime
@@ -91,6 +90,33 @@ jobs:
           best_day_minutes=$(convert_to_minutes "$best_day")
           total_minutes=$(convert_to_minutes "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)")
 
+          # Получаем данные за последние 2 дня для сравнения
+          yesterday=$(date -d 'yesterday' +"%Y-%m-%d")
+          day_before=$(date -d '2 days ago' +"%Y-%m-%d")
+
+          yesterday_data=$(curl -sS "https://wakatime.com/api/v1/users/current/summaries?api_key=$WAKATIME_API_KEY&start=$yesterday&end=$yesterday" | jq '.data[0]')
+          day_before_data=$(curl -sS "https://wakatime.com/api/v1/users/current/summaries?api_key=$WAKATIME_API_KEY&start=$day_before&end=$day_before" | jq '.data[0]')
+
+          yesterday_time=$(echo "$yesterday_data" | jq -r '.grand_total.human_readable_total // "0 mins"')
+          day_before_time=$(echo "$day_before_data" | jq -r '.grand_total.human_readable_total // "0 mins"')
+
+          # Сравниваем
+          yesterday_mins=$(convert_to_minutes "$yesterday_time")
+          day_before_mins=$(convert_to_minutes "$day_before_time")
+
+          if (( day_before_mins > 0 )); then
+            change_percent=$(( (yesterday_mins - day_before_mins) * 100 / day_before_mins ))
+            if (( change_percent > 5 )); then
+              trend="▲ $change_percent%"
+            elif (( change_percent < -5 )); then
+              trend="▼ $((change_percent * -1))%"
+            else
+              trend="≈"
+            fi
+          else
+            trend="N/A"
+          fi
+
           # Генерация отчёта
           echo "<!--START_SECTION:waka-->" > stats.md
           echo "<div align='center'>" >> stats.md
@@ -107,7 +133,7 @@ jobs:
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
           echo "" >> stats.md
           
-          # Статистика кодинга с новым прогресс-баром
+          # Статистика кодинга
           echo "### 📊 Coding Statistics" >> stats.md
           echo "" >> stats.md
           echo "| Metric | Value | Progress |" >> stats.md
@@ -115,10 +141,18 @@ jobs:
           printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 1440)" >> stats.md
           printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 1440)" >> stats.md
           printf "| Total Time | %s | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 10080)" >> stats.md
-          printf "| Productivity | %s mins/day | %s |\n" "$(echo "scale=1; $total_minutes/7" | bc)" "$(generate_progress_bar $((total_minutes/7)) 240)" >> stats.md
           echo "" >> stats.md
           
-          # Топ языков с новым прогресс-баром
+          # Сравнение дней (новая отдельная таблица)
+          echo "### 🔄 Daily Comparison" >> stats.md
+          echo "" >> stats.md
+          echo "| Day | Time | Progress | Trend |" >> stats.md
+          echo "|-----|------|----------|-------|" >> stats.md
+          printf "| %s | %s | %s | %s |\n" "$(date -d '2 days ago' +'%a, %b %d')" "$day_before_time" "$(generate_progress_bar $day_before_mins 1440)" "Baseline" >> stats.md
+          printf "| %s | %s | %s | %s |\n" "$(date -d 'yesterday' +'%a, %b %d')" "$yesterday_time" "$(generate_progress_bar $yesterday_mins 1440)" "$trend" >> stats.md
+          echo "" >> stats.md
+          
+          # Топ языков
           echo "### 🚀 Top Languages" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage |" >> stats.md
