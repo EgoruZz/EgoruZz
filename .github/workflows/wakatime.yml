@@ -50,7 +50,6 @@ jobs:
             fi
           }
 
-          # Улучшенный прогресс-бар с символами одинаковой ширины
           generate_progress_bar() {
             local minutes=$1
             local max=$2
@@ -61,10 +60,14 @@ jobs:
             local filled=$((percent * length / 100))
             local empty=$((length - filled))
             
-            # Используем только символы одинаковой ширины
+            # Используем # для заполненной части и - для незаполненной
             printf "["
-            printf "#%.0s" $(seq 1 $filled)
-            printf "-%.0s" $(seq 1 $empty)
+            if [ $filled -gt 0 ]; then
+              printf "#%.0s" $(seq 1 $filled)
+            fi
+            if [ $empty -gt 0 ]; then
+              printf "-%.0s" $(seq 1 $empty)
+            fi
             printf "] %3d%%" $percent
           }
 
