@@ -57,7 +57,7 @@
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-27 → 2025-07-03 |
-| Last Updated | 2025-07-04 21:08 UTC |
+| Last Updated | 2025-07-04 21:50 UTC |
 
 ### 📊 Coding Statistics
 
@@ -67,12 +67,14 @@
 | Best Day | 6 hrs 39 mins on 2025-07-03 | [▰▰▱▱▱▱▱▱▱▱]  27% |
 | Total Time | 13 hrs 56 mins (per week) | [▰▱▱▱▱▱▱▱▱▱▱]   8% |
 
-### 🔄 Daily Comparison
+### ⏱️ Time Distribution
 
-| Day | Time | Progress | Trend |
-|-----|------|----------|-------|
-| Wed, Jul 02 | 0 mins | [▰▱▱▱▱▱▱▱▱▱▱]   0% | Baseline |
-| Thu, Jul 03 | 0 mins | [▰▱▱▱▱▱▱▱▱▱▱]   0% | N/A |
+| Period      | Coding Time | Percentage |
+|-------------|-------------|------------|
+| Morning     | 0m        |   0%       |
+| Afternoon   | 0m        |   0%       |
+| Evening     | 0m        |   0%       |
+| Night       | 0m        |   0%       |
 
 ### 🚀 Top Languages
 
