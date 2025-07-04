@@ -53,22 +53,21 @@ jobs:
           generate_progress_bar() {
             local minutes=$1
             local max=$2
-            local length=20
+            local length=20  # Длина прогресс-бара (можно менять)
             local percent=$((minutes * 100 / max))
-            percent=$((percent > 100 ? 100 : percent))
-            
+            percent=$((percent > 100 ? 100 : percent))  # Ограничение до 100%
+
             local filled=$((percent * length / 100))
             local empty=$((length - filled))
-            
-            # Используем # для заполненной части и - для незаполненной
+
+            # Гарантируем, что filled и empty не отрицательные
+            filled=$((filled < 0 ? 0 : filled))
+            empty=$((empty < 0 ? 0 : empty))
+
             printf "["
-            if [ $filled -gt 0 ]; then
-              printf "#%.0s" $(seq 1 $filled)
-            fi
-            if [ $empty -gt 0 ]; then
-              printf "-%.0s" $(seq 1 $empty)
-            fi
-            printf "] %3d%%" $percent
+            printf "#%.0s" $(seq 1 $filled)    # Заполненная часть
+            printf "-%.0s" $(seq 1 $empty)     # Незаполненная часть
+            printf "] %3d%%" "$percent"        # Процент
           }
 
           # Получение данных WakaTime
