@@ -4,6 +4,37 @@
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
 
+<div align="center">
+<h2>🛠 Мой стек технологий</h2>
+</div>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white" alt="Django">
+  <img src="https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker">
+</p>
+
+<p align="center">
+  <code>flake8</code> для проверки стиля кода<br>
+  Автоматические проверки через GitHub Actions
+</p>
+
+---
+
+<div align="center">
+<h2>🎯 Мои цели на 2025</h2>
+</div>
+
+<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left;">
+  <li>[x] Выучить FastAPI</li>
+  <li>[ ] Освоить Kubernetes</li>
+  <li>[ ] Написать техническую статью</li>
+</ul>
+
+---
+
 <!--START_SECTION:waka-->
 <div align='center'>
 
@@ -55,25 +86,6 @@
 ---
 
 <div align="center">
-<h2>🛠 Мой стек технологий</h2>
-</div>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white" alt="Django">
-  <img src="https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white" alt="FastAPI">
-  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker">
-</p>
-
-<p align="center">
-  <code>flake8</code> для проверки стиля кода<br>
-  Автоматические проверки через GitHub Actions
-</p>
-
----
-
-<div align="center">
 <h2>📊 GitHub Analytics</h2>
 </div>
 
@@ -96,18 +108,6 @@
     alt="Top Languages"
   />
 </div>
-
----
-
-<div align="center">
-<h2>🎯 Мои цели на 2025</h2>
-</div>
-
-<ul align="center" style="list-style-position: inside; display: inline-block; text-align: left;">
-  <li>[x] Выучить FastAPI</li>
-  <li>[ ] Освоить Kubernetes</li>
-  <li>[ ] Написать техническую статью</li>
-</ul>
 
 ---
 
