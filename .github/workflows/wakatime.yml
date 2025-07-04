@@ -1,120 +1,139 @@
-name: WakaTime Professional Stats
+name: WakaTime Sync
 concurrency:
-  group: wakatime-pro-${{ github.ref }}
+  group: wakatime-sync-${{ github.ref }}
   cancel-in-progress: false
 
 on:
   schedule:
-    - cron: "30 0 * * *"  # 00:30 UTC
+    - cron: "0 0 * * *"
   workflow_dispatch:
+    inputs:
+      force-refresh:
+        description: 'Force full refresh (ignore cache)'
+        required: false
+        default: 'false'
 
 jobs:
-  generate-stats:
+  update-stats:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Setup Python
-        uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          fetch-depth: 0
+          persist-credentials: false
 
-      - name: Generate Professional Stats
+      - name: Setup environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq bc
+
+      - name: Fetch and process stats
+        id: process-stats
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          pip install requests
-          python -c "
-          import requests, json
-          from datetime import datetime
+          # Function for progress bars
+          generate_progress_bar() {
+            local value=${1:-0}
+            local max=${2:-100}
+            local size=20
+            local percentage=$(( value * 100 / max ))
+            local progress=$(( percentage * size / 100 ))
+            local remainder=$(( size - progress ))
+            printf "█%.0s" $(seq 1 $progress)
+            printf "░%.0s" $(seq 1 $remainder)
+            printf " %3d%%" $percentage
+          }
 
-          try:
-              # Get WakaTime stats
-              url = 'https://wakatime.com/api/v1/users/current/stats/last_7_days'
-              headers = {'Authorization': f'Bearer $WAKATIME_API_KEY'}
-              response = requests.get(url, headers=headers)
-              response.raise_for_status()
-              data = response.json()
+          # Get WakaTime data
+          API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY"
+          echo "::group::Fetching WakaTime data"
+          curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
+          echo "::endgroup::"
 
-              if 'data' not in data:
-                  raise ValueError('Invalid API response - missing data')
+          # Process data
+          total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
+          total_time=$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)
+          daily_avg=$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)
+          best_day=$(jq -r '.data.best_day.text // "0 secs"' wakatime.json)
+          best_day_date=$(jq -r '.data.best_day.date // ""' wakatime.json)
+          languages=$(jq -r '.data.languages[0].name // "None"' wakatime.json)
+          editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
+          operating_systems=$(jq -r '.data.operating_systems[0].name // "None"' wakatime.json)
+          
+          # Generate report
+          echo '```html' >> stats.md
+          echo '<div style="font-size: 40px; font-family: monospace; line-height: 1.5;">' >> stats.md
+          echo "⏳ LAST 7 DAYS » $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')" >> stats.md
+          echo "🔄 Updated: $(date +'%Y-%m-%d %H:%M') (MSK)" >> stats.md
+          echo "" >> stats.md
+          
+          # Coding statistics
+          echo "📊 CODING STATISTICS" >> stats.md
+          echo "Total Time: $total_time" >> stats.md
+          echo "Daily Average: $daily_avg" >> stats.md
+          echo "Best Day: $best_day on $best_day_date" >> stats.md
+          echo "Most Used Editor: $editors" >> stats.md
+          echo "Operating System: $operating_systems" >> stats.md
+          echo "" >> stats.md
+          
+          # Top Languages
+          echo "🚀 TOP LANGUAGES (TIME)" >> stats.md
+          jq -r '.data.languages[0:10] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "" >> stats.md
+          
+          # Top Editors
+          echo "⌨️ TOP EDITORS" >> stats.md
+          jq -r '.data.editors[0:5] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "" >> stats.md
+          
+          # Top Operating Systems
+          echo "💻 TOP OPERATING SYSTEMS" >> stats.md
+          jq -r '.data.operating_systems[0:3] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "" >> stats.md
+          
+          # Top Categories
+          echo "🗂️ TOP CATEGORIES" >> stats.md
+          jq -r '.data.categories[0:5] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "" >> stats.md
+          
+          # Top Projects
+          echo "📂 TOP PROJECTS" >> stats.md
+          jq -r '.data.projects[0:5] | .[] | "\(.name): \(.text) (\(.percent)%)"' wakatime.json 2>/dev/null >> stats.md
+          echo "" >> stats.md
+          
+          # Code Analytics
+          echo "🔍 CODE ANALYTICS" >> stats.md
+          echo "Lines of Code: $(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" >> stats.md
+          echo "Time per Project: $(jq -r '.data.projects[].text' wakatime.json | paste -sd ", " -)" >> stats.md
+          echo "Most Productive Time: $(jq -r '.data.best_day.text // "N/A"' wakatime.json) on $(jq -r '.data.best_day.date // "N/A"' wakatime.json)" >> stats.md
+          echo "Most Used Language: $languages" >> stats.md
+          echo "Most Used Editor: $editors" >> stats.md
+          echo "Most Used OS: $operating_systems" >> stats.md
+          echo '</div>' >> stats.md
+          echo '```' >> stats.md
 
-              stats_data = data['data']
+          # Update README
+          sed -i '/<!--START_SECTION:waka-->/,/<!--END_SECTION:waka-->/{
+              /<!--START_SECTION:waka-->/r stats.md
+              d
+          }' README.md
+          
+          echo "stats-generated=true" >> $GITHUB_OUTPUT
+          rm -f stats.md wakatime.json
 
-              # Helper function to format items
-              def format_items(items, limit=5):
-                  return ''.join([f'- {item[\"name\"]}: {item[\"text\"]} ({item[\"percent\"]}%)\n' for item in items[:limit]])
-
-              # Generate markdown content
-              languages = format_items(stats_data.get('languages', []), 5)
-              editors = format_items(stats_data.get('editors', []), 3)
-              os = format_items(stats_data.get('operating_systems', []), 2)
-              projects = format_items(stats_data.get('projects', []), 3)
-
-              stats_content = f'''
-              ## WAKATIME DEVELOPMENT ANALYTICS (7-DAY REPORT)
-              **Last Updated**: {datetime.now().strftime('%Y-%m-%d %H:%M UTC')}
-
-              ### SUMMARY
-              - **Total Time**: {stats_data.get('human_readable_total', 'N/A')}
-              - **Daily Average**: {stats_data.get('human_readable_daily_average', 'N/A')}
-              - **Best Day**: {stats_data.get('best_day', {}).get('text', 'N/A')} ({stats_data.get('best_day', {}).get('date', 'N/A')})
-
-              ### TIME DISTRIBUTION
-              - **Coding**: {stats_data.get('categories', {}).get('coding', {}).get('text', 'N/A')} ({stats_data.get('categories', {}).get('coding', {}).get('percent', 'N/A')}%)
-              - **Building**: {stats_data.get('categories', {}).get('building', {}).get('text', 'N/A')} ({stats_data.get('categories', {}).get('building', {}).get('percent', 'N/A')}%)
-              - **Debugging**: {stats_data.get('categories', {}).get('debugging', {}).get('text', 'N/A')} ({stats_data.get('categories', {}).get('debugging', {}).get('percent', 'N/A')}%)
-
-              ### LANGUAGES (TOP 5)
-              {languages}
-
-              ### DEVELOPMENT ENVIRONMENT
-              **Editors**:
-              {editors}
-
-              **Operating Systems**:
-              {os}
-
-              ### PROJECTS (TOP 3)
-              {projects}
-              '''
-
-              # Write to file
-              with open('wakatime_stats.md', 'w') as f:
-                  f.write(f'```markdown\n{stats_content}\n```')
-
-              # Update README
-              with open('README.md', 'r') as f:
-                  readme_content = f.read()
-
-              start_marker = '<!--START_SECTION:waka-->'
-              end_marker = '<!--END_SECTION:waka-->'
-              
-              start_idx = readme_content.find(start_marker)
-              end_idx = readme_content.find(end_marker)
-
-              if start_idx != -1 and end_idx != -1:
-                  new_content = (
-                      readme_content[:start_idx] + 
-                      start_marker + '\n' + 
-                      open('wakatime_stats.md').read() + '\n' + 
-                      end_marker + 
-                      readme_content[end_idx + len(end_marker):]
-                  )
-                  
-                  with open('README.md', 'w') as f:
-                      f.write(new_content)
-
-          except Exception as e:
-              print(f'Error generating stats: {str(e)}')
-              with open('wakatime_stats.md', 'w') as f:
-                  f.write('```\nError generating WakaTime stats\n```')
-          "
-
-      - name: Commit changes
+      - name: Commit and push changes
+        if: steps.process-stats.outputs.stats-generated == 'true'
         run: |
-          git config --global user.name "WakaTime Analytics"
-          git config --global user.email "analytics@github.com"
+          if git diff --quiet --exit-code README.md; then
+            echo "::notice::No changes detected in README.md"
+            exit 0
+          fi
+
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
           git add README.md
-          git commit -m "📈 Update WakaTime stats [skip ci]" || echo "No changes to commit"
-          git push
+          git commit -m "📊 Update WakaTime stats [$(date +'%Y-%m-%d %H:%M')]"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git pull --rebase
+          git push origin main
