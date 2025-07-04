@@ -53,7 +53,7 @@ jobs:
           generate_progress_bar() {
             local minutes=$1
             local max=$2
-            local length=20  # Длина прогресс-бара (можно менять)
+            local length=20  # Можно настроить длину (10-20 символов)
             local percent=$((minutes * 100 / max))
             percent=$((percent > 100 ? 100 : percent))  # Ограничение до 100%
 
@@ -65,8 +65,8 @@ jobs:
             empty=$((empty < 0 ? 0 : empty))
 
             printf "["
-            printf "#%.0s" $(seq 1 $filled)    # Заполненная часть
-            printf "-%.0s" $(seq 1 $empty)     # Незаполненная часть
+            printf "▰%.0s" $(seq 1 $filled)    # Заполненные блоки
+            printf "▱%.0s" $(seq 1 $empty)     # Пустые блоки
             printf "] %3d%%" "$percent"        # Процент
           }
 
