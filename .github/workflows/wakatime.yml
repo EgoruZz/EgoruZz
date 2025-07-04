@@ -43,7 +43,8 @@ jobs:
               hours=$(echo "$time_str" | awk '{print $1}')
               echo $((hours * 60))
             elif [[ $time_str == *"mins"* ]]; then
-              echo "$time_str" | awk '{print $1}')
+              minutes=$(echo "$time_str" | awk '{print $1}')
+              echo "$minutes"
             else
               echo 0
             fi
