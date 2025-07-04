@@ -32,15 +32,11 @@ jobs:
         env:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
         run: |
-          # Progress bar function with minimum 1% for non-zero values
+          # Improved progress bar function
           generate_progress_bar() {
             local percent=${1%.*}
-            # Ensure at least 1% for any non-zero value
-            if [[ $percent -eq 0 ]]; then
-              percent=0
-            elif [[ $percent -lt 1 ]]; then
-              percent=1
-            fi
+            # Ensure valid percentage (0-100)
+            percent=$(( percent < 0 ? 0 : (percent > 100 ? 100 : percent) ))
             local filled=$((percent/5))
             local empty=$((20-filled))
             printf "▰%.0s" $(seq 1 $filled)
@@ -52,13 +48,14 @@ jobs:
           API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY"
           echo "::group::Fetching WakaTime data"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
-          echo "::endgroup::"
-
-          # Check if data exists
-          if ! jq -e '.data.days' wakatime.json >/dev/null 2>&1; then
-            echo "::error::No daily data found in WakaTime response"
-            exit 1
+          
+          # Check if API returned valid data
+          if ! jq -e '.data' wakatime.json >/dev/null 2>&1; then
+            echo "::warning::WakaTime API response doesn't contain expected data structure"
+            echo "stats-generated=false" >> $GITHUB_OUTPUT
+            exit 0
           fi
+          echo "::endgroup::"
 
           # Process data with defaults
           total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
@@ -76,23 +73,52 @@ jobs:
             dates+=("$(date -d "$i days ago" +'%Y-%m-%d')")
           done
 
-          # Create associative array for day data with proper initialization
+          # Initialize day data with zeros
           declare -A day_data
+          declare -A day_seconds
+          total_active_days=0
+          total_weekday_seconds=0
+          weekday_count=0
+
           for date in "${dates[@]}"; do
+            day_name=$(date -d "$date" +"%a")
             day_data["$date"]="0 mins|0"
+            day_seconds["$date"]=0
+            
+            # Check if it's a weekday (Mon-Fri)
+            if [[ $(date -d "$date" +%u) -lt 6 ]]; then
+              weekday_count=$((weekday_count+1))
+            fi
           done
 
           # Parse actual data from API
-          while IFS='|' read -r date text percent; do
-            if [[ -n "$date" && -n "$text" && -n "$percent" ]]; then
-              day_data["$date"]="$text|$percent"
+          while IFS='|' read -r date text seconds; do
+            if [[ -n "$date" && -n "$text" && -n "$seconds" ]]; then
+              day_data["$date"]="$text|$seconds"
+              day_seconds["$date"]=$seconds
+              
+              if [[ $seconds -gt 0 ]]; then
+                total_active_days=$((total_active_days+1))
+              fi
+              
+              # Add to weekday average if it's a weekday
+              if [[ $(date -d "$date" +%u) -lt 6 ]]; then
+                total_weekday_seconds=$((total_weekday_seconds + seconds))
+              fi
             fi
-          done < <(jq -r '.data.days[] | select(.text != null and .percent != null) | "\(.date)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null)
+          done < <(jq -r '.data.days[] | select(.text != null and .total_seconds != null) | "\(.date)|\(.text)|\(.total_seconds)"' wakatime.json 2>/dev/null)
 
-          # Calculate max time for normalization
-          max_time_seconds=$(jq -r '[.data.days[].total_seconds] | max' wakatime.json 2>/dev/null || echo 0)
+          # Calculate weekday average
+          weekday_avg_seconds=0
+          if [[ $weekday_count -gt 0 ]]; then
+            weekday_avg_seconds=$((total_weekday_seconds / weekday_count))
+          fi
+          weekday_avg_text=$(printf "%dh %dm" $((weekday_avg_seconds/3600)) $((weekday_avg_seconds%3600/60)))
+
+          # Calculate max time for normalization (use 1 hour as baseline if no activity)
+          max_time_seconds=$(printf '%s\n' "${day_seconds[@]}" | sort -nr | head -1)
           if [[ $max_time_seconds -eq 0 ]]; then
-            max_time_seconds=1 # avoid division by zero
+            max_time_seconds=3600 # 1 hour as fallback
           fi
 
           # Generate report
@@ -102,16 +128,16 @@ jobs:
           echo "## ⏳ WakaTime Weekly Report" >> stats.md
           echo "" >> stats.md
           
-          # Report Info table
-          echo "### 📌 Report Info" >> stats.md
+          # Report Info table with larger font
+          echo "### 📌 <span style='font-size: 1.2em'>Report Info</span>" >> stats.md
           echo "" >> stats.md
-          echo "| Period | Range |" >> stats.md
-          echo "|--------|-------|" >> stats.md
-          echo "| Last 7 Days | $(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d') |" >> stats.md
-          echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
+          echo "<table style='font-size: 1.1em'>" >> stats.md
+          echo "<tr><td><strong>Period</strong></td><td>$(date -d '6 days ago' +'%Y-%m-%d') → $(date +'%Y-%m-%d')</td></tr>" >> stats.md
+          echo "<tr><td><strong>Last Updated</strong></td><td>$(date -u +'%Y-%m-%d %H:%M') UTC</td></tr>" >> stats.md
+          echo "</table>" >> stats.md
           echo "" >> stats.md
           
-          # Weekly coding activity with proper normalization
+          # Weekly coding activity with proper progress bars
           echo "### 📅 Weekly Coding Activity" >> stats.md
           echo "" >> stats.md
           echo "| Day       | Time   | Progress       |" >> stats.md
@@ -119,18 +145,17 @@ jobs:
           
           for date in "${dates[@]}"; do
             day_name=$(date -d "$date" +"%a")
-            IFS='|' read -r text percent <<< "${day_data[$date]}"
+            IFS='|' read -r text seconds <<< "${day_data[$date]}"
             
-            # Calculate normalized percent based on actual seconds if available
-            seconds=$(jq -r ".data.days[] | select(.date == \"$date\") | .total_seconds" wakatime.json 2>/dev/null || echo 0)
-            normalized_percent=$(echo "scale=2; $seconds * 100 / $max_time_seconds" | bc)
+            # Calculate normalized percentage
+            percent=$(( seconds * 100 / max_time_seconds ))
             
             # Ensure we have at least some text representation
             if [[ "$text" == "0"* ]]; then
               text="0 mins"
             fi
             
-            progress_bar=$(generate_progress_bar ${normalized_percent%.*})
+            progress_bar=$(generate_progress_bar $percent)
             printf "| %-9s | %-6s | %-14s |\n" "$day_name" "$text" "$progress_bar" >> stats.md
           done
           echo "" >> stats.md
@@ -141,8 +166,8 @@ jobs:
           echo "| Metric | Value | Progress |" >> stats.md
           echo "|--------|-------|----------|" >> stats.md
           printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $(echo "$daily_avg" | awk '{print $1}'))" >> stats.md
+          printf "| Weekday Average | %s | %s |\n" "$weekday_avg_text" "$(generate_progress_bar $((weekday_avg_seconds/60)))" >> stats.md
           printf "| Top Category | %s | %s |\n" "$categories" "$(generate_progress_bar 75)" >> stats.md
-          printf "| Productivity | %s | %s |\n" "$(jq -r '.data.human_readable_total_including_other_language // "N/A"' wakatime.json)" "$(generate_progress_bar 60)" >> stats.md
           echo "" >> stats.md
           
           # Top Languages
@@ -155,18 +180,17 @@ jobs:
           done
           echo "" >> stats.md
           
-          # Code Insights
+          # Code Insights (without Best Day Time)
           echo "### 🔍 Code Insights" >> stats.md
           echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
           echo "|---------|-------|" >> stats.md
-          echo "| 🏆 Most Productive Day | $best_day on ${best_day_date:-N/A} |" >> stats.md
+          echo "| 🏆 Most Productive Day | ${best_day_date:-N/A} ($best_day) |" >> stats.md
           echo "| 💎 Top Language | $languages |" >> stats.md
           echo "| 🖥️ Operating System | $os |" >> stats.md
           echo "| ⌨️ Preferred Editor | $editors |" >> stats.md
           echo "| 📊 Total Coding Time | $(jq -r '.data.human_readable_total // "0 mins"' wakatime.json) |" >> stats.md
-          echo "| 📈 Best Day Time | $best_day |" >> stats.md
-          echo "| 📅 Days Active | $(jq -r '.data.days_including_holidays // 0' wakatime.json)/7 |" >> stats.md
+          echo "| 📅 Days Active | $total_active_days/7 |" >> stats.md
           echo "" >> stats.md
           
           echo "</div>" >> stats.md
