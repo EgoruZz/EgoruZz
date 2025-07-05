@@ -40,7 +40,7 @@
 
 <table style="width:150%; border:none; text-align:center;">
   <tr>
-    <td style="padding: 10px; vertical-align: top;">[🟩] Learn FastAPI</td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">[🟩] Learn FastAPI</td>
     <td style="padding: 10px; vertical-align: top;">[❌] Master Kubernetes</td>
     <td style="padding: 10px; vertical-align: top;">[❌] Write technical article</td>
   </tr>
