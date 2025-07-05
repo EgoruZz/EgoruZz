@@ -17,7 +17,7 @@
       <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
       <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
     </td>
-    <td style="text-align: left; vertical-align: middle; width: 40%; font-size: 18px;">
+    <td style="text-align: left; vertical-align: middle; width: 60%; font-size: 32px;">
       ✅ flake8 for code style checking
     </td>
   </tr>
@@ -28,7 +28,7 @@
       <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
       <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
     </td>
-    <td style="text-align: left; vertical-align: middle; width: 40%; font-size: 18px;">
+    <td style="text-align: left; vertical-align: middle; width: 60%; font-size: 32px;">
       ✅ Automated checks via GitHub Actions
     </td>
   </tr>
