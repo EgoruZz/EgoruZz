@@ -64,7 +64,7 @@ jobs:
             empty=$((empty < 0 ? 0 : empty))
 
             printf "["
-            printf "▰%.0s" $(seq 1 $filled)
+            printf "░%.0s" $(seq 1 $filled)
             printf "□%.0s" $(seq 1 $empty)
             printf "] %3d%%" "$percent"
           }
@@ -73,7 +73,7 @@ jobs:
             local percent=$1
             local filled=$((percent / 10))
             local empty=$((10 - filled))
-            printf "▰%.0s" $(seq 1 $filled)
+            printf "░%.0s" $(seq 1 $filled)
             printf "□%.0s" $(seq 1 $empty)
             printf " (%d%%)" "$percent"
           }
