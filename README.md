@@ -99,12 +99,17 @@
 <div align="center">
 <h2>📊 GitHub Analytics</h2>
 
-<div style="display: flex; flex-direction: row; justify-content: center; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
-  <img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="180" alt="GitHub Stats" style="max-width: 100%;"/>
-  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="180" alt="Top Languages" style="max-width: 100%;"/>
-</div>
-
-<img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="180" alt="GitHub Streak" style="max-width: 100%;"/>
+<table>
+  <tr>
+    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="180" alt="GitHub Stats"/></td>
+    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="180" alt="Top Languages"/></td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding-top: 20px;">
+      <img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="180" alt="GitHub Streak"/>
+    </td>
+  </tr>
+</table>
 </div>
 
 ---
