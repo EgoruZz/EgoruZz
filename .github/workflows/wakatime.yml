@@ -127,6 +127,16 @@ jobs:
           done
           echo "" >> stats.md
           
+          # Распределение по категориям
+          echo "### 📈 Activity by Category" >> stats.md
+          echo "" >> stats.md
+          echo "| Category | Time | % |" >> stats.md
+          echo "|----------|------|---|" >> stats.md
+          jq -r '.data.categories[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
+            printf "| %s | %s | %.1f%% |\n" "$name" "$text" "$percent" >> stats.md
+          done
+          echo "" >> stats.md
+          
           # Инсайты
           echo "### 🔍 Code Insights" >> stats.md
           echo "" >> stats.md
