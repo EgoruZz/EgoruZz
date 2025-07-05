@@ -48,18 +48,14 @@
 
 ## ⏳ WakaTime Weekly Report
 
-<div style='display: flex; justify-content: space-between; margin-bottom: 20px;'>
-<div style='width: 48%;'>
-### 📌 Report Info
-
+<table><tr>
+<td width="50%" style="padding-right: 15px;">
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-28 → 2025-07-04 |
-| Last Updated | 2025-07-05 11:28 UTC |
-</div>
-<div style='width: 48%;'>
-### 🔍 Code Insights
-
+| Last Updated | 2025-07-05 11:33 UTC |
+</td>
+<td width="50%" style="padding-left: 15px;">
 | Insight | Value |
 |---------|-------|
 | ⌨️ Editor | VS Code |
@@ -67,8 +63,8 @@
 | 🕒 Yesterday's Coding | 75 minutes |
 | 📌 Yesterday's Commits | 125 |
 | 🏗️ Tech Debt | 48% |
-</div>
-</div>
+</td>
+</tr></table>
 
 ### 📊 Coding Statistics
 
@@ -91,7 +87,7 @@
 
 | Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |
 |------------|--------------|------------|--------------|-----------|---------|
-| **4316** | **4121** | +195 | 607.0 | □□□□□□□□□□□□□   2% | 1.04 |
+| **4331** | **4140** | +191 | 609.4 | □□□□□□□□□□□□□   2% | 1.04 |
 
 </div>
 <!--END_SECTION:waka-->
