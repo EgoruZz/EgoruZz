@@ -17,16 +17,16 @@
       <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
       <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
     </td>
-    <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">
-      [🟩] FLAKE8 FOR CODE STYLE CHECKING
-    </td>
-  </tr>
-  <!-- Вторая строка -->
-  <tr>
     <td style="text-align: center; vertical-align: middle; width: 60%;">
       <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
       <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
       <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
+    </td>
+  </tr>
+  <!-- Вторая строка -->
+  <tr>
+    <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">
+      [🟩] FLAKE8 FOR CODE STYLE CHECKING
     </td>
     <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">
       [🟩] AUTOMATED CHECKS VIA GITHUB ACTIONS
@@ -40,7 +40,7 @@
 
 <table style="width:150%; border:none; text-align:center; font-size: 100px; font-weight: bold;">
   <tr>
-    <td style="padding: 10px; vertical-align: top;">[🟩] Learn FastAPI</td>
+    <td style="padding: 40px; vertical-align: top;">[🟩] Learn FastAPI</td>
     <td style="padding: 10px; vertical-align: top;">[❌] Master Kubernetes</td>
     <td style="padding: 10px; vertical-align: top;">[❌] Write technical article</td>
   </tr>
