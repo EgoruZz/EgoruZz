@@ -101,13 +101,14 @@
 
 <table>
   <tr>
-    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="180" alt="GitHub Stats"/></td>
-    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="180" alt="Top Languages"/></td>
+    <!-- Первая строка -->
+    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="165" alt="GitHub Stats"/></td>
+    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="165" alt="Top Languages"/></td>
   </tr>
   <tr>
-    <td colspan="2" style="padding-top: 20px;">
-      <img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="180" alt="GitHub Streak"/>
-    </td>
+    <!-- Вторая строка -->
+    <td><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="165" alt="GitHub Streak"/></td>
+    <td><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="165" alt="GitHub Trophies"/></td>
   </tr>
 </table>
 </div>
