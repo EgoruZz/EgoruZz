@@ -53,7 +53,7 @@
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-28 → 2025-07-04 |
-| Last Updated | 2025-07-05 10:39 UTC |
+| Last Updated | 2025-07-05 11:02 UTC |
 
 ### 📊 Coding Statistics
 
@@ -76,16 +76,17 @@
 
 | Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |
 |------------|--------------|------------|--------------|-----------|---------|
-| **4215** | **4043** | +172 | 594.1 | □□□□□□□□□□□□□   2% | 1.04 |
+| **4252** | **4074** | +178 | 599.0 | □□□□□□□□□□□□□   2% | 1.04 |
 
 ### 🔍 Code Insights
 
 | Insight | Value |
 |---------|-------|
-| 💎 Top Language | YAML |
-| 🖥️ OS | Mac |
 | ⌨️ Editor | VS Code |
 | 📊 Category | Coding |
+| 🕒 Yesterday's Coding | 75 minutes |
+| 📌 Yesterday's Commits | 125 |
+| 🏗️ Tech Debt | 48% |
 
 </div>
 <!--END_SECTION:waka-->
