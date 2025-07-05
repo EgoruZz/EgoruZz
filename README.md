@@ -18,7 +18,7 @@
       <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
     </td>
     <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px;">
-      [✅] FLAKE8 FOR CODE STYLE CHECKING
+      [🟩] FLAKE8 FOR CODE STYLE CHECKING
     </td>
   </tr>
   <!-- Вторая строка -->
@@ -29,7 +29,7 @@
       <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
     </td>
     <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px;">
-      [✅] AUTOMATED CHECKS VIA GITHUB ACTIONS
+      [🟩] AUTOMATED CHECKS VIA GITHUB ACTIONS
     </td>
   </tr>
 </table>
@@ -40,7 +40,7 @@
 
 <table style="width:150%; border:none; text-align:center;">
   <tr>
-    <td style="padding: 10px; vertical-align: top;">[✅] Learn FastAPI</td>
+    <td style="padding: 10px; vertical-align: top;">[🟩] Learn FastAPI</td>
     <td style="padding: 10px; vertical-align: top;">[❌] Master Kubernetes</td>
     <td style="padding: 10px; vertical-align: top;">[❌] Write technical article</td>
   </tr>
