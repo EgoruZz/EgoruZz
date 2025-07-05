@@ -33,14 +33,18 @@
 <div align="center">
 <h2 style="font-size: 28px;">🎯 My 2025 Goals</h2>
 
-<table style="font-size: 50px; border: none;">
-  <tr><td style="padding: 4px 0;">[x] Learn FastAPI</td></tr>
-  <tr><td style="padding: 4px 0;">[ ] Master Kubernetes</td></tr>
-  <tr><td style="padding: 4px 0;">[ ] Write a technical article</td></tr>
-  <tr><td style="padding: 4px 0;">[ ] Contribute to open source</td></tr>
-  <tr><td style="padding: 4px 0;">[ ] Build a SaaS project</td></tr>
+<table style="width:100%; border:none; text-align:center;">
+  <tr>
+    <td style="padding: 10px; vertical-align: top;">[x] Learn FastAPI</td>
+    <td style="padding: 10px; vertical-align: top;">[ ] Master Kubernetes</td>
+    <td style="padding: 10px; vertical-align: top;">[ ] Write technical article</td>
+  </tr>
+  <tr>
+    <td style="padding: 10px; vertical-align: top;">[ ] Contribute to OSS</td>
+    <td style="padding: 10px; vertical-align: top;">[ ] Build SaaS project</td>
+    <td style="padding: 10px; vertical-align: top;">[ ] Get 1k GitHub stars</td>
+  </tr>
 </table>
-</div>
 </div>
 
 <!--START_SECTION:waka-->
