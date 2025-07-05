@@ -63,10 +63,9 @@ jobs:
             filled=$((filled < 0 ? 0 : filled))
             empty=$((empty < 0 ? 0 : empty))
 
-            printf "["
             printf "░%.0s" $(seq 1 $filled)
             printf "□%.0s" $(seq 1 $empty)
-            printf "] %3d%%" "$percent"
+            printf " %3d%%" "$percent"
           }
 
           generate_stability_bar() {
