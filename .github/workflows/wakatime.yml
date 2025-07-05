@@ -130,11 +130,12 @@ jobs:
           echo "## ⏳ WakaTime Weekly Report" >> stats.md
           echo "" >> stats.md
           
-          # Side-by-side tables without headers
+          # Side-by-side tables
           echo "<table><tr>" >> stats.md
           
           # Left column - Report Info
           echo "<td width=\"50%\" style=\"padding-right: 15px;\">" >> stats.md
+          echo "" >> stats.md
           echo "| Period | Range |" >> stats.md
           echo "|--------|-------|" >> stats.md
           echo "| Last 7 Days | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
@@ -143,6 +144,7 @@ jobs:
           
           # Right column - Code Insights
           echo "<td width=\"50%\" style=\"padding-left: 15px;\">" >> stats.md
+          echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
           echo "|---------|-------|" >> stats.md
           echo "| ⌨️ Editor | $editors |" >> stats.md
