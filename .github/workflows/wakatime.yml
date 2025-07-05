@@ -65,7 +65,7 @@ jobs:
 
             printf "["
             printf "▰%.0s" $(seq 1 $filled)
-            printf "▱%.0s" $(seq 1 $empty)
+            printf "□%.0s" $(seq 1 $empty)
             printf "] %3d%%" "$percent"
           }
 
@@ -74,7 +74,7 @@ jobs:
             local filled=$((percent / 10))
             local empty=$((10 - filled))
             printf "▰%.0s" $(seq 1 $filled)
-            printf "▱%.0s" $(seq 1 $empty)
+            printf "□%.0s" $(seq 1 $empty)
             printf " (%d%%)" "$percent"
           }
 
@@ -153,7 +153,7 @@ jobs:
           # Code Generation Metrics
           echo "### 💻 Code Generation Metrics" >> stats.md
           echo "" >> stats.md
-          echo "| Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | Stability | Density |" >> stats.md
+          echo "| Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |" >> stats.md
           echo "|------------|--------------|------------|--------------|-----------|---------|" >> stats.md
           printf "| **%'d** | **%'d** | %+'d | %.1f | %s | %.2f |\n" \
             $added $deleted $net_change $changes_per_hour "$stability_bar" $density >> stats.md
