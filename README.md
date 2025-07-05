@@ -53,7 +53,7 @@
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-28 → 2025-07-04 |
-| Last Updated | 2025-07-05 09:26 UTC |
+| Last Updated | 2025-07-05 09:40 UTC |
 
 ### 📊 Coding Statistics
 
@@ -72,11 +72,11 @@
 | C++ | 1 min | [▰▱▱▱▱▱▱▱▱▱▱]   0% |
 | Git Config | 0 secs | [▰▱▱▱▱▱▱▱▱▱▱]   0% |
 
-### 📈 Activity by Category
+### 💻 Code Generation Metrics
 
-| Category | Time | % |
-|----------|------|---|
-| Coding | 13 hrs 56 mins | 100.0% |
+| Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | Stability | Density |
+|------------|--------------|------------|--------------|-----------|---------|
+| **4137** | **3970** | +167 | 583.2 | ▰▱▱▱▱▱▱▱▱▱▱ (2%) | 1.04 |
 
 ### 🔍 Code Insights
 
