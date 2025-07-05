@@ -7,7 +7,7 @@
 </h1>
 
 <div align="center">
-<h2 style="font-size: 28px;">🚀 My Tech Stack</h2>
+<h2 style="font-size: 28px;">🚀 **My Tech Stack**</h2>
 </div>
 
 <p align="center">
@@ -98,29 +98,24 @@
 
 <div align="center">
 <h2>📊 GitHub Analytics</h2>
-</div>
 
-<div align="center">
-  <picture>
-    <source
-      srcset="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true&include_all_commits=false"
-      media="(prefers-color-scheme: light)"
-    />
-    <img 
-      src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" 
-      height="180"
-      alt="GitHub Stats"
-    />
-  </picture>
-
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+  <img 
+    src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" 
+    height="180"
+    alt="GitHub Stats"
+    style="margin: 0;"
+  />
   <img
     src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true"
     height="180"
     alt="Top Languages"
+    style="margin: 0;"
   />
+</div>
 
-  <img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" 
-     alt="GitHub Streak" height="180">
+<img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" 
+     alt="GitHub Streak" height="180" style="margin-top: 20px;">
 </div>
 
 ---
