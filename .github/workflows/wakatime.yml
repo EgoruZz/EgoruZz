@@ -130,13 +130,33 @@ jobs:
           echo "## ⏳ WakaTime Weekly Report" >> stats.md
           echo "" >> stats.md
           
-          # Report info
+          # Side-by-side tables
+          echo "<table><tr>" >> stats.md
+          
+          # Left column - Report Info
+          echo "<td width=\"50%\" style=\"padding-right: 15px;\">" >> stats.md
           echo "### 📌 Report Info" >> stats.md
           echo "" >> stats.md
           echo "| Period | Range |" >> stats.md
           echo "|--------|-------|" >> stats.md
           echo "| Last 7 Days | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
+          echo "</td>" >> stats.md
+          
+          # Right column - Code Insights
+          echo "<td width=\"50%\" style=\"padding-left: 15px;\">" >> stats.md
+          echo "### 🔍 Code Insights" >> stats.md
+          echo "" >> stats.md
+          echo "| Insight | Value |" >> stats.md
+          echo "|---------|-------|" >> stats.md
+          echo "| ⌨️ Editor | $editors |" >> stats.md
+          echo "| 📊 Category | $categories |" >> stats.md
+          echo "| 🕒 Yesterday's Coding | $yesterday_coding_minutes minutes |" >> stats.md
+          echo "| 📌 Yesterday's Commits | $yesterday_commits |" >> stats.md
+          echo "| 🏗️ Tech Debt | $tech_debt% |" >> stats.md
+          echo "</td>" >> stats.md
+          
+          echo "</tr></table>" >> stats.md
           echo "" >> stats.md
           
           # Coding statistics
@@ -167,18 +187,6 @@ jobs:
           echo "|------------|--------------|------------|--------------|-----------|---------|" >> stats.md
           printf "| **%'d** | **%'d** | %+'d | %.1f | %s | %.2f |\n" \
             $added $deleted $net_change $changes_per_hour "$stability_bar" $density >> stats.md
-          echo "" >> stats.md
-          
-          # Insights
-          echo "### 🔍 Code Insights" >> stats.md
-          echo "" >> stats.md
-          echo "| Insight | Value |" >> stats.md
-          echo "|---------|-------|" >> stats.md
-          echo "| ⌨️ Editor | $editors |" >> stats.md
-          echo "| 📊 Category | $categories |" >> stats.md
-          echo "| 🕒 Yesterday's Coding | $yesterday_coding_minutes minutes |" >> stats.md
-          echo "| 📌 Yesterday's Commits | $yesterday_commits |" >> stats.md
-          echo "| 🏗️ Tech Debt | $tech_debt% |" >> stats.md
           echo "" >> stats.md
           
           echo "</div>" >> stats.md
