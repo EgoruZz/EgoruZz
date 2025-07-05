@@ -53,7 +53,7 @@
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-28 → 2025-07-04 |
-| Last Updated | 2025-07-05 02:21 UTC |
+| Last Updated | 2025-07-05 09:26 UTC |
 
 ### 📊 Coding Statistics
 
@@ -71,6 +71,12 @@
 | Markdown | 2 hrs 45 mins | [▰▱▱▱▱▱▱▱▱▱]  11% |
 | C++ | 1 min | [▰▱▱▱▱▱▱▱▱▱▱]   0% |
 | Git Config | 0 secs | [▰▱▱▱▱▱▱▱▱▱▱]   0% |
+
+### 📈 Activity by Category
+
+| Category | Time | % |
+|----------|------|---|
+| Coding | 13 hrs 56 mins | 100.0% |
 
 ### 🔍 Code Insights
 
