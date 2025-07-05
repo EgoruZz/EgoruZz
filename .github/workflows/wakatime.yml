@@ -58,15 +58,14 @@ jobs:
             percent=$((percent > 100 ? 100 : percent))
             local threshold=$((100 / length))
 
-            printf "["
             for ((i=1; i<=length; i++)); do
               if (( percent >= i*threshold )); then
-                printf "▓"
+                printf "░%.0s"
               else
-                printf "░"
+                printf "□%.0s"
               fi
             done
-            printf "] %3d%%" "$percent"
+            printf " %3d%%" "$percent"
           }
 
           generate_stability_bar() {
@@ -74,15 +73,14 @@ jobs:
             local length=13
             local threshold=$((100 / length))
 
-            printf "["
             for ((i=1; i<=length; i++)); do
               if (( percent >= i*threshold )); then
-                printf "▓"
+                printf "░%.0s"
               else
-                printf "░"
+                printf "□%.0s"
               fi
             done
-            printf "] %3d%%" "$percent"
+            printf " %3d%%" "$percent"
           }
 
           # Get WakaTime data
