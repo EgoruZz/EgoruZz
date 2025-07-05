@@ -8,21 +8,30 @@
 
 <div align="center">
 <h2 style="font-size: 28px;">🚀 My Tech Stack</h2>
-</div>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
-  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
-  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
-</p>
-
-<div align="center">
-<table style="width:150%; border:none; text-align:center;">
-  <tr><td style="padding: 4px 0;">[x] flake8 for code style checking</td></tr>
-  <tr><td style="padding: 4px 0;">[x] Automated checks via GitHub Actions</td></tr>
+<table style="width: 100%; border: none;">
+  <!-- Первая строка -->
+  <tr>
+    <td style="text-align: center; vertical-align: middle; width: 60%;">
+      <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+      <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
+      <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+    </td>
+    <td style="text-align: left; vertical-align: middle; width: 40%; font-size: 18px;">
+      ✅ flake8 for code style checking
+    </td>
+  </tr>
+  <!-- Вторая строка -->
+  <tr>
+    <td style="text-align: center; vertical-align: middle; width: 60%;">
+      <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+      <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+      <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
+    </td>
+    <td style="text-align: left; vertical-align: middle; width: 40%; font-size: 18px;">
+      ✅ Automated checks via GitHub Actions
+    </td>
+  </tr>
 </table>
 </div>
 
