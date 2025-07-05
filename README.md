@@ -20,7 +20,7 @@
 </p>
 
 <div align="center">
-<table style="font-size: 70px; border: none;">
+<table style="width:150%; border:none; text-align:center;">
   <tr><td style="padding: 4px 0;">[x] flake8 for code style checking</td></tr>
   <tr><td style="padding: 4px 0;">[x] Automated checks via GitHub Actions</td></tr>
 </table>
@@ -29,7 +29,7 @@
 <div align="center">
 <h2 style="font-size: 28px;">🎯 My 2025 Goals</h2>
 
-<table style="width:120%; border:none; text-align:center;">
+<table style="width:150%; border:none; text-align:center;">
   <tr>
     <td style="padding: 10px; vertical-align: top;">[x] Learn FastAPI</td>
     <td style="padding: 10px; vertical-align: top;">[ ] Master Kubernetes</td>
