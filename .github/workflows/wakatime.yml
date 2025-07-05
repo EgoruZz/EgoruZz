@@ -118,6 +118,18 @@ jobs:
           density=$(echo "scale=2; $added/$deleted" | bc -l)
           stability_bar=$(generate_stability_bar $stability)
 
+          # Calculate Focus Ratio (deep work sessions)
+          focus_ratio=$(curl -s "https://wakatime.com/api/v1/users/current/durations?range=last_7_days&api_key=$WAKATIME_API_KEY" | 
+            jq '[.data[] | select(.duration > 3600)] | length/(.data | length)*100' | awk '{printf "%.0f", $1}')
+
+          # Calculate Flow Efficiency (avg session length)
+          flow_efficiency=$(curl -s "https://wakatime.com/api/v1/users/current/durations?range=last_7_days&api_key=$WAKATIME_API_KEY" | 
+            jq '[.data[].duration/60] | add/length' | awk '{printf "%.1f", $1}')
+
+          # Calculate Knowledge Concentration
+          knowledge_concentration=$(git shortlog -sn --since="1 week ago" | head -2 | 
+            awk 'NR==1{t=$1} NR==2{s=$1} END{print s*100/t}')
+
           # Generate report
           echo "<!--START_SECTION:waka-->" > stats.md
           echo "<div align='center'>" >> stats.md
@@ -169,10 +181,9 @@ jobs:
           echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
           echo "|---------|-------|" >> stats.md
-          echo "| 💎 Top Language | $languages |" >> stats.md
-          echo "| 🖥️ OS | $os |" >> stats.md
-          echo "| ⌨️ Editor | $editors |" >> stats.md
-          echo "| 📊 Category | $categories |" >> stats.md
+          printf "| 🎯 Focus Ratio | %d%% deep work sessions (>1hr) |\n" "$focus_ratio" >> stats.md
+          printf "| ⏱️ Flow Efficiency | %.1f мин средняя сессия |\n" "$flow_efficiency" >> stats.md
+          printf "| 👥 Knowledge Concentration | %.0f%% изменений от топ-2 авторов |\n" "$knowledge_concentration" >> stats.md
           echo "" >> stats.md
           
           echo "</div>" >> stats.md
