@@ -38,7 +38,7 @@
 <div align="center">
 <h2 style="font-size: 28px;">🎯 My 2025 Goals</h2>
 
-<table style="width:150%; border:none; text-align:center; font-size: 50px;">
+<table style="width:150%; border:none; text-align:center; font-size: 100px;">
   <tr>
     <td style="padding: 10px; vertical-align: top;">[🟩] Learn FastAPI</td>
     <td style="padding: 10px; vertical-align: top;">[❌] Master Kubernetes</td>
