@@ -17,7 +17,7 @@
       <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
       <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
     </td>
-    <td style="text-align: left; vertical-align: middle; width: 60%; font-size: 32px;">
+    <td style="text-align: left; vertical-align: middle; width: 60%; font-size: 70px;">
       ✅ flake8 for code style checking
     </td>
   </tr>
