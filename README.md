@@ -115,6 +115,9 @@
     height="180"
     alt="Top Languages"
   />
+
+  <img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" 
+     alt="GitHub Streak" height="180">
 </div>
 
 ---
