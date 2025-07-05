@@ -130,23 +130,19 @@ jobs:
           echo "## ⏳ WakaTime Weekly Report" >> stats.md
           echo "" >> stats.md
           
-          # Side-by-side tables with proper Markdown headers
-          echo "<div style='display: flex; justify-content: space-between; margin-bottom: 20px;'>" >> stats.md
+          # Side-by-side tables without headers
+          echo "<table><tr>" >> stats.md
           
           # Left column - Report Info
-          echo "<div style='width: 48%;'>" >> stats.md
-          echo "### 📌 Report Info" >> stats.md
-          echo "" >> stats.md
+          echo "<td width=\"50%\" style=\"padding-right: 15px;\">" >> stats.md
           echo "| Period | Range |" >> stats.md
           echo "|--------|-------|" >> stats.md
           echo "| Last 7 Days | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
-          echo "</div>" >> stats.md
+          echo "</td>" >> stats.md
           
           # Right column - Code Insights
-          echo "<div style='width: 48%;'>" >> stats.md
-          echo "### 🔍 Code Insights" >> stats.md
-          echo "" >> stats.md
+          echo "<td width=\"50%\" style=\"padding-left: 15px;\">" >> stats.md
           echo "| Insight | Value |" >> stats.md
           echo "|---------|-------|" >> stats.md
           echo "| ⌨️ Editor | $editors |" >> stats.md
@@ -154,9 +150,9 @@ jobs:
           echo "| 🕒 Yesterday's Coding | $yesterday_coding_minutes minutes |" >> stats.md
           echo "| 📌 Yesterday's Commits | $yesterday_commits |" >> stats.md
           echo "| 🏗️ Tech Debt | $tech_debt% |" >> stats.md
-          echo "</div>" >> stats.md
+          echo "</td>" >> stats.md
           
-          echo "</div>" >> stats.md
+          echo "</tr></table>" >> stats.md
           echo "" >> stats.md
           
           # Coding statistics
