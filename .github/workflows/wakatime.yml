@@ -127,7 +127,7 @@ jobs:
           echo "<!--START_SECTION:waka-->" > stats.md
           echo "<div align='center'>" >> stats.md
           echo "" >> stats.md
-          echo "## ⏳ WakaTime Weekly Report" >> stats.md
+          echo "## ⏳ WAKATIME WEEKLY REPORT" >> stats.md
           echo "" >> stats.md
           
           # Side-by-side tables

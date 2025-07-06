@@ -1,13 +1,13 @@
 <h1 align="center">
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/> 
-  Hi, I'm EgoruZz!
+  `Hello, World, I'm EgoruZz!`
   <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
   </a>
 </h1>
 
 <div align="center">
-<h2 style="font-size: 28px;">🚀 My Tech Stack</h2>
+<h2 style="font-size: 28px;">🚀 MY TECH STACK</h2>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
@@ -26,28 +26,28 @@
   <!-- Вторая строка -->
   <tr>
     <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">
-      [🟩] FLAKE8 FOR CODE STYLE CHECKING
+      <h3>[🟩] Flake8 for code style checking</h3>
     </td>
     <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">
-      [🟩] AUTOMATED CHECKS VIA GITHUB ACTIONS
+      <h3>[🟩] Automated checks via GitHub Actions</h3>
     </td>
   </tr>
 </table>
 </div>
 
 <div align="center">
-<h2 style="font-size: 28px;">🎯 My 2025 Goals</h2>
+<h2 style="font-size: 28px;">🎯 MY 2025 GOALS</h2>
 
 <table style="width:150%; border:none; text-align:center;">
   <tr>
     <td style="padding: 40px; vertical-align: top;"><h3>[🟩] Learn FastAPI</h3></td>
-    <td style="padding: 10px; vertical-align: top;">[❌] Master Kubernetes</td>
-    <td style="padding: 10px; vertical-align: top;">[❌] Write technical article</td>
+    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Master Kubernetes</h3></td>
+    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Write technical article</h3></td>
   </tr>
   <tr>
-    <td style="padding: 10px; vertical-align: top;">[❌] Contribute to OSS</td>
-    <td style="padding: 10px; vertical-align: top;">[❌] Build SaaS project</td>
-    <td style="padding: 10px; vertical-align: top;">[❌] Get 1k GitHub stars</td>
+    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Contribute to OSS</h3></td>
+    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Build SaaS project</h3></td>
+    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Get 1k GitHub stars</h3></td>
   </tr>
 </table>
 </div>
@@ -106,7 +106,7 @@
 ---
 
 <div align="center">
-<h2>📊 GitHub Analytics</h2>
+<h2>🌋 GITHUB ANALYTICS</h2>
 
 <table>
   <tr>
@@ -127,7 +127,7 @@
 ---
 
 <div align="center">
-<h2 style="font-size: 28px;">📬 Connect With Me</h2>
+<h2 style="font-size: 28px;">📬 CONNECT WITH ME</h2>
 </div>
 
 <p align="center">
