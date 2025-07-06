@@ -4,10 +4,13 @@
   <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
   </a>
+  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
 </h1>
 
 <div align="center">
-<h2 style="font-size: 28px; background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">🚀 MY TECH STACK</h2>
+<h2 align="center">
+  <img src="https://img.shields.io/badge/MY_TECH_STACK-rainbow?style=for-the-badge&logo=appveyor&colorA=ff0000&colorB=9400d3" alt="MY TECH STACK" />
+</h2>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
