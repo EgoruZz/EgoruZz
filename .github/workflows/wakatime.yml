@@ -60,7 +60,7 @@ jobs:
 
             for ((i=1; i<=length; i++)); do
               if (( percent >= i*threshold )); then
-                printf "▓%.0s"
+                printf "■%.0s"
               else
                 printf "□%.0s"
               fi
@@ -75,7 +75,7 @@ jobs:
 
             for ((i=1; i<=length; i++)); do
               if (( percent >= i*threshold )); then
-                printf "▓%.0s"
+                printf "■%.0s"
               else
                 printf "□%.0s"
               fi
