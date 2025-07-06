@@ -42,10 +42,10 @@
 </div>
 
 <div align="center">
-<h2 align="center" style="line-height: 1.5;">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px" style="vertical-align: text-top;"/>
+<h2 align="center">
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px"/>
   MY 2025 GOALS
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px" style="vertical-align: text-top;"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px"/>
 </h2>
 
 <table style="width:150%; border:none; text-align:center;">
@@ -126,10 +126,10 @@
     <td align="center" valign="middle"><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="240" alt="GitHub Streak"/></td>
   </tr>
   <tr>
-    <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="500" alt="Top Languages"/></td>
+    <td align="center" valign="middle"><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="500" alt="GitHub Trophies"/></td>
   </tr>
   <tr>
-    <td align="center" valign="middle"><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="400" alt="GitHub Trophies"/></td>
+    <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="500" alt="Top Languages"/></td>
   </tr>
 </table>
 </div>
