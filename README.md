@@ -87,7 +87,7 @@
 
 ### 📊 CODING STATISTICS 📊
 
-| Metric | Value | Progress |
+### | Metric | Value | Progress |
 |--------|-------|----------|
 | Daily Average | 4 hrs 30 mins | ■■□□□□□□□□□□□  18% |
 | Best Day | 6 hrs 39 mins on 2025-07-03 | ■■■□□□□□□□□□□  27% |
