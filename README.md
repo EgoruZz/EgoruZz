@@ -9,9 +9,9 @@
 
 <div align="center">
 <h2 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGxnaXZhc3JqZWtvaTZnNGY0YjJqaHFseWMxeGh4d2N6c3RjcjNidCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/utz68KlKM5LGBVF6HZ/giphy.gif" width="35px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
   MY TECH STACK
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGxnaXZhc3JqZWtvaTZnNGY0YjJqaHFseWMxeGh4d2N6c3RjcjNidCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/utz68KlKM5LGBVF6HZ/giphy.gif" width="35px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
 </h2>
 
 <table style="width: 100%; border: none;">
@@ -43,9 +43,9 @@
 
 <div align="center">
 <h2 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
   MY 2025 GOALS
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
 </h2>
 
 <table style="width:150%; border:none; text-align:center;">
@@ -73,7 +73,7 @@
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-29 → 2025-07-05 |
-| Last Updated | 2025-07-06 18:10 UTC |
+| Last Updated | 2025-07-06 16:59 UTC |
 </td>
 <td width="50%" style="padding-left: 15px;">
 
@@ -87,7 +87,7 @@
 </td>
 </tr></table>
 
-### 📊 CODING STATISTICS
+### 📊 Coding Statistics
 
 | Metric | Value | Progress |
 |--------|-------|----------|
@@ -95,7 +95,7 @@
 | Best Day | 6 hrs 39 mins on 2025-07-03 | ▓▓▓□□□□□□□□□□  27% |
 | Total Time | 18 hrs 2 mins (per week) | ▓□□□□□□□□□□□□  10% |
 
-### 🚀 TOP LANGUAGES
+### 🚀 Top Languages
 
 | Language | Time | Usage |
 |----------|------|-------|
@@ -104,11 +104,11 @@
 | C++ | 1 min | □□□□□□□□□□□□□   0% |
 | Git Config | 0 secs | □□□□□□□□□□□□□   0% |
 
-### 💻 CODE GENERATION
+### 💻 Code Generation Metrics
 
 | Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |
 |------------|--------------|------------|--------------|-----------|---------|
-| **4568** | **4375** | +193 | 496.8 | □□□□□□□□□□□□□   2% | 1.04 |
+| **4519** | **4332** | +187 | 491.7 | □□□□□□□□□□□□□   2% | 1.04 |
 
 </div>
 <!--END_SECTION:waka-->
@@ -116,27 +116,41 @@
 ---
 
 <div align="center">
-  <h2>🌋 GITHUB ANALYTICS 🌋</h2>
+  <h2 align="center">
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
+    GITHUB ANALYTICS
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
+  </h2>
 
-  <table>
-    <tr>
-      <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="240" alt="GitHub Stats"/></td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle"><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="240" alt="GitHub Streak"/></td>
-    </tr>
-    <tr>
-      <td align="center" valign="middle"><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="500" alt="GitHub Trophies"/></td>
-    </tr>
-  </table>
+  <!-- GitHub Stats -->
+  <img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" 
+       height="240" 
+       alt="GitHub Stats"
+       style="display: block; margin: 10px auto;"/>
 
-  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="500" alt="Top Languages" style="display: block; margin: 0 auto;"/>
+  <!-- Streak Stats -->
+  <img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" 
+       height="240" 
+       alt="GitHub Streak"
+       style="display: block; margin: 10px auto;"/>
+
+  <!-- Trophies -->
+  <img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" 
+       height="500" 
+       alt="GitHub Trophies"
+       style="display: block; margin: 10px auto;"/>
+
+  <!-- Top Languages -->
+  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" 
+       height="500" 
+       alt="Top Languages"
+       style="display: block; margin: 10px auto;"/>
 </div>
 
 ---
 
 <div align="center">
-<h2 style="font-size: 28px;">📬 CONNECT WITH ME</h2>
+<h2>📬 CONNECT WITH ME 📬</h2>
 </div>
 
 <p align="center">

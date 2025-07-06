@@ -127,7 +127,7 @@ jobs:
           echo "<!--START_SECTION:waka-->" > stats.md
           echo "<div align='center'>" >> stats.md
           echo "" >> stats.md
-          echo "## ⏳ WAKATIME WEEKLY REPORT" >> stats.md
+          echo "## ⏳ WAKATIME WEEKLY REPORT ⏳" >> stats.md
           echo "" >> stats.md
           
           # Side-by-side tables
@@ -158,7 +158,7 @@ jobs:
           echo "" >> stats.md
           
           # Coding statistics
-          echo "### 📊 CODING STATISTICS" >> stats.md
+          echo "### 📊 CODING STATISTICS 📊" >> stats.md
           echo "" >> stats.md
           echo "| Metric | Value | Progress |" >> stats.md
           echo "|--------|-------|----------|" >> stats.md
@@ -168,7 +168,7 @@ jobs:
           echo "" >> stats.md
           
           # Top languages
-          echo "### 🚀 TOP LANGUAGES" >> stats.md
+          echo "### 🚀 TOP LANGUAGES 🚀" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage |" >> stats.md
           echo "|----------|------|-------|" >> stats.md
@@ -179,7 +179,7 @@ jobs:
           echo "" >> stats.md
           
           # Code Generation Metrics
-          echo "### 💻 CODE GENERATION" >> stats.md
+          echo "### 💻 CODE GENERATION 💻" >> stats.md
           echo "" >> stats.md
           echo "| Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |" >> stats.md
           echo "|------------|--------------|------------|--------------|-----------|---------|" >> stats.md
