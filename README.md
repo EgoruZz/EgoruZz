@@ -43,9 +43,9 @@
 
 <div align="center">
 <h2 align="center" style="line-height: 1.5;">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px" style="vertical-align: middle;"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px" style="vertical-align: text-top;"/>
   MY 2025 GOALS
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px" style="vertical-align: middle;"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px" style="vertical-align: text-top;"/>
 </h2>
 
 <table style="width:150%; border:none; text-align:center;">
