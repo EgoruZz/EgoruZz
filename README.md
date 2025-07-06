@@ -42,7 +42,11 @@
 </div>
 
 <div align="center">
-<h2>🎯 MY 2025 GOALS</h2>
+<h2 align="center" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px"/>
+  MY 2025 GOALS
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa21hc2xpYzZvczV4NXM3OWFkOHFtYjJqMXRvN3R3ODdtbTJpdHludCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wtUTJUtDDKB36UN7X0/giphy.gif" width="35px"/>
+</h2>
 
 <table style="width:150%; border:none; text-align:center;">
   <tr>
