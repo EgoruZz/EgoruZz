@@ -149,9 +149,9 @@
 
 <div align="center">
 <h2 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/lnCrs3fdNqjpmWz21N/giphy.gif" width="45px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa25hN3VheTJ6eXl1eXAxc3M4b2EwaXhocDZvMHF6dXNpcjZkNnVqbiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/lqFSrdm94nEAFDxPp7/giphy.gif" width="45px"/>
   CONNECT WITH ME
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/LRHHdXTTM03B5m0am1/giphy.gif" width="45px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGJmbDB5bTFuYXV2Y2xsOW9ocWw0bWp5eTY0eG80b3E1MnZ0eWk0ZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/efaDE6kE1PuM4JJqAb/giphy.gif" width="45px"/>
 </h2>
 </div>
 
