@@ -40,7 +40,7 @@
 
 <table style="width:150%; border:none; text-align:center;">
   <tr>
-    <td style="padding: 40px; vertical-align: top;">[🟩] <h4>Learn FastAPI</h4></td>
+    <td style="padding: 40px; vertical-align: top;"><h3>[🟩] Learn FastAPI</h3></td>
     <td style="padding: 10px; vertical-align: top;">[❌] Master Kubernetes</td>
     <td style="padding: 10px; vertical-align: top;">[❌] Write technical article</td>
   </tr>
@@ -110,14 +110,16 @@
 
 <table>
   <tr>
-    <!-- Первая строка -->
-    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="165" alt="GitHub Stats"/></td>
-    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="165" alt="Top Languages"/></td>
+    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="240" alt="GitHub Stats"/></td>
   </tr>
   <tr>
-    <!-- Вторая строка -->
-    <td><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="165" alt="GitHub Streak"/></td>
-    <td><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="165" alt="GitHub Trophies"/></td>
+    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="240" alt="Top Languages"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="240" alt="GitHub Streak"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="240" alt="GitHub Trophies"/></td>
   </tr>
 </table>
 </div>
