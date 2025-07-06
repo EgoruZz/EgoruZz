@@ -8,11 +8,11 @@
 </h1>
 
 <div align="center">
-<h2 align="center">
+<h1 align="center">
   <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa25hN3VheTJ6eXl1eXAxc3M4b2EwaXhocDZvMHF6dXNpcjZkNnVqbiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/lqFSrdm94nEAFDxPp7/giphy.gif" width="45px"/>
   MY TECH STACK
   <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGJmbDB5bTFuYXV2Y2xsOW9ocWw0bWp5eTY0eG80b3E1MnZ0eWk0ZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/efaDE6kE1PuM4JJqAb/giphy.gif" width="45px"/>
-</h2>
+</h1>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
