@@ -8,20 +8,21 @@
 </h1>
 
 <div align="center">
-<h2>
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3d2U0YzAzazU4Zm1xbmF1dTh4aW80ZzI4NjFpZDNvb3p4NDVhZzl1ZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/MT5UUV1d4CXE2A37Dg/giphy.gif" width="40px"/>
+<h2 align="center">
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGxnaXZhc3JqZWtvaTZnNGY0YjJqaHFseWMxeGh4d2N6c3RjcjNidCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/utz68KlKM5LGBVF6HZ/giphy.gif" width="40px"/>
   MY TECH STACK
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGxnaXZhc3JqZWtvaTZnNGY0YjJqaHFseWMxeGh4d2N6c3RjcjNidCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/utz68KlKM5LGBVF6HZ/giphy.gif" width="40px"/>
 </h2>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
   <tr>
-    <td align="center" valign="middle" style="width: 60%;">
+    <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
       <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
       <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
     </td>
-    <td align="center" valign="middle" style="width: 60%;">
+    <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
       <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
       <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
