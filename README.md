@@ -7,30 +7,7 @@
 </h1>
 
 <div align="center">
-<h2 class="neon-text">🚀 MY TECH STACK</h2>
-
-<style>
-  .neon-text {
-    font-size: 28px;
-    color: #fff;
-    text-shadow: 
-      0 0 5px #ff0000,
-      0 0 10px #ff7f00,
-      0 0 15px #ffff00,
-      0 0 20px #00ff00;
-    animation: neonGlow 2s infinite alternate;
-  }
-
-  @keyframes neonGlow {
-    from { text-shadow: 0 0 5px #ff0000; }
-    to { text-shadow: 
-      0 0 10px #ff7f00,
-      0 0 20px #ffff00,
-      0 0 30px #00ff00,
-      0 0 40px #0000ff;
-    }
-  }
-</style>
+<h2 style="font-size: 28px; background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">🚀 MY TECH STACK</h2>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
