@@ -116,22 +116,21 @@
 ---
 
 <div align="center">
-<h2>🌋 GITHUB ANALYTICS</h2>
+  <h2>🌋 GITHUB ANALYTICS 🌋</h2>
 
-<table>
-  <tr>
-    <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="240" alt="GitHub Stats"/></td>
-  </tr>
-  <tr>
-    <td align="center" valign="middle"><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="240" alt="GitHub Streak"/></td>
-  </tr>
-  <tr>
-    <td align="center" valign="middle"><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="500" alt="GitHub Trophies"/></td>
-  </tr>
-  <tr>
-    <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="500" alt="Top Languages"/></td>
-  </tr>
-</table>
+  <table>
+    <tr>
+      <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="240" alt="GitHub Stats"/></td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="240" alt="GitHub Streak"/></td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="500" alt="GitHub Trophies"/></td>
+    </tr>
+  </table>
+
+  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="500" alt="Top Languages" style="display: block; margin: 0 auto;"/>
 </div>
 
 ---
