@@ -1,10 +1,8 @@
-<h1 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/lnCrs3fdNqjpmWz21N/giphy.gif" width="40px"/> 
+<h1 align="center"> 
   Hello, I'm EgoruZz!
   <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
   </a>
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/LRHHdXTTM03B5m0am1/giphy.gif" width="40px"/>
 </h1>
 
 <div align="center">
@@ -43,9 +41,9 @@
 
 <div align="center">
 <h2 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/LPfKg9FjGEPKn5lcnZ/giphy.gif" width="45px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/lnCrs3fdNqjpmWz21N/giphy.gif" width="45px"/>
   MY 2025 GOALS
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/YMjgqsmn5131Y4tYY6/giphy.gif" width="45px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/LRHHdXTTM03B5m0am1/giphy.gif" width="45px"/>
 </h2>
 
 <table style="width:150%; border:none; text-align:center;">
