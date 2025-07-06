@@ -67,7 +67,7 @@
 
 ## ⏳ WAKATIME WEEKLY REPORT ⏳
 
-<table><tr>
+<table style='font-family:"Courier New", Courier, monospace; font-size:100%'><tr>
 <td width="50%" style="padding-right: 15px;">
 
 | Period | Range |
