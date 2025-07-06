@@ -13,12 +13,12 @@
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
   <tr>
-    <td style="text-align: center; vertical-align: middle; width: 60%;">
+    <td align="center" valign="middle" style="width: 60%;">
       <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
       <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
       <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
     </td>
-    <td style="text-align: center; vertical-align: middle; width: 60%;">
+    <td align="center" valign="middle" style="width: 60%;">
       <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
       <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
       <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
@@ -111,16 +111,16 @@
 
 <table>
   <tr>
-    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="240" alt="GitHub Stats"/></td>
+    <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="240" alt="GitHub Stats"/></td>
   </tr>
   <tr>
-    <td><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="240" alt="GitHub Streak"/></td>
+    <td align="center" valign="middle"><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="240" alt="GitHub Streak"/></td>
   </tr>
   <tr>
-    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="340" alt="Top Languages"/></td>
+    <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="340" alt="Top Languages"/></td>
   </tr>
   <tr>
-    <td><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="300" alt="GitHub Trophies"/></td>
+    <td align="center" valign="middle"><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="300" alt="GitHub Trophies"/></td>
   </tr>
 </table>
 </div>
@@ -132,13 +132,10 @@
 </div>
 
 <p align="center">
-  <a href="https://t.me/your_username" target="_blank">
+  <a href="https://t.me/gggggzks" target="_blank">
     <img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram">
   </a>
-  <a href="mailto:your@email.com">
-    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
-  </a>
-  <a href="mailto:your@mail.ru">
-    <img src="https://img.shields.io/badge/Mail.ru-005FF9?style=for-the-badge&logo=mail.ru&logoColor=white" alt="Mail.ru">
+  <a href="mailto:egor.s.sergeev@mail.ru">
+    <img src="https://img.shields.io/badge/My_Email-FF5733?style=for-the-badge" alt="Custom Email">
   </a>
 </p>
