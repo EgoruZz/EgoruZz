@@ -32,10 +32,10 @@
   <!-- Вторая строка -->
   <tr>
     <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">
-      <h3>[🟩] Flake8 for code style checking</h3>
+      <h3>FLAKE8 FOR CODE STYLE CHECKING</h3>
     </td>
     <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">
-      <h3>[🟩] Automated checks via GitHub Actions</h3>
+      <h3>AUTOMATED CHECKS VIA GITHUB ACTIONS</h3>
     </td>
   </tr>
 </table>
