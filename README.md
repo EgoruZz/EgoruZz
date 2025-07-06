@@ -129,13 +129,13 @@
        style="display: block; margin: 10px auto;"/>
 
   <!-- Streak Stats -->
-  <img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" 
+  <img src="https://streak-stats.demolab.com?user=EgoruZz" 
        height="240" 
        alt="GitHub Streak"
        style="display: block; margin: 10px auto;"/>
 
   <!-- Trophies -->
-  <img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" 
+  <img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=4&margin-w=15&margin-h=15" 
        height="500" 
        alt="GitHub Trophies"
        style="display: block; margin: 10px auto;"/>
