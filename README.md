@@ -1,10 +1,10 @@
 <h1 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhiYnM1bmgxbmZneXl3NWhvOXducmo4NjNxaHh4M24xZWRoYXV5byZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/Vf3ZKdillTMOOaOho0/giphy.gif" width="35px"/> 
+  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/lnCrs3fdNqjpmWz21N/giphy.gif" width="40px"/> 
   Hello, I'm EgoruZz!
   <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
   </a>
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhiYnM1bmgxbmZneXl3NWhvOXducmo4NjNxaHh4M24xZWRoYXV5byZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/Vf3ZKdillTMOOaOho0/giphy.gif" width="35px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/LRHHdXTTM03B5m0am1/giphy.gif" width="40px"/>
 </h1>
 
 <div align="center">
@@ -43,9 +43,9 @@
 
 <div align="center">
 <h2 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa25hN3VheTJ6eXl1eXAxc3M4b2EwaXhocDZvMHF6dXNpcjZkNnVqbiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/lqFSrdm94nEAFDxPp7/giphy.gif" width="45px"/>
   MY 2025 GOALS
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGJmbDB5bTFuYXV2Y2xsOW9ocWw0bWp5eTY0eG80b3E1MnZ0eWk0ZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/efaDE6kE1PuM4JJqAb/giphy.gif" width="45px"/>
 </h2>
 
 <table style="width:150%; border:none; text-align:center;">
@@ -117,10 +117,10 @@
 
 <div align="center">
   <h2 align="center">
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa25hN3VheTJ6eXl1eXAxc3M4b2EwaXhocDZvMHF6dXNpcjZkNnVqbiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/lqFSrdm94nEAFDxPp7/giphy.gif" width="45px"/>
     GITHUB ANALYTICS
-    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWR0ODZiOW5oM3k3Nzk3cGN4Y3cxOXo0Z3RrcmNzN244cWIwbHZwZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qDQj6tO9V3Fas7fkkP/giphy.gif" width="35px"/>
-  </h2>
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGJmbDB5bTFuYXV2Y2xsOW9ocWw0bWp5eTY0eG80b3E1MnZ0eWk0ZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/efaDE6kE1PuM4JJqAb/giphy.gif" width="45px"/>
+</h2>
 
   <!-- GitHub Stats -->
   <img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" 
