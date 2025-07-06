@@ -9,9 +9,9 @@
 
 <div align="center">
 <h2 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3YzZsNnFxd3R2cWJ1YjBrbGZtcmxjN3BsbnFjNGd3dGJvZnp1ejA1diZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/rxVwHA4fQJ0nST3EYa/giphy.gif" width="40px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhiYnM1bmgxbmZneXl3NWhvOXducmo4NjNxaHh4M24xZWRoYXV5byZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/Vf3ZKdillTMOOaOho0/giphy.gif" width="40px"/>
   MY TECH STACK
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3YzZsNnFxd3R2cWJ1YjBrbGZtcmxjN3BsbnFjNGd3dGJvZnp1ejA1diZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/rxVwHA4fQJ0nST3EYa/giphy.gif" width="40px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhiYnM1bmgxbmZneXl3NWhvOXducmo4NjNxaHh4M24xZWRoYXV5byZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/Vf3ZKdillTMOOaOho0/giphy.gif" width="40px"/>
 </h2>
 
 <table style="width: 100%; border: none;">
