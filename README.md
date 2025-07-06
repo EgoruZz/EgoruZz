@@ -8,8 +8,10 @@
 </h1>
 
 <div align="center">
-<img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
-<h2>🚀 MY TECH STACK</h2>
+<h2>
+  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3d2U0YzAzazU4Zm1xbmF1dTh4aW80ZzI4NjFpZDNvb3p4NDVhZzl1ZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/MT5UUV1d4CXE2A37Dg/giphy.gif" width="40px"/>
+  MY TECH STACK
+</h2>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
@@ -118,10 +120,10 @@
     <td align="center" valign="middle"><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="240" alt="GitHub Streak"/></td>
   </tr>
   <tr>
-    <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="340" alt="Top Languages"/></td>
+    <td align="center" valign="middle"><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="500" alt="Top Languages"/></td>
   </tr>
   <tr>
-    <td align="center" valign="middle"><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="300" alt="GitHub Trophies"/></td>
+    <td align="center" valign="middle"><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="400" alt="GitHub Trophies"/></td>
   </tr>
 </table>
 </div>
