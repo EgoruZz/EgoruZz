@@ -1,6 +1,6 @@
 <h1 align="center">
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/> 
-  Hello, World, I'm EgoruZz!
+  Hello, I'm EgoruZz!
   <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
   </a>
@@ -8,9 +8,7 @@
 </h1>
 
 <div align="center">
-<h2 align="center">
-  <img src="https://img.shields.io/badge/MY_TECH_STACK-rainbow?style=for-the-badge&logo=appveyor&colorA=ff0000&colorB=9400d3" alt="MY TECH STACK" />
-</h2>
+<h2>🚀 MY TECH STACK</h2>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
@@ -39,18 +37,18 @@
 </div>
 
 <div align="center">
-<h2 style="font-size: 28px;">🎯 MY 2025 GOALS</h2>
+<h2>🎯 MY 2025 GOALS</h2>
 
 <table style="width:150%; border:none; text-align:center;">
   <tr>
-    <td style="padding: 40px; vertical-align: top;"><h3>[🟩] Learn FastAPI</h3></td>
-    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Master Kubernetes</h3></td>
-    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Write technical article</h3></td>
+    <td style="padding: 40px; text-align: center; vertical-align: middle;"><h3>[🟩] Learn FastAPI</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Master Kubernetes</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Write technical article</h3></td>
   </tr>
   <tr>
-    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Contribute to OSS</h3></td>
-    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Build SaaS project</h3></td>
-    <td style="padding: 10px; vertical-align: top;"><h3>[❌] Get 1k GitHub stars</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Contribute to OSS</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Build SaaS project</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Get 1k GitHub stars</h3></td>
   </tr>
 </table>
 </div>
@@ -116,13 +114,13 @@
     <td><img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" height="240" alt="GitHub Stats"/></td>
   </tr>
   <tr>
-    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="240" alt="Top Languages"/></td>
-  </tr>
-  <tr>
     <td><img src="https://streak-stats.demolab.com?user=EgoruZz&hide_border=true" height="240" alt="GitHub Streak"/></td>
   </tr>
   <tr>
-    <td><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="240" alt="GitHub Trophies"/></td>
+    <td><img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" height="340" alt="Top Languages"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=3&margin-w=15&margin-h=15&no-bg=true&no-frame=true" height="300" alt="GitHub Trophies"/></td>
   </tr>
 </table>
 </div>
@@ -137,16 +135,10 @@
   <a href="https://t.me/your_username" target="_blank">
     <img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram">
   </a>
-  <a href="https://linkedin.com/in/your_username" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
-  </a>
   <a href="mailto:your@email.com">
     <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
   </a>
-  <a href="https://github.com/EgoruZz" target="_blank">
-    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-  </a>
-  <a href="https://twitter.com/your_username" target="_blank">
-    <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter">
+  <a href="mailto:your@mail.ru">
+    <img src="https://img.shields.io/badge/Mail.ru-005FF9?style=for-the-badge&logo=mail.ru&logoColor=white" alt="Mail.ru">
   </a>
 </p>
