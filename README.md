@@ -1,10 +1,10 @@
 <h1 align="center">
-  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/> 
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhiYnM1bmgxbmZneXl3NWhvOXducmo4NjNxaHh4M24xZWRoYXV5byZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/Vf3ZKdillTMOOaOho0/giphy.gif" width="35px"/> 
   Hello, I'm EgoruZz!
   <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
   </a>
-  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/>
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhiYnM1bmgxbmZneXl3NWhvOXducmo4NjNxaHh4M24xZWRoYXV5byZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/Vf3ZKdillTMOOaOho0/giphy.gif" width="35px"/>
 </h1>
 
 <div align="center">
