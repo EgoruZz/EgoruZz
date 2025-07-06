@@ -1,13 +1,36 @@
 <h1 align="center">
   <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="35px"/> 
-  `Hello, World, I'm EgoruZz!`
+  Hello, World, I'm EgoruZz!
   <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
   </a>
 </h1>
 
 <div align="center">
-<h2 style="font-size: 28px;">🚀 MY TECH STACK</h2>
+<h2 class="neon-text">🚀 MY TECH STACK</h2>
+
+<style>
+  .neon-text {
+    font-size: 28px;
+    color: #fff;
+    text-shadow: 
+      0 0 5px #ff0000,
+      0 0 10px #ff7f00,
+      0 0 15px #ffff00,
+      0 0 20px #00ff00;
+    animation: neonGlow 2s infinite alternate;
+  }
+
+  @keyframes neonGlow {
+    from { text-shadow: 0 0 5px #ff0000; }
+    to { text-shadow: 
+      0 0 10px #ff7f00,
+      0 0 20px #ffff00,
+      0 0 30px #00ff00,
+      0 0 40px #0000ff;
+    }
+  }
+</style>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
