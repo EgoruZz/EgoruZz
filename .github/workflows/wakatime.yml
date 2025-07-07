@@ -157,7 +157,7 @@ jobs:
           # Coding statistics with centered text
           echo "### 📊 CODING STATISTICS 📊" >> stats.md
           echo "" >> stats.md
-          echo "| Metric | Value | Progress |" >> stats.md
+          echo "| Metric | Value | Progress (8 hrs per day) |" >> stats.md
           echo "|:------:|:-----:|:--------:|" >> stats.md
           printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 480)" >> stats.md
           printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 480)" >> stats.md
@@ -167,7 +167,7 @@ jobs:
           # Top languages (100% = 10 hours)
           echo "### 🚀 TOP LANGUAGES 🚀" >> stats.md
           echo "" >> stats.md
-          echo "| Language | Time | Usage |" >> stats.md
+          echo "| Language | Time | Usage (per 10 hrs) |" >> stats.md
           echo "|:--------:|:----:|:-----:|" >> stats.md
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
             lang_minutes=$(convert_to_minutes "$text")
