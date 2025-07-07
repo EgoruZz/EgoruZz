@@ -73,8 +73,8 @@
 | Period | Range |
 |:------:|:-----:|
 | Last 7 Days | 2025-06-30 → 2025-07-06 |
-| Last Updated | 2025-07-07 13:33 UTC |
-| Cognitive Load | 495.43 |
+| Last Updated | 2025-07-07 13:39 UTC |
+| Cognitive Load | 496.31 |
 </td>
 <td width="50%" style="padding-left: 15px;">
 
@@ -88,7 +88,7 @@
 
 ### 📊 CODING STATISTICS 📊
 
-| Metric | Value | Progress |
+| Metric | Value | Progress (8 hrs per day) |
 |:------:|:-----:|:--------:|
 | Daily Average | 4 hrs 10 mins | ■■■■■■■□□□□□□  52% |
 | Best Day | 6 hrs 39 mins on 2025-07-03 | ■■■■■■■■■■■□□  83% |
@@ -96,7 +96,7 @@
 
 ### 🚀 TOP LANGUAGES 🚀
 
-| Language | Time | Usage |
+| Language | Time | Usage (per 10 hrs) |
 |:--------:|:----:|:-----:|
 | YAML | 13 hrs 16 mins | ■■■■■■■■■■■■■ 132% |
 | Markdown | 7 hrs 35 mins | ■■■■■■■■■■□□□  75% |
@@ -106,7 +106,7 @@
 
 | Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |
 |:---------:|:-----------:|:----------:|:-----------:|:--------:|:-------:|
-| **4185** | **4078** | +107 | 395.4 | □□□□□□□□□□□□□   1% | 1.02 |
+| **4193** | **4086** | +107 | 396.1 | □□□□□□□□□□□□□   1% | 1.02 |
 
 </div>
 <!--END_SECTION:waka-->
