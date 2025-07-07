@@ -83,19 +83,24 @@ jobs:
             printf " %3d%%" "$percent"
           }
 
-          # Get WakaTime data
+          # Get weekly WakaTime data
           API_URL="https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=$WAKATIME_API_KEY"
-          echo "::group::Fetching WakaTime data"
+          echo "::group::Fetching WakaTime weekly data"
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
           echo "::endgroup::"
 
-          # Process data
+          # Get yearly data for streak calculation
+          YEARLY_API_URL="https://wakatime.com/api/v1/users/current/stats/last_365_days?api_key=$WAKATIME_API_KEY"
+          echo "::group::Fetching WakaTime yearly data"
+          curl -sS --retry 3 --retry-delay 2 "$YEARLY_API_URL" > wakatime_yearly.json
+          echo "::endgroup::"
+
+          # Process weekly data
           total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
           daily_avg=$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)
           best_day=$(jq -r '.data.best_day.text // "0 secs"' wakatime.json)
           best_day_date=$(jq -r '.data.best_day.date // ""' wakatime.json)
           editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
-          categories=$(jq -r '.data.categories[0].name // "None"' wakatime.json)
           
           # Time conversion
           daily_minutes=$(convert_to_minutes "$daily_avg")
@@ -109,16 +114,8 @@ jobs:
           added=$(echo $git_stats | cut -d' ' -f1)
           deleted=$(echo $git_stats | cut -d' ' -f2)
           
-          # Get yesterday's stats from weekly data
-          yesterday=$(date -d 'yesterday' +'%Y-%m-%d')
-          yesterday_data=$(jq -r --arg yesterday "$yesterday" '.data.days[] | select(.date == $yesterday)' wakatime.json)
-          yesterday_coding_minutes=$(echo "$yesterday_data" | jq '.total_seconds/60' | awk '{printf "%.0f", $1}')
+          # Get yesterday's commits
           yesterday_commits=$(git log --since="yesterday 00:00" --until="yesterday 23:59" --oneline | wc -l | tr -d ' ')
-
-          # Fallback if no data
-          if [ -z "$yesterday_coding_minutes" ]; then
-            yesterday_coding_minutes=0
-          fi
           
           # Calculate code metrics
           net_change=$((added - deleted))
@@ -127,6 +124,51 @@ jobs:
           density=$(echo "scale=2; $added/$deleted" | bc -l)
           stability_bar=$(generate_stability_bar $stability)
           tech_debt=$(echo "scale=0; $deleted*100/($added + $deleted)" | bc -l)
+
+          # Calculate coding streak
+          coding_dates=$(jq -r '.data.days[] | select(.total_seconds > 0) | .date' wakatime_yearly.json | sort)
+          max_streak=0
+          current_streak=0
+          streak_start=""
+          streak_end=""
+          temp_start=""
+
+          prev_date=""
+          while read -r date; do
+              if [[ -z "$prev_date" ]]; then
+                  prev_date="$date"
+                  temp_start="$date"
+                  current_streak=1
+                  continue
+              fi
+
+              current_ts=$(date -d "$date" +%s)
+              prev_ts=$(date -d "$prev_date + 1 day" +%s)
+
+              if [[ $current_ts -eq $prev_ts ]]; then
+                  ((current_streak++))
+              else
+                  current_streak=1
+                  temp_start="$date"
+              fi
+
+              if [[ $current_streak -gt $max_streak ]]; then
+                  max_streak=$current_streak
+                  streak_start="$temp_start"
+                  streak_end="$date"
+              fi
+
+              prev_date="$date"
+          done <<< "$coding_dates"
+
+          # Format streak info
+          if [[ $max_streak -gt 0 ]]; then
+              formatted_start=$(date -d "$streak_start" +'%Y-%m-%d')
+              formatted_end=$(date -d "$streak_end" +'%Y-%m-%d')
+              streak_display="$max_streak days ($formatted_start → $formatted_end)"
+          else
+              streak_display="No streak data"
+          fi
 
           # Generate report
           echo "<!--START_SECTION:waka-->" > stats.md
@@ -144,6 +186,7 @@ jobs:
           echo "| Period | Range |" >> stats.md
           echo "|--------|-------|" >> stats.md
           echo "| Last 7 Days | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
+          echo "| Longest Streak | $streak_display |" >> stats.md
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
           echo "</td>" >> stats.md
           
@@ -153,8 +196,6 @@ jobs:
           echo "| Insight | Value |" >> stats.md
           echo "|---------|-------|" >> stats.md
           echo "| ⌨️ Editor | $editors |" >> stats.md
-          echo "| 📊 Category | $categories |" >> stats.md
-          echo "| 🕒 Yesterday's Coding | $yesterday_coding_minutes minutes |" >> stats.md
           echo "| 📌 Yesterday's Commits | $yesterday_commits |" >> stats.md
           echo "| 🏗️ Tech Debt | $tech_debt% |" >> stats.md
           echo "</td>" >> stats.md
@@ -202,7 +243,7 @@ jobs:
           }' README.md
           
           echo "stats-generated=true" >> $GITHUB_OUTPUT
-          rm -f stats.md wakatime.json
+          rm -f stats.md wakatime.json wakatime_yearly.json
 
       - name: Commit and push changes
         if: steps.process-stats.outputs.stats-generated == 'true'
