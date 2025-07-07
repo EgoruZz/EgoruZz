@@ -109,11 +109,16 @@ jobs:
           added=$(echo $git_stats | cut -d' ' -f1)
           deleted=$(echo $git_stats | cut -d' ' -f2)
           
-          # Get yesterday's stats
+          # Get yesterday's stats from weekly data
           yesterday=$(date -d 'yesterday' +'%Y-%m-%d')
-          yesterday_stats=$(curl -sS "https://wakatime.com/api/v1/users/current/durations?date=$yesterday&api_key=$WAKATIME_API_KEY" | jq '.data[0].duration/60')
-          yesterday_coding_minutes=$(echo "$yesterday_stats" | awk '{printf "%.0f", $1}')
+          yesterday_data=$(jq -r --arg yesterday "$yesterday" '.data.days[] | select(.date == $yesterday)' wakatime.json)
+          yesterday_coding_minutes=$(echo "$yesterday_data" | jq '.total_seconds/60' | awk '{printf "%.0f", $1}')
           yesterday_commits=$(git log --since="yesterday 00:00" --until="yesterday 23:59" --oneline | wc -l | tr -d ' ')
+
+          # Fallback if no data
+          if [ -z "$yesterday_coding_minutes" ]; then
+            yesterday_coding_minutes=0
+          fi
           
           # Calculate code metrics
           net_change=$((added - deleted))
