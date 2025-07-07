@@ -102,13 +102,6 @@ jobs:
           total_minutes=$(convert_to_minutes "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)")
           total_hours=$(echo "$total_minutes / 60" | bc -l | awk '{printf "%.1f", $1}')
 
-          # Calculate total language minutes for percentage calculation
-          total_lang_minutes=0
-          jq -r '.data.languages[] | .text' wakatime.json 2>/dev/null | while read -r text; do
-            minutes=$(convert_to_minutes "$text")
-            total_lang_minutes=$((total_lang_minutes + minutes))
-          done
-
           # Get Git code metrics
           git_stats=$(git log --since="7 days ago" --pretty=tformat: --numstat | 
             awk '{ add += $1; subs += $2 } END { printf "%s %s", add, subs }')
@@ -127,21 +120,21 @@ jobs:
           stability_bar=$(generate_stability_bar $stability)
           tech_debt=$(echo "scale=0; $deleted*100/($added + $deleted)" | bc -l)
 
-          # Generate report
+          # Generate report with centered alignment
           echo "<!--START_SECTION:waka-->" > stats.md
           echo "<div align='center'>" >> stats.md
           echo "" >> stats.md
           echo "## ⏳ WAKATIME WEEKLY REPORT ⏳" >> stats.md
           echo "" >> stats.md
           
-          # Side-by-side tables
+          # Side-by-side tables with centered text
           echo "<table><tr>" >> stats.md
           
           # Left column - Report Info
           echo "<td width=\"50%\" style=\"padding-right: 15px;\">" >> stats.md
           echo "" >> stats.md
           echo "| Period | Range |" >> stats.md
-          echo "|--------|-------|" >> stats.md
+          echo "|:------:|:-----:|" >> stats.md
           echo "| Last 7 Days | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
           cognitive_load=$(echo "scale=2; ($total_minutes * $changes_per_hour) / 1000" | bc -l)
@@ -152,7 +145,7 @@ jobs:
           echo "<td width=\"50%\" style=\"padding-left: 15px;\">" >> stats.md
           echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
-          echo "|---------|-------|" >> stats.md
+          echo "|:-------:|:-----:|" >> stats.md
           echo "| 🔵 Editor | $editors |" >> stats.md
           echo "| 📌 Yesterday's Commits | $yesterday_commits |" >> stats.md
           echo "| 🥎 Code Stability | $tech_debt% |" >> stats.md
@@ -161,32 +154,32 @@ jobs:
           echo "</tr></table>" >> stats.md
           echo "" >> stats.md
           
-          # Coding statistics
+          # Coding statistics with centered text
           echo "### 📊 CODING STATISTICS 📊" >> stats.md
           echo "" >> stats.md
           echo "| Metric | Value | Progress |" >> stats.md
-          echo "|--------|-------|----------|" >> stats.md
+          echo "|:------:|:-----:|:--------:|" >> stats.md
           printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 480)" >> stats.md
           printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 480)" >> stats.md
           printf "| Total Time | %s (per week) | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 3360)" >> stats.md
           echo "" >> stats.md
           
-          # Top languages
+          # Top languages with centered text (100% = 56 hours = 8 hours/day * 7 days)
           echo "### 🚀 TOP LANGUAGES 🚀" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage |" >> stats.md
-          echo "|----------|------|-------|" >> stats.md
+          echo "|:--------:|:----:|:-----:|" >> stats.md
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
             lang_minutes=$(convert_to_minutes "$text")
-            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes $total_lang_minutes)" >> stats.md
+            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 3360)" >> stats.md
           done
           echo "" >> stats.md
           
-          # Code Generation Metrics
+          # Code Generation Metrics with centered text
           echo "### 💻 CODE GENERATION 💻" >> stats.md
           echo "" >> stats.md
           echo "| Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |" >> stats.md
-          echo "|------------|--------------|------------|--------------|-----------|---------|" >> stats.md
+          echo "|:---------:|:-----------:|:----------:|:-----------:|:--------:|:-------:|" >> stats.md
           printf "| **%'d** | **%'d** | %+'d | %.1f | %s | %.2f |\n" \
             $added $deleted $net_change $changes_per_hour "$stability_bar" $density >> stats.md
           echo "" >> stats.md
