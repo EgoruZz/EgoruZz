@@ -164,14 +164,14 @@ jobs:
           printf "| Total Time | %s (per week) | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 3360)" >> stats.md
           echo "" >> stats.md
           
-          # Top languages (100% = 24 hours)
+          # Top languages (100% = 10 hours)
           echo "### 🚀 TOP LANGUAGES 🚀" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage |" >> stats.md
           echo "|:--------:|:----:|:-----:|" >> stats.md
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
             lang_minutes=$(convert_to_minutes "$text")
-            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 1440)" >> stats.md
+            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 600)" >> stats.md
           done
           
           # Code Generation Metrics with centered text
