@@ -123,13 +123,13 @@
 
   <!-- GitHub Stats -->
   <img src="https://github-readme-stats-sigma-five.vercel.app/api?username=EgoruZz&show_icons=true&count_private=true&disable_animations=true" 
-       height="240" 
+       height="200" 
        alt="GitHub Stats"
        style="display: block; margin: 10px auto;"/>
 
   <!-- Streak Stats -->
   <img src="https://streak-stats.demolab.com?user=EgoruZz" 
-       height="240" 
+       height="200" 
        alt="GitHub Streak"
        style="display: block; margin: 10px auto;"/>
 
