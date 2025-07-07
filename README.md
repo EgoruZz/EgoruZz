@@ -73,15 +73,14 @@
 | Period | Range |
 |--------|-------|
 | Last 7 Days | 2025-06-30 → 2025-07-06 |
-| Last Updated | 2025-07-07 02:32 UTC |
+| Longest Streak | No streak data |
+| Last Updated | 2025-07-07 11:27 UTC |
 </td>
 <td width="50%" style="padding-left: 15px;">
 
 | Insight | Value |
 |---------|-------|
 | ⌨️ Editor | VS Code |
-| 📊 Category | Coding |
-| 🕒 Yesterday's Coding | 61 minutes |
 | 📌 Yesterday's Commits | 86 |
 | 🏗️ Tech Debt | 48% |
 </td>
@@ -108,7 +107,7 @@
 
 | Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |
 |------------|--------------|------------|--------------|-----------|---------|
-| **4703** | **4493** | +210 | 440.0 | □□□□□□□□□□□□□   2% | 1.04 |
+| **4585** | **4381** | +204 | 429.0 | □□□□□□□□□□□□□   2% | 1.04 |
 
 </div>
 <!--END_SECTION:waka-->
