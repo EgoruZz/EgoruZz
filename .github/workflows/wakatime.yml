@@ -137,7 +137,8 @@ jobs:
           echo "|--------|-------|" >> stats.md
           echo "| Last 7 Days | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
-          echo "| Coding Days | $(jq -r '.data.days_including_holidays // 0' wakatime.json) of 7 |" >> stats.md
+          cognitive_load=$(echo "scale=2; ($total_minutes * $changes_per_hour) / 1000" | bc -l)
+          echo "| Cognitive Load | $cognitive_load |" >> stats.md
           echo "</td>" >> stats.md
           
           # Right column - Code Insights
@@ -145,7 +146,7 @@ jobs:
           echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
           echo "|---------|-------|" >> stats.md
-          echo "| ⌨️ Editor | $editors |" >> stats.md
+          echo "| 🔵 Editor | $editors |" >> stats.md
           echo "| 📌 Yesterday's Commits | $yesterday_commits |" >> stats.md
           echo "| 🥎 Code Stability | $tech_debt% |" >> stats.md
           echo "</td>" >> stats.md
