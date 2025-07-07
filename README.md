@@ -135,13 +135,13 @@
 
   <!-- Trophies -->
   <img src="https://github-profile-trophy.vercel.app/?username=EgoruZz&column=4&margin-w=15&margin-h=15" 
-       height="500" 
+       height="240" 
        alt="GitHub Trophies"
        style="display: block; margin: 10px auto;"/>
 
   <!-- Top Languages -->
   <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" 
-       height="500" 
+       height="240" 
        alt="Top Languages"
        style="display: block; margin: 10px auto;"/>
 </div>

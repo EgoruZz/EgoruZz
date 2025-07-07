@@ -65,7 +65,7 @@ jobs:
                 printf "□%.0s"
               fi
             done
-            printf " %3d%%" "$percent"
+            printf " %3d%%" "$((minutes * 100 / max))"
           }
 
           generate_stability_bar() {
@@ -101,6 +101,13 @@ jobs:
           best_day_minutes=$(convert_to_minutes "$best_day")
           total_minutes=$(convert_to_minutes "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)")
           total_hours=$(echo "$total_minutes / 60" | bc -l | awk '{printf "%.1f", $1}')
+
+          # Calculate total language minutes for percentage calculation
+          total_lang_minutes=0
+          jq -r '.data.languages[] | .text' wakatime.json 2>/dev/null | while read -r text; do
+            minutes=$(convert_to_minutes "$text")
+            total_lang_minutes=$((total_lang_minutes + minutes))
+          done
 
           # Get Git code metrics
           git_stats=$(git log --since="7 days ago" --pretty=tformat: --numstat | 
@@ -159,9 +166,9 @@ jobs:
           echo "" >> stats.md
           echo "| Metric | Value | Progress |" >> stats.md
           echo "|--------|-------|----------|" >> stats.md
-          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 1440)" >> stats.md
-          printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 1440)" >> stats.md
-          printf "| Total Time | %s (per week) | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 10080)" >> stats.md
+          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 480)" >> stats.md
+          printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 480)" >> stats.md
+          printf "| Total Time | %s (per week) | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 3360)" >> stats.md
           echo "" >> stats.md
           
           # Top languages
@@ -171,7 +178,7 @@ jobs:
           echo "|----------|------|-------|" >> stats.md
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
             lang_minutes=$(convert_to_minutes "$text")
-            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 1440)" >> stats.md
+            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes $total_lang_minutes)" >> stats.md
           done
           echo "" >> stats.md
           
