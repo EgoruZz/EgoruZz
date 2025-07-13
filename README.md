@@ -72,9 +72,9 @@
 
 | Period | Range |
 |:------:|:-----:|
-| Last 7 Days | 2025-07-05 → 2025-07-11 |
-| Last Updated | 2025-07-12 02:31 UTC |
-| Cognitive Load | 96.73 |
+| Last 7 Days | 2025-07-06 → 2025-07-12 |
+| Last Updated | 2025-07-13 02:40 UTC |
+| Cognitive Load | 57.50 |
 </td>
 <td width="50%" style="padding-left: 15px;">
 
@@ -82,7 +82,7 @@
 |:-------:|:-----:|
 | 🔵 Editor | VS Code |
 | 📌 Yesterday's Commits | 2 |
-| 🥎 Code Stability | 47% |
+| 🥎 Code Stability | 49% |
 </td>
 </tr></table>
 
@@ -90,22 +90,22 @@
 
 | Metric | Value | Progress (8 hrs per day) |
 |:------:|:-----:|:--------:|
-| Daily Average | 2 hrs 52 mins | ■■■■■□□□□□□□□  35% |
-| Best Day | 4 hrs 6 mins on 2025-07-05 | ■■■■■■■□□□□□□  51% |
-| Total Time | 8 hrs 37 mins (per week) | ■■□□□□□□□□□□□  15% |
+| Daily Average | 2 hrs 15 mins | ■■■■□□□□□□□□□  28% |
+| Best Day | 2 hrs 50 mins on 2025-07-06 | ■■■■■□□□□□□□□  35% |
+| Total Time | 4 hrs 31 mins (per week) | ■□□□□□□□□□□□□   8% |
 
 ### 🚀 TOP LANGUAGES 🚀
 
 | Language | Time | Usage (per 10 hrs) |
 |:--------:|:----:|:-----:|
-| Markdown | 5 hrs 2 mins | ■■■■■■■□□□□□□  50% |
-| YAML | 3 hrs 35 mins | ■■■■■□□□□□□□□  35% |
+| Markdown | 2 hrs 49 mins | ■■■■□□□□□□□□□  28% |
+| YAML | 1 hr 42 mins | □□□□□□□□□□□□□   0% |
 | Git Config | 0 secs | □□□□□□□□□□□□□   0% |
 ### 💻 CODE GENERATION 💻
 
 | Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |
 |:---------:|:-----------:|:----------:|:-----------:|:--------:|:-------:|
-| **841** | **768** | +73 | 187.1 | □□□□□□□□□□□□□   4% | 1.09 |
+| **484** | **471** | +13 | 212.2 | □□□□□□□□□□□□□   1% | 1.02 |
 
 </div>
 <!--END_SECTION:waka-->
