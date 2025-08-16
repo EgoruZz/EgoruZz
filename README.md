@@ -135,7 +135,7 @@
 
   <!-- Top Languages -->
   <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" 
-       height="240" 
+       height="260" 
        alt="Top Languages"
        style="display: block; margin: 10px auto;"/>
 </div>
@@ -144,9 +144,9 @@
 
 <div align="center">
 <h2 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa25hN3VheTJ6eXl1eXAxc3M4b2EwaXhocDZvMHF6dXNpcjZkNnVqbiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/lqFSrdm94nEAFDxPp7/giphy.gif" width="45px"/>
+  <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdW5jZnliOTE3a3owMWlyNmJmZ3UyNWRtdTJ3bzhkZDBlNW9qbnA5NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LT6QpakEeIX1KszPCp/giphy.gif" width="45px"/>
   CONNECT WITH ME
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGJmbDB5bTFuYXV2Y2xsOW9ocWw0bWp5eTY0eG80b3E1MnZ0eWk0ZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/efaDE6kE1PuM4JJqAb/giphy.gif" width="45px"/>
+  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWhsN2lsd3RnYml5NHUxcmQ1cmlldWE3ZHl2dGZieXEwZXF3MDJtOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/QuyXjapw97YijfSb9i/giphy.gif" width="45px"/>
 </h2>
 </div>
 
