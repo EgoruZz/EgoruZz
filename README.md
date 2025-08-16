@@ -18,22 +18,21 @@
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
       <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
-      <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
     </td>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/C++-FF55FA?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++">
       <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
-      <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-      <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
     </td>
   </tr>
   <!-- Вторая строка -->
   <tr>
-    <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">
-      <h3>FLAKE8 FOR CODE STYLE CHECKING</h3>
+    <td align="center" valign="middle" style="width: 60%">
+      <img src="https://img.shields.io/badge/Flake8-Enabled-44CC11?style=for-the-badge&logo=python&logoColor=white" alt="Flake8">
+      <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
     </td>
-    <td style="text-align: center; vertical-align: middle; width: 60%; font-size: 32px; font-weight: bold;">
-      <h3>AUTOMATED CHECKS VIA GITHUB ACTIONS</h3>
+    <td align="center" valign="middle" style="width: 60%">
+      <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions">
+      <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
     </td>
   </tr>
 </table>
