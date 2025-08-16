@@ -35,6 +35,10 @@ jobs:
           # Time conversion function
           convert_to_minutes() {
             local time_str="$1"
+            if [[ -z "$time_str" ]]; then
+              echo 0
+              return
+            fi
             if [[ $time_str == *"hrs"* && $time_str == *"mins"* ]]; then
               hours=$(echo "$time_str" | awk '{print $1}')
               minutes=$(echo "$time_str" | awk '{print $3}')
@@ -54,18 +58,20 @@ jobs:
             local minutes=$1
             local max=$2
             local length=13
-            local percent=$((minutes * 100 / max))
+            local percent=$((minutes * 100 / (max > 0 ? max : 1)))
             percent=$((percent > 100 ? 100 : percent))
             local threshold=$((100 / length))
 
+            # Сначала собираем строку прогресса
+            local progress=""
             for ((i=1; i<=length; i++)); do
               if (( percent >= i*threshold )); then
-                printf "■%.0s"
+                progress+="■"
               else
-                printf "□%.0s"
+                progress+="□"
               fi
             done
-            printf " %3d%%" "$((minutes * 100 / max))"
+            printf "%s %3d%%" "$progress" "$percent"
           }
 
           generate_stability_bar() {
@@ -73,14 +79,15 @@ jobs:
             local length=13
             local threshold=$((100 / length))
 
+            local progress=""
             for ((i=1; i<=length; i++)); do
               if (( percent >= i*threshold )); then
-                printf "■%.0s"
+                progress+="■"
               else
-                printf "□%.0s"
+                progress+="□"
               fi
             done
-            printf " %3d%%" "$percent"
+            printf "%s %3d%%" "$progress" "$percent"
           }
 
           # Get WakaTime data
@@ -96,11 +103,11 @@ jobs:
           best_day_date=$(jq -r '.data.best_day.date // ""' wakatime.json)
           editors=$(jq -r '.data.editors[0].name // "None"' wakatime.json)
           
-          # Time conversion
-          daily_minutes=$(convert_to_minutes "$daily_avg")
-          best_day_minutes=$(convert_to_minutes "$best_day")
-          total_minutes=$(convert_to_minutes "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)")
-          total_hours=$(echo "$total_minutes / 60" | bc -l | awk '{printf "%.1f", $1}')
+          # Time conversion with error handling
+          daily_minutes=$(convert_to_minutes "$daily_avg" || echo 0)
+          best_day_minutes=$(convert_to_minutes "$best_day" || echo 0)
+          total_minutes=$(convert_to_minutes "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" || echo 0)
+          total_hours=$(echo "$total_minutes / 60" | bc -l 2>/dev/null | awk '{printf "%.1f", $1}' || echo 0)
 
           # Get Git code metrics
           git_stats=$(git log --since="7 days ago" --pretty=tformat: --numstat | 
@@ -112,13 +119,20 @@ jobs:
           yesterday=$(date -d 'yesterday' +'%Y-%m-%d')
           yesterday_commits=$(git log --since="yesterday 00:00" --until="yesterday 23:59" --oneline | wc -l | tr -d ' ')
           
-          # Calculate code metrics
+          # Calculate code metrics with error handling
           net_change=$((added - deleted))
-          changes_per_hour=$(echo "($added + $deleted)/$total_hours" | bc -l | awk '{printf "%.1f", $1}')
-          stability=$(echo "scale=0; ($added - $deleted)*100/($added + $deleted)" | bc -l | awk '{printf "%.0f", $1}')
-          density=$(echo "scale=2; $added/$deleted" | bc -l)
+          changes_per_hour=$(echo "($added + $deleted)/($total_hours > 0 ? $total_hours : 1)" | bc -l 2>/dev/null | awk '{printf "%.1f", $1}' || echo 0)
+          
+          if [[ $(($added + $deleted)) -eq 0 ]]; then
+            stability=0
+            density=0
+          else
+            stability=$(echo "scale=0; ($added - $deleted)*100/($added + $deleted)" | bc -l 2>/dev/null | awk '{printf "%.0f", $1}' || echo 0)
+            density=$(echo "scale=2; $added/($deleted > 0 ? $deleted : 1)" | bc -l 2>/dev/null || echo 0)
+          fi
+          
           stability_bar=$(generate_stability_bar $stability)
-          tech_debt=$(echo "scale=0; $deleted*100/($added + $deleted)" | bc -l)
+          tech_debt=$(echo "scale=0; $deleted*100/(($added + $deleted) > 0 ? ($added + $deleted) : 1)" | bc -l 2>/dev/null | awk '{printf "%.0f", $1}' || echo 0)
 
           # Generate report with centered alignment
           echo "<!--START_SECTION:waka-->" > stats.md
@@ -137,7 +151,7 @@ jobs:
           echo "|:------:|:-----:|" >> stats.md
           echo "| Last 7 Days | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
           echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
-          cognitive_load=$(echo "scale=2; ($total_minutes * $changes_per_hour) / 1000" | bc -l)
+          cognitive_load=$(echo "scale=2; ($total_minutes * $changes_per_hour) / 1000" | bc -l 2>/dev/null | awk '{printf "%.2f", $1}' || echo 0)
           echo "| Cognitive Load | $cognitive_load |" >> stats.md
           echo "</td>" >> stats.md
           
@@ -170,7 +184,7 @@ jobs:
           echo "| Language | Time | Usage (per 10 hrs) |" >> stats.md
           echo "|:--------:|:----:|:-----:|" >> stats.md
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
-            lang_minutes=$(convert_to_minutes "$text")
+            lang_minutes=$(convert_to_minutes "$text" || echo 0)
             printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 600)" >> stats.md
           done
           
