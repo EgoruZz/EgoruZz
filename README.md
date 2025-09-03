@@ -71,8 +71,8 @@
 
 | Period | Range |
 |:------:|:-----:|
-| Last 7 Days | 2025-08-26 → 2025-09-01 |
-| Last Updated | 2025-09-02 02:14 UTC |
+| Last 7 Days | 2025-08-27 → 2025-09-02 |
+| Last Updated | 2025-09-03 02:05 UTC |
 | Cognitive Load | 0.00 |
 </td>
 <td width="50%" style="padding-left: 15px;">
