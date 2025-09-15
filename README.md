@@ -71,9 +71,9 @@
 
 | Period | Range |
 |:------:|:-----:|
-| Last 7 Days | 2025-09-07 → 2025-09-13 |
-| Last Updated | 2025-09-14 02:14 UTC |
-| Cognitive Load | 6.48 |
+| Last 7 Days | 2025-09-08 → 2025-09-14 |
+| Last Updated | 2025-09-15 02:16 UTC |
+| Cognitive Load | 5.80 |
 </td>
 <td width="50%" style="padding-left: 15px;">
 
@@ -105,7 +105,7 @@
 
 | Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |
 |:---------:|:-----------:|:----------:|:-----------:|:--------:|:-------:|
-| **54** | **54** | +0 | 9.6 | □□□□□□□□□□□□□ 0% | 1.00 |
+| **48** | **48** | +0 | 8.6 | □□□□□□□□□□□□□ 0% | 1.00 |
 
 </div>
 <!--END_SECTION:waka-->
