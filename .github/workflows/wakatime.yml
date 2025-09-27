@@ -166,10 +166,10 @@ jobs:
           echo "" >> stats.md
           echo "| Period | Range |" >> stats.md
           echo "|:------:|:-----:|" >> stats.md
-          echo "| Last 7 Days | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
-          echo "| Last Updated | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
+          echo "| Last 7 | $(date -d '7 days ago' +'%Y-%m-%d') → $(date -d 'yesterday' +'%Y-%m-%d') |" >> stats.md
+          echo "| Last Up | $(date -u +'%Y-%m-%d %H:%M') UTC |" >> stats.md
           cognitive_load=$(echo "scale=2; ($total_minutes * $changes_per_hour) / 1000" | bc -l 2>/dev/null | awk '{printf "%.2f", $1}' || echo 0)
-          echo "| Cognitive Load | $cognitive_load |" >> stats.md
+          echo "| Cognitive | $cognitive_load |" >> stats.md
           echo "</td>" >> stats.md
           
           # Right column - Code Insights
