@@ -107,7 +107,7 @@ jobs:
           curl -sS --retry 3 --retry-delay 2 "$API_URL" > wakatime.json
           echo "::endgroup::"
 
-          # Обработка данных (остальная часть скрипта остается без изменений)
+          # Обработка данных
           total_seconds=$(jq -r '.data.total_seconds // 0' wakatime.json)
           daily_avg=$(jq -r '.data.human_readable_daily_average // "0 secs"' wakatime.json)
           best_day=$(jq -r '.data.best_day.text // "0 secs"' wakatime.json)
@@ -151,11 +151,14 @@ jobs:
           
           stability_bar=$(generate_stability_bar $stability)
 
-          # Генерация отчета (остальная часть скрипта остается без изменений)
+          # Генерация отчета с изменениями
           echo "<!--START_SECTION:waka-->" > stats.md
           echo "<div align='center'>" >> stats.md
           echo "" >> stats.md
           echo "## ⏳ WAKATIME WEEKLY REPORT ⏳" >> stats.md
+          echo "" >> stats.md
+
+          echo "### About" >> stats.md
           echo "" >> stats.md
           
           # Side-by-side tables with centered text
@@ -185,27 +188,29 @@ jobs:
           echo "</tr></table>" >> stats.md
           echo "" >> stats.md
           
-          # Coding statistics with centered text
+          # Coding statistics с изменениями
           echo "### Coding statistics" >> stats.md
           echo "" >> stats.md
-          echo "| Metric | Value | Progress (8 hrs per day) |" >> stats.md
+          echo "| Metric | Value | Progress (per 4 hrs) |" >> stats.md
           echo "|:------:|:-----:|:--------:|" >> stats.md
-          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 480)" >> stats.md
-          printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 480)" >> stats.md
-          printf "| Total Time | %s (per week) | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 3360)" >> stats.md
+          printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 240)" >> stats.md
+          printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 240)" >> stats.md
+          printf "| Total Time | %s (per week) | |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" >> stats.md
           echo "" >> stats.md
           
-          # Top languages (100% = 10 hours)
+          # Top languages с изменениями
           echo "### Top languages" >> stats.md
           echo "" >> stats.md
-          echo "| Language | Time | Usage (per 10 hrs) |" >> stats.md
+          echo "| Language | Time | Progress (per 4 hrs) |" >> stats.md
           echo "|:--------:|:----:|:-----:|" >> stats.md
+          printf "| **Total Time** | **%s** | **%s** |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 1680)" >> stats.md
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
             lang_minutes=$(convert_to_minutes "$text" || echo 0)
-            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 600)" >> stats.md
+            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 240)" >> stats.md
           done
+          echo "" >> stats.md
           
-          # Code Generation Metrics with centered text
+          # Code Generation Metrics с изменениями
           echo "### Code generation" >> stats.md
           echo "" >> stats.md
           echo "| Add (Δ+) | Del (Δ-) | Net Diff | Diffs/Hour | ChurnRate | Balance |" >> stats.md
