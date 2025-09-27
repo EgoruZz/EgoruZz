@@ -1,11 +1,5 @@
-<h1 align="center"> 
-  <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
-    <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
-  </a>
-</h1>
-
 <div align="center">
-<h2 align="center">📚 MY TECH STAK 📚</h2>
+<h2 align="center">📚 MY TECH STACK 📚</h2>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
