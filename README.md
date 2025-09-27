@@ -135,12 +135,6 @@
        height="240" 
        alt="GitHub Trophies"
        style="display: block; margin: 10px auto;"/>
-
-  <!-- Top Languages -->
-  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=EgoruZz&layout=compact&exclude_repo=README-STATS,starter-templates&langs_count=8&count_private=true" 
-       height="260" 
-       alt="Top Languages"
-       style="display: block; margin: 10px auto;"/>
 </div>
 
 ---
