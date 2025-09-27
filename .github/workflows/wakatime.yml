@@ -177,16 +177,16 @@ jobs:
           echo "" >> stats.md
           echo "| Insight | Value |" >> stats.md
           echo "|:-------:|:-----:|" >> stats.md
-          echo "| 🔵 Editor | $editors |" >> stats.md
-          echo "| 📌 Yesterday's Commits | $yesterday_commits |" >> stats.md
-          echo "| 🥎 Code Stability | $tech_debt% |" >> stats.md
+          echo "| Editor | $editors |" >> stats.md
+          echo "| Y Commits | $yesterday_commits |" >> stats.md
+          echo "| Code Stab | $tech_debt% |" >> stats.md
           echo "</td>" >> stats.md
           
           echo "</tr></table>" >> stats.md
           echo "" >> stats.md
           
           # Coding statistics with centered text
-          echo "### 📊 CODING STATISTICS 📊" >> stats.md
+          echo "### CODING STATISTICS" >> stats.md
           echo "" >> stats.md
           echo "| Metric | Value | Progress (8 hrs per day) |" >> stats.md
           echo "|:------:|:-----:|:--------:|" >> stats.md
@@ -196,7 +196,7 @@ jobs:
           echo "" >> stats.md
           
           # Top languages (100% = 10 hours)
-          echo "### 🚀 TOP LANGUAGES 🚀" >> stats.md
+          echo "### TOP LANGUAGES" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage (per 10 hrs) |" >> stats.md
           echo "|:--------:|:----:|:-----:|" >> stats.md
@@ -206,9 +206,9 @@ jobs:
           done
           
           # Code Generation Metrics with centered text
-          echo "### 💻 CODE GENERATION 💻" >> stats.md
+          echo "### CODE GENERATION" >> stats.md
           echo "" >> stats.md
-          echo "| Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |" >> stats.md
+          echo "| Add (Δ+) | Del (Δ-) | Net Diff | Diffs/Hour | ChurnRate | Balance |" >> stats.md
           echo "|:---------:|:-----------:|:----------:|:-----------:|:--------:|:-------:|" >> stats.md
           printf "| **%'d** | **%'d** | %+'d | %.1f | %s | %.2f |\n" \
             $added $deleted $net_change $changes_per_hour "$stability_bar" $density >> stats.md

@@ -1,16 +1,11 @@
 <h1 align="center"> 
-  Hello, I'm EgoruZz!
   <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FEgoruZz">
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FEgoruZz&label=VISITORS&labelColor=%23555555&countColor=%23ffd700" alt="Visitor Count"/>
   </a>
 </h1>
 
 <div align="center">
-<h2 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa25hN3VheTJ6eXl1eXAxc3M4b2EwaXhocDZvMHF6dXNpcjZkNnVqbiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/lqFSrdm94nEAFDxPp7/giphy.gif" width="45px"/>
-  MY TECH STACK
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGJmbDB5bTFuYXV2Y2xsOW9ocWw0bWp5eTY0eG80b3E1MnZ0eWk0ZiZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/efaDE6kE1PuM4JJqAb/giphy.gif" width="45px"/>
-</h2>
+<h2 align="center">📚 MY TECH STACK 📚</h2>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
@@ -112,11 +107,7 @@
 </div>
 
 <div align="center">
-<h2 align="center">
-  <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdW5jZnliOTE3a3owMWlyNmJmZ3UyNWRtdTJ3bzhkZDBlNW9qbnA5NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LT6QpakEeIX1KszPCp/giphy.gif" width="45px"/>
-  CONNECT WITH ME
-  <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWhsN2lsd3RnYml5NHUxcmQ1cmlldWE3ZHl2dGZieXEwZXF3MDJtOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/QuyXjapw97YijfSb9i/giphy.gif" width="45px"/>
-</h2>
+<h2 align="center">CONNECT WITH ME</h2>
 </div>
 
 <p align="center">
