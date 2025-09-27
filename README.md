@@ -5,7 +5,7 @@
 </h1>
 
 <div align="center">
-<h2 align="center">📚 MY TECH STACK 📚</h2>
+<h2 align="center">📚 MY TECH STAK 📚</h2>
 
 <table style="width: 100%; border: none;">
   <!-- Первая строка -->
