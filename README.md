@@ -33,31 +33,9 @@
 
 ### About
 
-<table><tr>
-<td width="50%" style="padding-right: 15px;">
-
-| Period | Range |
-|:------:|:-----:|
-| Last 7 | 2025-09-20 → 2025-09-26 |
-| Last Up | 2025-09-27 14:02 UTC |
-| Cognitive | 30.41 |
-</td>
-<td width="50%" style="padding-left: 15px;">
-
-| Insight | Value |
-|:-------:|:-----:|
-| Editor | VS Code |
-| Yest Commits | 2 |
-| Code Stab | 49% |
-</td>
-</tr></table>
-
-### Coding statistics
-
-| Metric | Value | 4 hours |
-|:------:|:-----:|:--------:|
-| Daily Average | 1 hr 1 min | □□□□□□□□□□□□□ 0% |
-| Best Day | 1 hr 40 mins on 2025-09-20 | ■■□□□□□□□□□□□ 16% |
+| Period | Range | Cognitive Load | Code Stability |
+|:------:|:-----:|:--------------:|:--------------:|
+| Last 7 | 2025-09-20 → 2025-09-26 | 35.90 | -8% |
 
 ### Top languages
 
@@ -70,9 +48,9 @@
 
 ### Code generation
 
-| Add (Δ+) | Del (Δ-) | Net Diff | Diffs/Hour | ChurnRate | Balance |
-|:---------:|:-----------:|:----------:|:-----------:|:--------:|:-------:|
-| **255** | **252** | +3 | 83.1 | □□□□□□□□□□□□□ 0% | 1.01 |
+| Add (Δ+) | Del (Δ-) | Net Diff | Diffs/Hour | Balance |
+|:---------:|:-----------:|:----------:|:-----------:|:-------:|
+| **274** | **325** | -51 | 98.1 | 0.84 |
 
 </div>
 <!--END_SECTION:waka-->
