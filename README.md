@@ -37,39 +37,39 @@
 | Period | Range |
 |:------:|:-----:|
 | Last 7 Days | 2025-09-20 → 2025-09-26 |
-| Last Updated | 2025-09-27 02:03 UTC |
-| Cognitive Load | 7.31 |
+| Last Updated | 2025-09-27 12:51 UTC |
+| Cognitive Load | 13.35 |
 </td>
 <td width="50%" style="padding-left: 15px;">
 
 | Insight | Value |
 |:-------:|:-----:|
-| 🔵 Editor | VS Code |
-| 📌 Yesterday's Commits | 2 |
-| 🥎 Code Stability | 50% |
+| Editor | VS Code |
+| Y Commits | 2 |
+| Code Stab | 61% |
 </td>
 </tr></table>
 
-### 📊 CODING STATISTICS 📊
+### CODING STATISTICS
 
 | Metric | Value | Progress (8 hrs per day) |
 |:------:|:-----:|:--------:|
-| Daily Average | 1 hr 13 mins | □□□□□□□□□□□□□ 0% |
+| Daily Average | 1 hr | □□□□□□□□□□□□□ 0% |
 | Best Day | 2 hrs 31 mins on 2025-09-19 | ■■■■□□□□□□□□□ 31% |
-| Total Time | 8 hrs 35 mins (per week) | ■□□□□□□□□□□□□ 15% |
+| Total Time | 6 hrs 3 mins (per week) | ■□□□□□□□□□□□□ 10% |
 
-### 🚀 TOP LANGUAGES 🚀
+### TOP LANGUAGES
 
 | Language | Time | Usage (per 10 hrs) |
 |:--------:|:----:|:-----:|
-| HTML | 6 hrs 5 mins | ■■■■■■■□□□□□□ 60% |
-| Java | 2 hrs 29 mins | ■■■□□□□□□□□□□ 24% |
+| HTML | 5 hrs 50 mins | ■■■■■■■□□□□□□ 58% |
+| Java | 12 mins | □□□□□□□□□□□□□ 2% |
 | Markdown | 0 secs | □□□□□□□□□□□□□ 0% |
-### 💻 CODE GENERATION 💻
+### CODE GENERATION
 
-| Added (Δ+) | Deleted (Δ-) | Net Change | Changes/Hour | ChurnRate | Balance |
+| Add (Δ+) | Del (Δ-) | Net Diff | Diffs/Hour | ChurnRate | Balance |
 |:---------:|:-----------:|:----------:|:-----------:|:--------:|:-------:|
-| **60** | **62** | -2 | 14.2 | □□□□□□□□□□□□□ 0% | 0.96 |
+| **85** | **136** | -51 | 36.8 | □□□□□□□□□□□□□ 0% | 0.62 |
 
 </div>
 <!--END_SECTION:waka-->
