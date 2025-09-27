@@ -39,16 +39,23 @@ jobs:
               echo 0
               return
             fi
+            # Обработка формата "X hrs Y mins"
             if [[ $time_str == *"hrs"* && $time_str == *"mins"* ]]; then
               hours=$(echo "$time_str" | awk '{print $1}')
               minutes=$(echo "$time_str" | awk '{print $3}')
               echo $((hours * 60 + minutes))
+            # Обработка формата "X hrs"
             elif [[ $time_str == *"hrs"* ]]; then
               hours=$(echo "$time_str" | awk '{print $1}')
               echo $((hours * 60))
+            # Обработка формата "X mins"
             elif [[ $time_str == *"mins"* ]]; then
               minutes=$(echo "$time_str" | awk '{print $1}')
               echo "$minutes"
+            # Обработка формата "X secs"
+            elif [[ $time_str == *"secs"* ]]; then
+              seconds=$(echo "$time_str" | awk '{print $1}')
+              echo $((seconds / 60))
             else
               echo 0
             fi
@@ -59,8 +66,13 @@ jobs:
             local minutes=$1
             local max=$2
             local length=13
-            local percent=$((minutes * 100 / (max > 0 ? max : 1)))
+            # Защита от деления на ноль
+            if [[ $max -eq 0 ]]; then
+              max=1
+            fi
+            local percent=$((minutes * 100 / max))
             percent=$((percent > 100 ? 100 : percent))
+            percent=$((percent < 0 ? 0 : percent))
             
             # Создаем массив символов для прогресс-бара
             local bars=()
@@ -191,22 +203,21 @@ jobs:
           # Coding statistics с изменениями
           echo "### Coding statistics" >> stats.md
           echo "" >> stats.md
-          echo "| Metric | Value | Progress (per 4 hrs) |" >> stats.md
+          echo "| Metric | Value | 4 hours |" >> stats.md
           echo "|:------:|:-----:|:--------:|" >> stats.md
           printf "| Daily Average | %s | %s |\n" "$daily_avg" "$(generate_progress_bar $daily_minutes 240)" >> stats.md
           printf "| Best Day | %s on %s | %s |\n" "$best_day" "$best_day_date" "$(generate_progress_bar $best_day_minutes 240)" >> stats.md
-          printf "| Total Time | %s (per week) | |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" >> stats.md
           echo "" >> stats.md
           
           # Top languages с изменениями
           echo "### Top languages" >> stats.md
           echo "" >> stats.md
-          echo "| Language | Time | Progress (per 4 hrs) |" >> stats.md
+          echo "| Language | Time | 20 hours |" >> stats.md
           echo "|:--------:|:----:|:-----:|" >> stats.md
-          printf "| **Total Time** | **%s** | **%s** |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 1680)" >> stats.md
+          printf "| Total Time | %s | %s |\n" "$(jq -r '.data.human_readable_total // "0 secs"' wakatime.json)" "$(generate_progress_bar $total_minutes 1200)" >> stats.md
           jq -r '.data.languages[0:5] | .[] | "\(.name)|\(.text)|\(.percent)"' wakatime.json 2>/dev/null | while IFS='|' read -r name text percent; do
             lang_minutes=$(convert_to_minutes "$text" || echo 0)
-            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 240)" >> stats.md
+            printf "| %s | %s | %s |\n" "$name" "$text" "$(generate_progress_bar $lang_minutes 1200)" >> stats.md
           done
           echo "" >> stats.md
           
