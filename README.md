@@ -20,7 +20,7 @@
     </td>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
-      <img src="https://img.shields.io/badge/HTML5-e34c30?style=for-the-badge&logo=html5&logoColor=ffffff" alt="HTML5">
+      <img src="https://img.shields.io/badge/HTML5-f05032?style=for-the-badge&logo=html5&logoColor=ffffff" alt="HTML5">
     </td>
   </tr>
 </table>
