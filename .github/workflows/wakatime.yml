@@ -178,7 +178,7 @@ jobs:
           echo "| Insight | Value |" >> stats.md
           echo "|:-------:|:-----:|" >> stats.md
           echo "| Editor | $editors |" >> stats.md
-          echo "| Y Commits | $yesterday_commits |" >> stats.md
+          echo "| Yest Commits | $yesterday_commits |" >> stats.md
           echo "| Code Stab | $tech_debt% |" >> stats.md
           echo "</td>" >> stats.md
           
