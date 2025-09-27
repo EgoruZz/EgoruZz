@@ -28,7 +28,7 @@
   <tr>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/Flake8-Enabled-44CC11?style=for-the-badge&logo=python&logoColor=white" alt="Flake8">
-      <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="HTML5">
+      <img src="https://img.shields.io/badge/HTML-e34f26?style=for-the-badge&logo=w&logoColor=ffffff" alt="HTML">
     </td>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions">
