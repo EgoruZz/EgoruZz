@@ -186,7 +186,7 @@ jobs:
           echo "" >> stats.md
           
           # Coding statistics with centered text
-          echo "### CODING STATISTICS" >> stats.md
+          echo "### Coding statistics" >> stats.md
           echo "" >> stats.md
           echo "| Metric | Value | Progress (8 hrs per day) |" >> stats.md
           echo "|:------:|:-----:|:--------:|" >> stats.md
@@ -196,7 +196,7 @@ jobs:
           echo "" >> stats.md
           
           # Top languages (100% = 10 hours)
-          echo "### TOP LANGUAGES" >> stats.md
+          echo "### Top languages" >> stats.md
           echo "" >> stats.md
           echo "| Language | Time | Usage (per 10 hrs) |" >> stats.md
           echo "|:--------:|:----:|:-----:|" >> stats.md
@@ -206,7 +206,7 @@ jobs:
           done
           
           # Code Generation Metrics with centered text
-          echo "### CODE GENERATION" >> stats.md
+          echo "### Code generation" >> stats.md
           echo "" >> stats.md
           echo "| Add (Δ+) | Del (Δ-) | Net Diff | Diffs/Hour | ChurnRate | Balance |" >> stats.md
           echo "|:---------:|:-----------:|:----------:|:-----------:|:--------:|:-------:|" >> stats.md
