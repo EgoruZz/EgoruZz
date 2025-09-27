@@ -31,14 +31,16 @@
 
 ## ⏳ WAKATIME WEEKLY REPORT ⏳
 
+### About
+
 <table><tr>
 <td width="50%" style="padding-right: 15px;">
 
 | Period | Range |
 |:------:|:-----:|
 | Last 7 | 2025-09-20 → 2025-09-26 |
-| Last Up | 2025-09-27 13:18 UTC |
-| Cognitive | 16.72 |
+| Last Up | 2025-09-27 13:36 UTC |
+| Cognitive | 19.32 |
 </td>
 <td width="50%" style="padding-left: 15px;">
 
@@ -46,30 +48,32 @@
 |:-------:|:-----:|
 | Editor | VS Code |
 | Yest Commits | 2 |
-| Code Stab | 59% |
+| Code Stab | 57% |
 </td>
 </tr></table>
 
-### CODING STATISTICS
+### Coding statistics
 
-| Metric | Value | Progress (8 hrs per day) |
+| Metric | Value | Progress (per 4 hrs) |
 |:------:|:-----:|:--------:|
 | Daily Average | 1 hr 1 min | □□□□□□□□□□□□□ 0% |
 | Best Day | 1 hr 40 mins on 2025-09-20 | □□□□□□□□□□□□□ 0% |
-| Total Time | 6 hrs 6 mins (per week) | ■□□□□□□□□□□□□ 10% |
+| Total Time | 6 hrs 6 mins (per week) | |
 
-### TOP LANGUAGES
+### Top languages
 
-| Language | Time | Usage (per 10 hrs) |
+| Language | Time | Progress (per 4 hrs) |
 |:--------:|:----:|:-----:|
-| HTML | 5 hrs 52 mins | ■■■■■■■□□□□□□ 58% |
-| Java | 13 mins | □□□□□□□□□□□□□ 2% |
+| **Total Time** | **6 hrs 6 mins** | **■■□□□□□□□□□□□ 21%** |
+| HTML | 5 hrs 52 mins | ■■■■■■■■■■■■■ 100% |
+| Java | 13 mins | □□□□□□□□□□□□□ 5% |
 | Markdown | 0 secs | □□□□□□□□□□□□□ 0% |
-### CODE GENERATION
+
+### Code generation
 
 | Add (Δ+) | Del (Δ-) | Net Diff | Diffs/Hour | ChurnRate | Balance |
 |:---------:|:-----------:|:----------:|:-----------:|:--------:|:-------:|
-| **114** | **165** | -51 | 45.7 | □□□□□□□□□□□□□ 0% | 0.69 |
+| **138** | **184** | -46 | 52.8 | □□□□□□□□□□□□□ 0% | 0.75 |
 
 </div>
 <!--END_SECTION:waka-->
