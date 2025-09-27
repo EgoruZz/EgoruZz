@@ -85,8 +85,6 @@
 </div>
 <!--END_SECTION:waka-->
 
----
-
 <div align="center">
   <h2 align="center">
     <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/LPfKg9FjGEPKn5lcnZ/giphy.gif" width="45px"/>
@@ -112,8 +110,6 @@
        alt="GitHub Trophies"
        style="display: block; margin: 10px auto;"/>
 </div>
-
----
 
 <div align="center">
 <h2 align="center">
