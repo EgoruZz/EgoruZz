@@ -17,7 +17,7 @@
   <tr>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-      <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
+      <img src="https://img.shields.io/badge/java-ed8b00?style=for-the-badge&logo=springboot&logoColor=ffffff" alt="Java">
     </td>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/C++-FF55FA?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++">
@@ -30,7 +30,7 @@
       <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions">
     </td>
     <td align="center" valign="middle" style="width: 60%">
-      <img src="https://img.shields.io/badge/HTML-e34f26?style=for-the-badge&logo=w&logoColor=ffffff" alt="HTML">
+      <img src="https://img.shields.io/badge/HTML5-e34c30?style=for-the-badge&logo=html5&logoColor=ffffff" alt="HTML5">
       <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
     </td>
   </tr>
@@ -46,14 +46,14 @@
 
 <table style="width:150%; border:none; text-align:center;">
   <tr>
-    <td style="padding: 40px; text-align: center; vertical-align: middle;"><h3>[🟩] Learn FastAPI</h3></td>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Master Kubernetes</h3></td>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Write technical article</h3></td>
+    <td style="padding: 40px; text-align: center; vertical-align: middle;"><h3>Learn Java</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn C++</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn Python</h3></td>
   </tr>
   <tr>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Contribute to OSS</h3></td>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Build SaaS project</h3></td>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>[❌] Get 1k GitHub stars</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn Julia</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn HTML</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn CSS</h3></td>
   </tr>
 </table>
 </div>
