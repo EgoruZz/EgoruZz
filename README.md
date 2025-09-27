@@ -27,11 +27,10 @@
   <!-- Вторая строка -->
   <tr>
     <td align="center" valign="middle" style="width: 60%">
-      <img src="https://img.shields.io/badge/Flake8-Enabled-44CC11?style=for-the-badge&logo=python&logoColor=white" alt="Flake8">
-      <img src="https://img.shields.io/badge/HTML-e34f26?style=for-the-badge&logo=w&logoColor=ffffff" alt="HTML">
+      <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions">
     </td>
     <td align="center" valign="middle" style="width: 60%">
-      <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions">
+      <img src="https://img.shields.io/badge/HTML-e34f26?style=for-the-badge&logo=w&logoColor=ffffff" alt="HTML">
       <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git">
     </td>
   </tr>
