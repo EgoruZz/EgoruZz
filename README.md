@@ -53,7 +53,7 @@
   <tr>
     <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn Julia</h3></td>
     <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn HTML</h3></td>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn CSS</h3></td>
+    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn Git</h3></td>
   </tr>
 </table>
 </div>
