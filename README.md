@@ -17,18 +17,18 @@
   <tr>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-      <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django">
+      <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java">
     </td>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/C++-FF55FA?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++">
-      <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+      <img src="https://img.shields.io/badge/Julia-9929bd?style=for-the-badge&logo=Julia&logoColor=ffffff" alt="Julia">
     </td>
   </tr>
   <!-- Вторая строка -->
   <tr>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/Flake8-Enabled-44CC11?style=for-the-badge&logo=python&logoColor=white" alt="Flake8">
-      <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+      <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="HTML5">
     </td>
     <td align="center" valign="middle" style="width: 60%">
       <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions">
