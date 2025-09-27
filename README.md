@@ -37,27 +37,6 @@
 </table>
 </div>
 
-<div align="center">
-<h2 align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/gHW3VfdViwQ0Wg2in8/giphy.gif" width="45px"/>
-  MY 2025 GOALS
-  <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Ymp6ZHZzdm8xcTUxZDU4YnNuNXhoM2I4NnBqdm85NHN2cmhkYzdidCZlcD12MV9zdGlja2Vyc19yZWxhdGVkJmN0PXM/d8FPI8fqXEgwRWB5W4/giphy.gif" width="45px"/>
-</h2>
-
-<table style="width:150%; border:none; text-align:center;">
-  <tr>
-    <td style="padding: 40px; text-align: center; vertical-align: middle;"><h3>Learn Java</h3></td>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn C++</h3></td>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn Python</h3></td>
-  </tr>
-  <tr>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn Julia</h3></td>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn HTML</h3></td>
-    <td style="padding: 10px; text-align: center; vertical-align: middle;"><h3>Learn Git</h3></td>
-  </tr>
-</table>
-</div>
-
 ---
 
 <!--START_SECTION:waka-->
