@@ -35,15 +35,15 @@
 
 | Period | Range | Cognitive Load | Code Stability |
 |:------:|:-----:|:--------------:|:--------------:|
-| Last 7 | 2025-10-14 → 2025-10-20 | 3.69 | 0% |
+| Last 7 | 2025-10-15 → 2025-10-21 | 3.88 | -1% |
 
 ### Top languages
 
 | Language | Time | 20 hours |
 |:--------:|:----:|:-----:|
-| Total Time | 7 hrs 20 mins | ■■■■□□□□□□□□□ 36% |
-| Markdown | 3 hrs 10 mins | ■□□□□□□□□□□□□ 15% |
-| Python | 2 hrs 33 mins | ■□□□□□□□□□□□□ 12% |
+| Total Time | 7 hrs 43 mins | ■■■■□□□□□□□□□ 38% |
+| Markdown | 3 hrs 57 mins | ■■□□□□□□□□□□□ 19% |
+| Python | 2 hrs 10 mins | ■□□□□□□□□□□□□ 10% |
 | Java | 1 hr 32 mins | □□□□□□□□□□□□□ 2% |
 | YAML | 3 mins | □□□□□□□□□□□□□ 0% |
 
@@ -51,7 +51,7 @@
 
 | Add (Δ+) | Del (Δ-) | Net Diff | Diffs/Hour | Balance |
 |:---------:|:-----------:|:----------:|:-----------:|:-------:|
-| **31** | **31** | +0 | 8.4 | 1.00 |
+| **32** | **33** | -1 | 8.4 | 0.96 |
 
 </div>
 <!--END_SECTION:waka-->
