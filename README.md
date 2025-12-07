@@ -35,19 +35,20 @@
 
 | Period | Range | Cognitive Load | Code Stability |
 |:------:|:-----:|:--------------:|:--------------:|
-| Last 7 | 2025-11-29 → 2025-12-05 | 0.00 | -7% |
+| Last 7 | 2025-11-30 → 2025-12-06 | 1.16 | 0% |
 
 ### Top languages
 
 | Language | Time | 20 hours |
 |:--------:|:----:|:-----:|
-| Total Time | 0 secs | □□□□□□□□□□□□□ 0% |
+| Total Time | 2 hrs 52 mins | ■□□□□□□□□□□□□ 14% |
+| Markdown | 2 hrs 52 mins | ■□□□□□□□□□□□□ 14% |
 
 ### Code generation
 
 | Add (Δ+) | Del (Δ-) | Net Diff | Diffs/Hour | Balance |
 |:---------:|:-----------:|:----------:|:-----------:|:-------:|
-| **13** | **15** | -2 | 0.0 | 0.86 |
+| **10** | **10** | +0 | 6.8 | 1.00 |
 
 </div>
 <!--END_SECTION:waka-->
